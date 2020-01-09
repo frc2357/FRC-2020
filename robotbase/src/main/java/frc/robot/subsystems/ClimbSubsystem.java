@@ -25,7 +25,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
     }
     //rename position to what unit it is
-    public void runMotor(WPI_TalonSRX reelTalon, double position) {
-        reelTalon.set(ControlMode.Position, position);
+    public void runMotor(WPI_TalonSRX reelTalon, double inchesToExtend) {
+        reelTalon.set(ControlMode.Position, inchesToExtend);
     }
+
 }
