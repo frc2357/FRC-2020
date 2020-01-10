@@ -13,7 +13,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     private PigeonIMU m_gyro;
 
-    public ClimbSubsystem(int talonRightID,int talonLeftID, int gyroID) {
+    public ClimbSubsystem(int talonRightID, int talonLeftID, int gyroID) {
 
         m_leftReelTalon = new WPI_TalonSRX(talonLeftID);
         m_rightReelTalon = new WPI_TalonSRX(talonRightID);
