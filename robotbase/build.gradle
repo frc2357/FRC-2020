@@ -70,10 +70,4 @@ jar {
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }
 
-sourceSets {
-  main {
-    java {
-      srcDir '../robotlib2357/src/main/java'
-    }
-  }
-}
+sourceSets.main.java.srcDirs = ['src/main/java', '../robotlib2357/src/main/java'] 
