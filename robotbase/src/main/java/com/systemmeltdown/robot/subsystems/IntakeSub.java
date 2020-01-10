@@ -19,6 +19,11 @@ public class IntakeSub extends SubsystemBase {
  
     }
 
+    @Override
+    public void periodic() {
+        // nothing
+    }
+
     //percentPowerOuput defintion: -1 = reverse | 0 = stop | 1 = foward
     public void triggerIntakeRoller(double percentPowerOutput) {
         m_intakeTalon.set(ControlMode.PercentOutput, percentPowerOutput);   
@@ -38,8 +43,5 @@ public class IntakeSub extends SubsystemBase {
         
     }
 
-    @Override
-    public void periodic() {
-        // nothing
-    }
+    
 }
