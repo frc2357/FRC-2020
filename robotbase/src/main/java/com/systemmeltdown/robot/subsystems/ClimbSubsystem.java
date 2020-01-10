@@ -25,17 +25,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
     }
     //rename position to what unit it is
-    public void changeArmPosition() {
-
-        if(m_isArmUp) {
-            m_intakeSolenoid.set(false);
-            m_isArmUp = false;
-
-        } else {
-            m_intakeSolenoid.set(true);
-            m_isArmUp = true;
-        }
-        
+    public void runMotor(WPI_TalonSRX reelTalon, double inchesToExtend) {
+        reelTalon.set(ControlMode.Position, inchesToExtend);
     }
 
 }
