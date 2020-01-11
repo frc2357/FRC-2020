@@ -9,7 +9,6 @@ public class TurretSubsystem extends SubsystemBase {
     private WPI_TalonSRX m_rotateMotor;
 
     public TurretSubsystem(int rotateMotorID) {
-
         m_rotateMotor = new WPI_TalonSRX(rotateMotorID);
     }
 
@@ -21,6 +20,4 @@ public class TurretSubsystem extends SubsystemBase {
     public void runMotor(WPI_TalonSRX rotatorMotor, double degreesToRotate) {
         rotatorMotor.set(ControlMode.Position, degreesToRotate);
     }
-
-
 }
