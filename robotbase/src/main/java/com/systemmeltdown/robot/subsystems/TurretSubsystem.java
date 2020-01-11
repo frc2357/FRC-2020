@@ -18,8 +18,8 @@ public class TurretSubsystem extends SubsystemBase {
       // This method will be called once per scheduler run
     }
 
-    public void runMotor(WPI_TalonSRX rotatorMotor) {
-        rotatorMotor.set(ControlMode.Position);
+    public void runMotor(WPI_TalonSRX rotatorMotor, double degreesToRotate) {
+        rotatorMotor.set(ControlMode.Position, degreesToRotate);
     }
 
 
