@@ -43,6 +43,9 @@ public final class Constants {
   public static final int[] DRIVE_MOTOR_RIGHT_SLAVES = {
     DRIVE_MOTOR_RIGHT_2, DRIVE_MOTOR_RIGHT_3, DRIVE_MOTOR_RIGHT_4};
 
+  public static final int SHOOT_MOTOR_1 = 20;
+  public static final int SHOOT_MOTOR_2 = 21;
+
   /**
    * CAN IDS 21-60
    * Mechanisms and other devices (robot specific)

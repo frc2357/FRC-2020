@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.TalonGroup;
+import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
+import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robotlib.controllers.DriverControls;
 
@@ -31,6 +33,7 @@ public class RobotContainer {
   private final SingleSpeedTalonDriveSubsystem m_driveSub = new SingleSpeedTalonDriveSubsystem(
       new TalonGroup(Constants.DRIVE_MOTOR_RIGHT_1, Constants.DRIVE_MOTOR_RIGHT_SLAVES),
       new TalonGroup(Constants.DRIVE_MOTOR_LEFT_1, Constants.DRIVE_MOTOR_LEFT_SLAVES));
+  private final ShooterSubsystem m_shootSub = new ShooterSubsystem(Constants.SHOOT_MOTOR_1, Constants.SHOOT_MOTOR_2);
 
   private final DriverControls m_driverControls = new DriverControls(new XboxController(0), .25);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -51,7 +54,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // TODO: create shoot command
-    // m_gunnerControls.m_shootButton.whenPressed(command)
+    m_gunnerControls.m_shootButton.whenPressed(new ShootCommand(m_shootSub));
   }
 
   private void configureDriveSub() {
