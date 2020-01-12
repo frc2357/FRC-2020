@@ -54,7 +54,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // TODO: create shoot command
-    m_gunnerControls.m_shootButton.whenPressed(new ShootCommand(m_shootSub));
+    m_gunnerControls.m_trigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
   }
 
   private void configureDriveSub() {

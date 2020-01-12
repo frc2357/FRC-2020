@@ -1,20 +1,28 @@
 package com.systemmeltdown.robot.commands;
 
+import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ShootCommand extends CommandBase {
-    ShooterSubsystem m_shooterSubsystem;
+    private ShooterSubsystem m_shootSub;
+    private GunnerControls m_gunnerControls;
 
-    public ShootCommand(ShooterSubsystem shooterSubsystem) {
-        m_shooterSubsystem = shooterSubsystem;
-        addRequirements(shooterSubsystem);
+    public ShootCommand(ShooterSubsystem shootSub, GunnerControls gunnerControls) {
+        m_shootSub = shootSub;
+        m_gunnerControls = gunnerControls;
+        addRequirements(shootSub);
     }
 
     @Override
     public void execute() {
-        System.out.println("SHOOT");
-        m_shooterSubsystem.runMotor(1.0);
+        m_shootSub.runMotor(m_gunnerControls.m_controller.getTriggerAxis(Hand.kRight));
+    }
+
+    @Override
+    public void end(boolean interupted) {
+        m_shootSub.runMotor(0.0);
     }
 }
