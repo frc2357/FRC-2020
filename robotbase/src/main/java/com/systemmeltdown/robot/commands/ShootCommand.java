@@ -18,7 +18,7 @@ public class ShootCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_shootSub.runMotor(m_gunnerControls.m_controller.getTriggerAxis(Hand.kRight));
+        m_shootSub.runMotor(m_gunnerControls.getTriggerValue(Hand.kRight));
     }
 
     @Override

@@ -37,6 +37,7 @@ public class RobotContainer {
 
   private final DriverControls m_driverControls = new DriverControls(new XboxController(0), .25);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -59,10 +60,9 @@ public class RobotContainer {
 
   private void configureDriveSub() {
     Map<String, Object> configMap = new HashMap<>();
-    configMap.put(m_driveSub.CONFIG_IS_RIGHT_INVERTED, true);
-    configMap.put(m_driveSub.CONFIG_IS_LEFT_INVERTED, false);
+    configMap.put(SingleSpeedTalonDriveSubsystem.CONFIG_IS_RIGHT_INVERTED, true);
+    configMap.put(SingleSpeedTalonDriveSubsystem.CONFIG_IS_LEFT_INVERTED, false);
     m_driveSub.configure(configMap);
-    m_driveSub
-        .setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
+    m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
 }
