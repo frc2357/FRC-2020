@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class IntakeSub extends SubsystemBase {
     private Solenoid m_intakeSolenoid;
     private WPI_TalonSRX m_intakeTalon;
-    private boolean m_isArmUp = true;
+    private boolean m_isArmOut = false;
 
     public IntakeSub(int channel, int intakeTalonID) {
         m_intakeSolenoid = new Solenoid(channel);
@@ -29,12 +29,12 @@ public class IntakeSub extends SubsystemBase {
     // through testing.
     public void changeArmPosition() {
 
-        if (m_isArmUp) {
+        if (m_isArmOut) {
             m_intakeSolenoid.set(false);
-            m_isArmUp = false;
+            m_isArmOut = false;
         } else {
             m_intakeSolenoid.set(true);
-            m_isArmUp = true;
+            m_isArmOut = true;
         }
     }
 }
