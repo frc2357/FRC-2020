@@ -54,7 +54,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // TODO: create shoot command
     // m_gunnerControls.m_shootButton.whenPressed(command)
-    m_driverControls.m_button.whenPressed(new InvertDriveCommand(m_driveSub, m_driverControls));
+    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driveSub, m_driverControls));
   }
 
   private void configureDriveSub() {
