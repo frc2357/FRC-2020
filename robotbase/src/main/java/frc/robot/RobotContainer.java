@@ -15,6 +15,7 @@ import com.systemmeltdown.robotlib.subsystems.drive.TalonGroup;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robotlib.controllers.DriverControls;
+import com.systemmeltdown.robot.controls.ClimbControls;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +35,7 @@ public class RobotContainer {
 
   private final DriverControls m_driverControls = new DriverControls(new XboxController(0), .25);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
+  private final ClimbControls m_climbControls = new ClimbControls(new XboxController(2));
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -52,6 +54,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // TODO: create shoot command
     // m_gunnerControls.m_shootButton.whenPressed(command)
+    
   }
 
   private void configureDriveSub() {
