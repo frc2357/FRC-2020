@@ -5,6 +5,8 @@ package com.systemmeltdown.robot.subsystems;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.subsystems.drive.TalonGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -19,23 +21,24 @@ import frc.robot.Constants;
 
 public class TrajectorySubsystem extends SubsystemBase {
   // The motors on the left side of the drive.
-  private final TalonGroup m_leftMotors = new TalonGroup(Constants.DRIVE_MOTOR_LEFT_1, Constants.DRIVE_MOTOR_LEFT_SLAVES);
+  private final SpeedControllerGroup m_leftMotors =
+    new SpeedControllerGroup(new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_1), new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_2));
 
   // The motors on the right side of the drive.
-  private final TalonGroup m_rightMotors = new TalonGroup(Constants.DRIVE_MOTOR_RIGHT_1, Constants.DRIVE_MOTOR_RIGHT_SLAVES);
+  private final SpeedControllerGroup m_rightMotors =
+    new SpeedControllerGroup(new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_1), new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_2));
 
   // The robot's drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
   // The left-side drive encoder
   private final Encoder m_leftEncoder =
-      new Encoder(Constants.kLeftEncoderPorts[0], Constants.kLeftEncoderPorts[1],
-                  Constants.kLeftEncoderReversed);
-
+      
+      new Encoder(Constants.LEFT_ENCODER_PORTS[0], Constants.LEFT_ENCODER_PORTS[1], Constants.LEFT_ENCODER_REVERSED);
   // The right-side drive encoder
   private final Encoder m_rightEncoder =
-      new Encoder(Constants.kRightEncoderPorts[0], Constants.kRightEncoderPorts[1],
-                  Constants.kRightEncoderReversed);
+      new Encoder(Constants.RIGHT_ENCODER_PORTS[0], Constants.RIGHT_ENCODER_PORTS[1],
+                  Constants.RIGHT_ENCODER_REVERSED);
 
   // The gyro sensor
   private PigeonIMU m_gyro;
@@ -48,8 +51,8 @@ public class TrajectorySubsystem extends SubsystemBase {
    */
   public TrajectorySubsystem(int gyroID) {
     // Sets the distance per pulse for the encoders
-    m_leftEncoder.setDistancePerPulse(Constants.kEncoderDistancePerPulse);
-    m_rightEncoder.setDistancePerPulse(Constants.kEncoderDistancePerPulse);
+    m_leftEncoder.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
+    m_rightEncoder.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
 
     resetEncoders();
     m_gyro = new PigeonIMU(gyroID);
@@ -160,7 +163,8 @@ public class TrajectorySubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from 180 to 180
    */
   public double getHeading() {
-    return Math.IEEEremainder(m_gyro.getAxis(), 360) * (Constants.kGyroReversed ? -1.0 : 1.0);
+    double[] ypr = getYawPitchAndRoll();
+    return Math.IEEEremainder(ypr[0], 360) * (Constants.GYRO_REVERSED ? -1.0 : 1.0);
   }
 
   /**
@@ -169,6 +173,16 @@ public class TrajectorySubsystem extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return m_gyro.getRate() * (Constants.kGyroReversed ? -1.0 : 1.0);
+    double[] ypr = getYawPitchAndRoll();
+    return ypr[1] * (Constants.GYRO_REVERSED ? -1.0 : 1.0);
+  }
+
+  public double[] getYawPitchAndRoll() {
+    double[] ypr = new double[3];
+
+    m_gyro.getYawPitchRoll(ypr);
+
+    return ypr;
+
   }
 }

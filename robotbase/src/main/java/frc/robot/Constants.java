@@ -48,6 +48,15 @@ public final class Constants {
    * CAN IDS 21-60 Mechanisms and other devices (robot specific)
    */
 
+  public static final int[] LEFT_ENCODER_PORTS = new int[]{11, 13};
+  public static final int[] RIGHT_ENCODER_PORTS = new int[]{12, 14};
+
+  public static final double WHEEL_DIAMETER_IN_METERS = 0.1524;
+  public static final int ENCODER_CPR = 1024;
+
+  public static final double ENCODER_DISTANCE_PER_PULSE = 
+    (WHEEL_DIAMETER_IN_METERS * Math.PI) / (double) ENCODER_CPR;
+
   /**
    * Characterization Constants Zeroes are currently placeholder values
    */
@@ -77,4 +86,17 @@ public final class Constants {
 
   public static final double RAMSETE_B = 2;
   public static final double RAMSETE_ZETA = 0.7;
+
+  /**
+   * Controls if Ggyro is reversed or not.
+   */
+
+  public static final boolean GYRO_REVERSED = true;
+
+  /**
+   * Encoder Constants
+   */
+
+  public static final boolean LEFT_ENCODER_REVERSED = false;
+  public static final boolean RIGHT_ENCODER_REVERSED = true;
 }
