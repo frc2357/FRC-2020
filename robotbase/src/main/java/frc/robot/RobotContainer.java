@@ -9,9 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 
+import com.systemmeltdown.robotlib.controllers.DriverControls;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
 
-import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.controls.GunnerControls;
 
@@ -26,7 +26,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SingleSpeedTalonDriveSubsystem m_driveSub = SubsystemFactory.createDriveSubsystem();
 
-  private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .25);
+  private final DriverControls m_driverControls = new DriverControls(new XboxController(0), .25);
+  // private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .25);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
 
   /**
@@ -34,7 +35,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    ConfigButtons.configureButtonBindings(m_driverControls, m_gunnerControls);
+    // ConfigButtons.configureButtonBindings(m_driverControls, m_gunnerControls);
     CommandFactory.createDriveProportionalCommand(m_driveSub, m_driverControls);
   }
 }
