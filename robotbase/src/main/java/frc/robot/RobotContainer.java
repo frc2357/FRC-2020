@@ -14,7 +14,6 @@ import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsyst
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.controls.GunnerControls;
-import com.systemmeltdown.robotlib.controllers.DriverControls;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

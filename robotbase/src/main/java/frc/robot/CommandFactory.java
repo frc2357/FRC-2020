@@ -6,6 +6,8 @@ import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsyst
 
 public class CommandFactory {
     public static void createDriveProportionalCommand(SingleSpeedTalonDriveSubsystem driveSub, DriverControls driverControls) {
-        driveSub.setDefaultCommand(new DriveProportionalCommand(driveSub, driverControls));
+        if (driveSub == null) {
+            driveSub.setDefaultCommand(new DriveProportionalCommand(driveSub, driverControls));
+        }
     }
 }
