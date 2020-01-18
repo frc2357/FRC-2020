@@ -29,11 +29,7 @@ public class InvertDriveControls extends DriverControls {
      * Changes the value of m_isToggled from true to false or vice versa
      */
     public void invert() {
-        if (m_isToggled) {
-            m_isToggled = false;
-        } else {
-            m_isToggled = true;
-        }
+        m_isToggled = !m_isToggled;
     }
     
     @Override
@@ -44,5 +40,4 @@ public class InvertDriveControls extends DriverControls {
             return -super.getSpeed();
         }
     }
-
 }
