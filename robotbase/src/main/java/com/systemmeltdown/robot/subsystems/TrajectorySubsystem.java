@@ -112,7 +112,7 @@ public class TrajectorySubsystem extends SubsystemBase {
    * @param leftVolts  the commanded left output
    * @param rightVolts the commanded right output
    */
-  public void tankDriveVolts(double leftVolts, double rightVolts) {
+  public void setTankDriveVolts(double leftVolts, double rightVolts) {
     m_leftMotors.setVoltage(leftVolts);
     m_rightMotors.setVoltage(-rightVolts);
   }
