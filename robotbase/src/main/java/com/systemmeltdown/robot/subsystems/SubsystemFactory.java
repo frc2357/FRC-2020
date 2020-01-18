@@ -28,9 +28,9 @@ public class SubsystemFactory
 
     public SingleSpeedTalonDriveSubsystem CreateSingleSpeedTalonDriveSubsystem()
     {
-        SingleSpeedTalonDriveSubsystem subsystem = new SingleSpeedTalonDriveSubsystem(
-            new TalonGroup(Constants.DRIVE_MOTOR_RIGHT_1, Constants.DRIVE_MOTOR_RIGHT_SLAVES),
-            new TalonGroup(Constants.DRIVE_MOTOR_LEFT_1, Constants.DRIVE_MOTOR_LEFT_SLAVES));
+        TalonGroup rightTalonGroup = new TalonGroup(Constants.DRIVE_MOTOR_RIGHT_1, Constants.DRIVE_MOTOR_RIGHT_SLAVES);
+        TalonGroup lefTalonGroup = new TalonGroup(Constants.DRIVE_MOTOR_LEFT_1, Constants.DRIVE_MOTOR_LEFT_SLAVES);
+        SingleSpeedTalonDriveSubsystem subsystem = new SingleSpeedTalonDriveSubsystem(rightTalonGroup, lefTalonGroup);
         subsystem.configure(m_configMap);
         return subsystem;
     }
