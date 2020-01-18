@@ -15,6 +15,7 @@ import com.systemmeltdown.robotlib.subsystems.drive.TalonGroup;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
+import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robotlib.controllers.DriverControls;
 
@@ -30,9 +31,7 @@ import java.util.Map;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final SingleSpeedTalonDriveSubsystem m_driveSub = new SingleSpeedTalonDriveSubsystem(
-      new TalonGroup(Constants.DRIVE_MOTOR_RIGHT_1, Constants.DRIVE_MOTOR_RIGHT_SLAVES),
-      new TalonGroup(Constants.DRIVE_MOTOR_LEFT_1, Constants.DRIVE_MOTOR_LEFT_SLAVES));
+  private final SingleSpeedTalonDriveSubsystem m_driveSub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .25);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -40,6 +39,13 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    Map<String, Object> configMap = new HashMap<>();
+    configMap.put(SingleSpeedTalonDriveSubsystem.CONFIG_IS_RIGHT_INVERTED, true);
+    configMap.put(SingleSpeedTalonDriveSubsystem.CONFIG_IS_LEFT_INVERTED, false);
+
+    SubsystemFactory subsystemFactory = new SubsystemFactory(configMap);
+    m_driveSub = subsystemFactory.CreateSingleSpeedTalonDriveSubsystem();
+
     // Configure the button bindings
     configureDriveSub();
     configureButtonBindings();
@@ -58,10 +64,6 @@ public class RobotContainer {
   }
 
   private void configureDriveSub() {
-    Map<String, Object> configMap = new HashMap<>();
-    configMap.put(m_driveSub.CONFIG_IS_RIGHT_INVERTED, true);
-    configMap.put(m_driveSub.CONFIG_IS_LEFT_INVERTED, false);
-    m_driveSub.configure(configMap);
     m_driveSub
         .setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
