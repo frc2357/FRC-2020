@@ -1,6 +1,8 @@
 package frc.robot;
 
+import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
+import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robotlib.controllers.DriverControls;
 
 public class ConfigButtons {
@@ -10,8 +12,9 @@ public class ConfigButtons {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  public static void configureButtonBindings(DriverControls driverControls, GunnerControls gunnerControls) {
+  public static void configureButtonBindings(InvertDriveControls driverControls, GunnerControls gunnerControls) {
     // TODO: create shoot command
     // m_gunnerControls.m_shootButton.whenPressed(command)
+    driverControls.m_invertButton.whenPressed(new InvertDriveCommand(driverControls));
   }
 }

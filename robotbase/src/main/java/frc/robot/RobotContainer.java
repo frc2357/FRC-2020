@@ -26,8 +26,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SingleSpeedTalonDriveSubsystem m_driveSub = SubsystemFactory.createDriveSubsystem();
 
-  private final DriverControls m_driverControls = new DriverControls(new XboxController(0), .25);
-  // private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .25);
+  // private final DriverControls m_driverControls = new DriverControls(new XboxController(0), .25);
+  private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .25);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
 
   /**
@@ -35,7 +35,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    // ConfigButtons.configureButtonBindings(m_driverControls, m_gunnerControls);
+    ConfigButtons.configureButtonBindings(m_driverControls, m_gunnerControls);
     CommandFactory.createDriveProportionalCommand(m_driveSub, m_driverControls);
   }
 }

@@ -28,8 +28,8 @@ public class InvertDriveControls extends DriverControls {
         return m_isToggled ? speed : -speed;
     }
 
-    // @Override
-    // public double getTurn() {
-    //     return -super.getTurn();
-    // }
+    @Override
+    public double getTurn() {
+        return -super.getTurn();
+    }
 }
