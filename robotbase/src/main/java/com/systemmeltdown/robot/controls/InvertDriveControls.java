@@ -22,7 +22,7 @@ public class InvertDriveControls extends DriverControls {
         super(controller, deadband);
         m_controller = controller;
         m_deadband = deadband;
-        m_invertButton = new JoystickButton(controller, XboxRaw.Start.value);
+        m_invertButton = new JoystickButton(controller, XboxRaw.A.value);
     }
 
     /**
