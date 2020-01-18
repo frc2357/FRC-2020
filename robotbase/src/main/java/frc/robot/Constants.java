@@ -32,16 +32,12 @@ public final class Constants {
   public static final int DRIVE_MOTOR_RIGHT_1 = 12;
   public static final int DRIVE_MOTOR_LEFT_2 = 13;
   public static final int DRIVE_MOTOR_RIGHT_2 = 14;
-  public static final int DRIVE_MOTOR_LEFT_3 = 15;
-  public static final int DRIVE_MOTOR_RIGHT_3 = 16;
-  public static final int DRIVE_MOTOR_LEFT_4 = 17;
-  public static final int DRIVE_MOTOR_RIGHT_4 = 18;
 
   public static final int[] DRIVE_MOTOR_LEFT_SLAVES = {
-    DRIVE_MOTOR_LEFT_2, DRIVE_MOTOR_LEFT_3, DRIVE_MOTOR_LEFT_4};
+    DRIVE_MOTOR_LEFT_2};
 
   public static final int[] DRIVE_MOTOR_RIGHT_SLAVES = {
-    DRIVE_MOTOR_RIGHT_2, DRIVE_MOTOR_RIGHT_3, DRIVE_MOTOR_RIGHT_4};
+    DRIVE_MOTOR_RIGHT_2};
 
   /**
    * CAN IDS 21-60
