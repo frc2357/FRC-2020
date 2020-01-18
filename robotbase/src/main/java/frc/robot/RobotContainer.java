@@ -134,11 +134,11 @@ public class RobotContainer {
       new PIDController(Constants.P_DRIVE_VEL, 0, 0),
       new PIDController(Constants.P_DRIVE_VEL, 0, 0),
       // RamseteCommand passes volts to the callback
-      m_trajectorySub::tankDriveVolts,
+      m_trajectorySub::setTankDriveVolts,
       m_trajectorySub
     );
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_trajectorySub.tankDriveVolts(0, 0));
+    return ramseteCommand.andThen(() -> m_trajectorySub.setTankDriveVolts(0, 0));
   }
 }
