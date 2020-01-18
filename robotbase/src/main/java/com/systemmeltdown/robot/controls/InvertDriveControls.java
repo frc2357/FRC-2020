@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.systemmeltdown.robotlib.util.XboxRaw;
 
 public class InvertDriveControls extends DriverControls {
-    private final XboxController m_controller;
-    private final double m_deadband;
     public final JoystickButton m_invertButton;
     private boolean m_isToggled = false;
 
@@ -20,8 +18,6 @@ public class InvertDriveControls extends DriverControls {
      */
     public InvertDriveControls(XboxController controller, double deadband) {
         super(controller, deadband);
-        m_controller = controller;
-        m_deadband = deadband;
         m_invertButton = new JoystickButton(controller, XboxRaw.A.value);
     }
 
