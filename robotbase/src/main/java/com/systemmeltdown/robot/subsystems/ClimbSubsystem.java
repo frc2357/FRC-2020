@@ -13,13 +13,10 @@ public class ClimbSubsystem extends SubsystemBase {
     private TalonGroup m_leftTalons;
     private TalonGroup m_rightTalons;
 
-    private PigeonIMU m_gyro;
-
     public ClimbSubsystem(Solenoid solenoid, TalonGroup rightTalons, TalonGroup leftTalons, PigeonIMU gyro) {
         m_scissorExtendSolenoid = solenoid;
         m_rightTalons = rightTalons;
         m_leftTalons = leftTalons;
-        m_gyro = gyro;
     }
 
     @Override
