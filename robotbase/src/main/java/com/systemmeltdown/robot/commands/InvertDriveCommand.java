@@ -8,15 +8,21 @@ public class InvertDriveCommand extends CommandBase{
     private SingleSpeedTalonDriveSubsystem m_driveSub;
     private InvertDriveControls m_controls;
 
-    public InvertDriveCommand(SingleSpeedTalonDriveSubsystem driveSub, InvertDriveControls controls) {
-        m_driveSub = driveSub;
+    public InvertDriveCommand(InvertDriveControls controls) {
         m_controls = controls;
-
-        addRequirements(driveSub);
     }
+
+    
 
     @Override
     public void initialize() {
         m_controls.invert();
+        System.out.println("INIT");
+    }
+    
+    @Override
+    public boolean isFinished() {
+        // TODO Auto-generated method stub
+        return true;
     }
 }
