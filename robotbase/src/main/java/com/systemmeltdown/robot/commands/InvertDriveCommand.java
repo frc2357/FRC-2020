@@ -17,7 +17,6 @@ public class InvertDriveCommand extends CommandBase{
     @Override
     public void initialize() {
         m_controls.invert();
-        System.out.println("INIT");
     }
     
     @Override

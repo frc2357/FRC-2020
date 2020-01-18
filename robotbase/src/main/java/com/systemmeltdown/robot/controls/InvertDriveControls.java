@@ -30,7 +30,6 @@ public class InvertDriveControls extends DriverControls {
      */
     public void invert() {
         m_isToggled = !m_isToggled;
-        System.out.println(m_isToggled);
     }
     
     @Override
