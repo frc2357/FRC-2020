@@ -70,7 +70,7 @@ public final class Constants {
    */
 
   public static final double TRACK_WIDTH_METERS = 0.0;
-  public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(TRACK_WIDTH_METERS);
+  public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH_METERS);
 
   /**
    * Max Trajectory acceleration and velocity Zeroes as place holder values
