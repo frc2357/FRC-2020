@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.TalonGroup;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;

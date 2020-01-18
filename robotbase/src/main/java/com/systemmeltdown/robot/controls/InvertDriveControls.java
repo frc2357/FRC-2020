@@ -24,7 +24,6 @@ public class InvertDriveControls extends DriverControls {
     @Override
     public double getSpeed() {
         double speed = super.getSpeed();
-        System.out.println(speed);
         return m_isToggled ? speed : -speed;
     }
 
