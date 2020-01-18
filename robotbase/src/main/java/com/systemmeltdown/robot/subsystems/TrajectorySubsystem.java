@@ -105,6 +105,18 @@ public class TrajectorySubsystem extends SubsystemBase {
     m_drive.arcadeDrive(fwd, rot);
   }
 
+
+  /**
+   * Controls the left and right sides of the drive directly with voltages.
+   *
+   * @param leftVolts  the commanded left output
+   * @param rightVolts the commanded right output
+   */
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    m_leftMotors.setVoltage(leftVolts);
+    m_rightMotors.setVoltage(-rightVolts);
+  }
+  
   /**
    * Resets the drive encoders to currently read a position of 0.
    */
