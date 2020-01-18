@@ -9,8 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 
-import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.TalonGroup;
+import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
@@ -28,7 +27,7 @@ import java.util.Map;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final SingleSpeedTalonDriveSubsystem m_driveSub;
+  private final SingleSpeedFalconDriveSubsystem m_driveSub;
 
   // private final DriverControls m_driverControls = new DriverControls(new XboxController(0), .25);
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .25);
@@ -39,11 +38,11 @@ public class RobotContainer {
    */
   public RobotContainer() {
     Map<String, Object> configMap = new HashMap<>();
-    configMap.put(SingleSpeedTalonDriveSubsystem.CONFIG_IS_RIGHT_INVERTED, true);
-    configMap.put(SingleSpeedTalonDriveSubsystem.CONFIG_IS_LEFT_INVERTED, false);
+    configMap.put(SingleSpeedFalconDriveSubsystem.CONFIG_IS_RIGHT_INVERTED, true);
+    configMap.put(SingleSpeedFalconDriveSubsystem.CONFIG_IS_LEFT_INVERTED, false);
 
     SubsystemFactory subsystemFactory = new SubsystemFactory(configMap);
-    m_driveSub = subsystemFactory.CreateSingleSpeedTalonDriveSubsystem();
+    m_driveSub = subsystemFactory.CreateSingleSpeedFalconDriveSubsystem();
 
     // Configure the button bindings
     configureDriveSub();
