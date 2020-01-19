@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.TalonGroup;
+import com.systemmeltdown.robotlib.subsystems.drive.controllerGroups.TalonGroup;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Constants;
@@ -71,12 +71,9 @@ public class SubsystemFactory
 
     public ShooterSubsystem CreateShooterSubsystem()
     {
-        // Need device IDs
-        throw new UnsupportedOperationException();
-        /*
-        ShooterSubsystem subsystem = new ShooterSubsystem(-1);
+        ShooterSubsystem subsystem = new ShooterSubsystem(Constants.SHOOT_MOTOR_1, Constants.SHOOT_MOTOR_2);
+        // TODO: add more config if needed
         return subsystem;
-        */
     }
 
     public TurretSubsystem CreateTurretSubsystem()
