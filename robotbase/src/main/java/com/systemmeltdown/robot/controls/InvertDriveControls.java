@@ -9,13 +9,6 @@ public class InvertDriveControls extends DriverControls {
     public final JoystickButton m_invertButton;
     private boolean m_isToggled = false;
 
-    /**
-     * Create driver controls
-     * 
-     * @param controller The Xbox Controller used for the driver
-     * @param deadband   The deadband used for all drive axis output (typically 0.1
-     *                   or less)
-     */
     public InvertDriveControls(XboxController controller, double deadband) {
         super(controller, deadband);
         m_invertButton = new JoystickButton(controller, XboxRaw.A.value);
@@ -30,10 +23,12 @@ public class InvertDriveControls extends DriverControls {
     
     @Override
     public double getSpeed() {
-        if (m_isToggled) {
-            return super.getSpeed();
-        } else {
-            return -super.getSpeed();
-        }
+        double speed = super.getSpeed();
+        return m_isToggled ? speed : -speed;
+    }
+
+    @Override
+    public double getTurn() {
+        return -super.getTurn();
     }
 }

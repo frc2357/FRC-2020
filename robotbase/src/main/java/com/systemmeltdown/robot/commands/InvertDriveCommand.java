@@ -10,8 +10,6 @@ public class InvertDriveCommand extends CommandBase{
         m_controls = controls;
     }
 
-    
-
     @Override
     public void initialize() {
         m_controls.invert();
@@ -19,7 +17,6 @@ public class InvertDriveCommand extends CommandBase{
     
     @Override
     public boolean isFinished() {
-        // TODO Auto-generated method stub
         return true;
     }
 }

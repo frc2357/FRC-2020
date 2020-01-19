@@ -7,11 +7,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.TalonGroup;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
@@ -33,6 +31,7 @@ public class RobotContainer {
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .25);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -56,7 +55,6 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // TODO: create shoot command
     // m_gunnerControls.m_shootButton.whenPressed(command)
     m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
   }
