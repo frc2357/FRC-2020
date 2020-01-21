@@ -36,14 +36,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 
   static private double WHEEL_DIAMETER = 0.1524;
-  static private double ENCODER_EDGES_PER_REV = 1024;
+  static private double ENCODER_EDGES_PER_REV = 2048;
   static private int PIDIDX = 0;
 
   Joystick stick;
   DifferentialDrive drive;
 
-  WPI_TalonSRX leftMaster;
-  WPI_TalonSRX rightMaster;
+  WPI_TalonFX leftMaster;
+  WPI_TalonFX rightMaster;
 
   Supplier<Double> leftEncoderPosition;
   Supplier<Double> leftEncoderRate;
@@ -67,22 +67,22 @@ public class Robot extends TimedRobot {
 
     stick = new Joystick(0);
 
-    leftMaster = new WPI_TalonSRX(11);
+    leftMaster = new WPI_TalonFX(11);
     leftMaster.setInverted(false);
     leftMaster.setSensorPhase(false);
     leftMaster.setNeutralMode(NeutralMode.Brake);
 
-    rightMaster = new WPI_TalonSRX(12);
+    rightMaster = new WPI_TalonFX(12);
     rightMaster.setInverted(true);
     rightMaster.setSensorPhase(true);
     rightMaster.setNeutralMode(NeutralMode.Brake);
 
-    WPI_TalonSRX leftSlave0 = new WPI_TalonSRX(13);
+    WPI_TalonFX leftSlave0 = new WPI_TalonFX(13);
     leftSlave0.setInverted(false);
     leftSlave0.follow(leftMaster);
     leftSlave0.setNeutralMode(NeutralMode.Brake);
 
-    WPI_TalonSRX rightSlave0 = new WPI_TalonSRX(14);
+    WPI_TalonFX rightSlave0 = new WPI_TalonFX(14);
     rightSlave0.setInverted(true);
     rightSlave0.follow(rightMaster);
     rightSlave0.setNeutralMode(NeutralMode.Brake);
@@ -93,7 +93,14 @@ public class Robot extends TimedRobot {
 
     // Note that the angle from the NavX and all implementors of wpilib Gyro
     // must be negated because getAngle returns a clockwise positive angle
-    gyroAngleRadians = () -> 0.0;
+    // Uncomment for Pigeon
+    PigeonIMU pigeon = new PigeonIMU();
+    gyroAngleRadians = () -> {
+      // Allocating a new array every loop is bad but concise
+      double[] xyz = new double[3];
+      pigeon.getAccumGyro(xyz);
+      return Math.toRadians(xyz[2]);
+    };
 
     //
     // Configure drivetrain movement
