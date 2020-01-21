@@ -24,12 +24,16 @@ public class InvertDriveControls extends DriverControls {
     @Override
     public double getSpeed() {
         double speed = super.getSpeed();
-        System.out.println(speed);
+        speed = inputCurve(speed, 2);
         return m_isToggled ? speed : -speed;
     }
 
-    // @Override
-    // public double getTurn() {
-    //     return -super.getTurn();
-    // }
+    @Override
+    public double getTurn() {
+        return -inputCurve(super.getTurn(), 3);
+    }
+
+    public double inputCurve(double input, int curveFactor) {
+        return Math.signum(input) * Math.abs(Math.pow(input, curveFactor));
+    }
 }
