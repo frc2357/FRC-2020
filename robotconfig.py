@@ -6,8 +6,8 @@
     # 'WPI_VictorSPX'
     # Note: The first motor on each side should always be a Talon SRX/FX, as the
     # VictorSPX does not support encoder connections
-    "rightControllerTypes": ["WPI_TalonSRX", "WPI_TalonSRX"],
-    "leftControllerTypes": ["WPI_TalonSRX", "WPI_TalonSRX"],
+    "rightControllerTypes": ["WPI_TalonFX", "WPI_TalonFX"],
+    "leftControllerTypes": ["WPI_TalonFX", "WPI_TalonFX"],
     # Ports for the left-side motors
     "leftMotorPorts": [11, 13],
     # Ports for the right-side motors
@@ -22,13 +22,13 @@
     # Encoder edges-per-revolution (*NOT* cycles per revolution!)
     # This value should be the edges per revolution *of the wheels*, and so
     # should take into account gearing between the encoder and the wheels
-    "encoderEPR": 1024,
+    "encoderEPR": 2048,
     # Whether the left encoder is inverted
     "leftEncoderInverted": False,
     # Whether the right encoder is inverted:
     "rightEncoderInverted": True,
     # Your gyro type (one of "NavX", "Pigeon", "ADXRS450", "AnalogGyro", or "None")
-    "gyroType": "None",
+    "gyroType": "Pigeon",
     # Whatever you put into the constructor of your gyro
     # Could be:
     # "SPI.Port.kMXP" (MXP SPI port for NavX or ADXRS450),
@@ -39,5 +39,4 @@
     # "" (NavX using default SPI, ADXRS450 using onboard CS0, or no gyro)
     "gyroPort": "",
 }
-
 

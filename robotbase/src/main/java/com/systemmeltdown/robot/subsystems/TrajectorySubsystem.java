@@ -5,6 +5,8 @@ package com.systemmeltdown.robot.subsystems;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -18,11 +20,11 @@ import frc.robot.Constants;
 public class TrajectorySubsystem extends SubsystemBase {
   // The motors on the left side of the drive.
   private final SpeedControllerGroup m_leftMotors =
-    new SpeedControllerGroup(new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_1), new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_2));
+    new SpeedControllerGroup(new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_1), new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_2));
 
   // The motors on the right side of the drive.
   private final SpeedControllerGroup m_rightMotors =
-    new SpeedControllerGroup(new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_1), new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_2));
+    new SpeedControllerGroup(new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_1), new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_2));
 
   // The robot's drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
