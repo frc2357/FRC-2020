@@ -3,11 +3,11 @@
 package com.systemmeltdown.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -47,13 +47,13 @@ public class TrajectorySubsystem extends SubsystemBase {
   /**
    * Creates a new DriveSubsystem.
    */
-  public TrajectorySubsystem(int gyroID) {
+  public TrajectorySubsystem() {
     // Sets the distance per pulse for the encoders
     m_leftEncoder.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
     m_rightEncoder.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
 
     resetEncoders();
-    m_gyro = new PigeonIMU(gyroID);
+    m_gyro = new PigeonIMU(Constants.GYRO_ID);
     m_gyro.configFactoryDefault();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
@@ -102,7 +102,6 @@ public class TrajectorySubsystem extends SubsystemBase {
   public void arcadeDrive(double fwd, double rot) {
     m_drive.arcadeDrive(fwd, rot);
   }
-
 
   /**
    * Controls the left and right sides of the drive directly with voltages.

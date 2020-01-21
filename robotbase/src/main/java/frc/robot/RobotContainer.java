@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
@@ -23,14 +22,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.TalonGroup;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.TrajectorySubsystem;
+import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
-import com.systemmeltdown.robotlib.controllers.DriverControls;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,18 +41,23 @@ import java.util.Map;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final SingleSpeedTalonDriveSubsystem m_driveSub = new SingleSpeedTalonDriveSubsystem(
-      new TalonGroup(Constants.DRIVE_MOTOR_RIGHT_1, Constants.DRIVE_MOTOR_RIGHT_SLAVES),
-      new TalonGroup(Constants.DRIVE_MOTOR_LEFT_1, Constants.DRIVE_MOTOR_LEFT_SLAVES));
-  
-  private final TrajectorySubsystem m_trajectorySub = new TrajectorySubsystem(Constants.GYRO_ID);
+  private final SingleSpeedTalonDriveSubsystem m_driveSub;
+  private final TrajectorySubsystem m_trajectorySub = new TrajectorySubsystem();
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .25);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    Map<String, Object> configMap = new HashMap<>();
+    configMap.put(SingleSpeedTalonDriveSubsystem.CONFIG_IS_RIGHT_INVERTED, true);
+    configMap.put(SingleSpeedTalonDriveSubsystem.CONFIG_IS_LEFT_INVERTED, false);
+
+    SubsystemFactory subsystemFactory = new SubsystemFactory(configMap);
+    m_driveSub = subsystemFactory.CreateSingleSpeedTalonDriveSubsystem();
+
     // Configure the button bindings
     configureDriveSub();
     configureButtonBindings();
@@ -68,16 +70,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // TODO: create shoot command
     // m_gunnerControls.m_shootButton.whenPressed(command)
-    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driveSub, m_driverControls));
+    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
   }
 
   private void configureDriveSub() {
-    Map<String, Object> configMap = new HashMap<>();
-    configMap.put(m_driveSub.CONFIG_IS_RIGHT_INVERTED, true);
-    configMap.put(m_driveSub.CONFIG_IS_LEFT_INVERTED, false);
-    m_driveSub.configure(configMap);
     m_driveSub
         .setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
