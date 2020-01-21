@@ -3,10 +3,11 @@
 package com.systemmeltdown.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -19,11 +20,11 @@ import frc.robot.Constants;
 public class TrajectorySubsystem extends SubsystemBase {
   // The motors on the left side of the drive.
   private final SpeedControllerGroup m_leftMotors =
-    new SpeedControllerGroup(new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_1), new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_2));
+    new SpeedControllerGroup(new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_1), new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_2));
 
   // The motors on the right side of the drive.
   private final SpeedControllerGroup m_rightMotors =
-    new SpeedControllerGroup(new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_1), new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_2));
+    new SpeedControllerGroup(new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_1), new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_2));
 
   // The robot's drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
@@ -46,13 +47,13 @@ public class TrajectorySubsystem extends SubsystemBase {
   /**
    * Creates a new DriveSubsystem.
    */
-  public TrajectorySubsystem(int gyroID) {
+  public TrajectorySubsystem() {
     // Sets the distance per pulse for the encoders
     m_leftEncoder.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
     m_rightEncoder.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
 
     resetEncoders();
-    m_gyro = new PigeonIMU(gyroID);
+    m_gyro = new PigeonIMU(Constants.GYRO_ID);
     m_gyro.configFactoryDefault();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
@@ -101,7 +102,7 @@ public class TrajectorySubsystem extends SubsystemBase {
   public void arcadeDrive(double fwd, double rot) {
     m_drive.arcadeDrive(fwd, rot);
   }
-  
+
   /**
    * Controls the left and right sides of the drive directly with voltages.
    *
