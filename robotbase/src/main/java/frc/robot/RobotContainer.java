@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
-import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
+import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
@@ -41,10 +41,9 @@ import java.util.Map;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final SingleSpeedTalonDriveSubsystem m_driveSub;
-  private final TrajectorySubsystem m_trajectorySub = new TrajectorySubsystem();
+  private final SingleSpeedFalconDriveSubsystem m_driveSub;
 
-  private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .25);
+  private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
 
   /**
@@ -52,11 +51,11 @@ public class RobotContainer {
    */
   public RobotContainer() {
     Map<String, Object> configMap = new HashMap<>();
-    configMap.put(SingleSpeedTalonDriveSubsystem.CONFIG_IS_RIGHT_INVERTED, true);
-    configMap.put(SingleSpeedTalonDriveSubsystem.CONFIG_IS_LEFT_INVERTED, false);
+    configMap.put(SingleSpeedFalconDriveSubsystem.CONFIG_IS_RIGHT_INVERTED, true);
+    configMap.put(SingleSpeedFalconDriveSubsystem.CONFIG_IS_LEFT_INVERTED, false);
 
     SubsystemFactory subsystemFactory = new SubsystemFactory(configMap);
-    m_driveSub = subsystemFactory.CreateSingleSpeedTalonDriveSubsystem();
+    m_driveSub = subsystemFactory.CreateSingleSpeedFalconDriveSubsystem();
 
     // Configure the button bindings
     configureDriveSub();
