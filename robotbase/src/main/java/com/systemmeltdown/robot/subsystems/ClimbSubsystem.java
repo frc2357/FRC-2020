@@ -1,22 +1,23 @@
 package com.systemmeltdown.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
-import com.systemmeltdown.robotlib.subsystems.drive.controllerGroups.TalonGroup;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ClimbSubsystem extends SubsystemBase {
     private Solenoid m_scissorExtendSolenoid;
 
-    private TalonGroup m_leftTalons;
-    private TalonGroup m_rightTalons;
+    private SpeedControllerGroup m_leftTalons;
+    private SpeedControllerGroup m_rightTalons;
 
-    public ClimbSubsystem(Solenoid solenoid, TalonGroup rightTalons, TalonGroup leftTalons, PigeonIMU gyro) {
+    public ClimbSubsystem(Solenoid solenoid, PigeonIMU gyro) {
         m_scissorExtendSolenoid = solenoid;
-        m_rightTalons = rightTalons;
-        m_leftTalons = leftTalons;
+        m_leftTalons = new SpeedControllerGroup(new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_1), new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_2));
+        m_rightTalons = new SpeedControllerGroup(new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_1), new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_2));
     }
 
     @Override
@@ -29,10 +30,10 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void runRightMotors(double speed) {
-        m_rightTalons.set(ControlMode.PercentOutput, speed);
+        m_rightTalons.set(speed);
     }
 
     public void runLeftMotors(double speed) {
-        m_leftTalons.set(ControlMode.PercentOutput, speed);
+        m_leftTalons.set(speed);
     }
 }
