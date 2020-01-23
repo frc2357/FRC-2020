@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -33,7 +34,7 @@ public class SubsystemFactory
         WPI_TalonSRX[] leftSlaveTalons = {new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_2)};
         WPI_TalonSRX rightMasterTalon = new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_1);
         WPI_TalonSRX[] rightSlaveTalons = {new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_2)};
-        SingleSpeedTalonDriveSubsystem subsystem = new SingleSpeedTalonDriveSubsystem(leftMasterTalon, leftSlaveTalons, rightMasterTalon, rightSlaveTalon);
+        SingleSpeedTalonDriveSubsystem subsystem = new SingleSpeedTalonDriveSubsystem(leftMasterTalon, leftSlaveTalons, rightMasterTalon, rightSlaveTalons);
         subsystem.configure(m_configMap);
         return subsystem;
     }
