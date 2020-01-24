@@ -2,12 +2,12 @@ package com.systemmeltdown.robot.subsystems;
 
 import java.util.Map;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
-import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.controllerGroups.TalonGroup;
-import com.systemmeltdown.robotlib.subsystems.drive.controllerGroups.FalconGroup;
-import edu.wpi.first.wpilibj.Solenoid;
+import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
+
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Constants;
 
 /**
@@ -29,18 +29,23 @@ public class SubsystemFactory
 
     public SingleSpeedTalonDriveSubsystem CreateSingleSpeedTalonDriveSubsystem()
     {
-        TalonGroup rightTalonGroup = new TalonGroup(Constants.DRIVE_MOTOR_RIGHT_1, Constants.DRIVE_MOTOR_RIGHT_SLAVES);
-        TalonGroup lefTalonGroup = new TalonGroup(Constants.DRIVE_MOTOR_LEFT_1, Constants.DRIVE_MOTOR_LEFT_SLAVES);
-        SingleSpeedTalonDriveSubsystem subsystem = new SingleSpeedTalonDriveSubsystem(rightTalonGroup, lefTalonGroup);
+
+        WPI_TalonSRX leftMasterTalon = new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_1);
+        WPI_TalonSRX[] leftSlaveTalons = {new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_2)};
+        WPI_TalonSRX rightMasterTalon = new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_1);
+        WPI_TalonSRX[] rightSlaveTalons = {new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_2)};
+        SingleSpeedTalonDriveSubsystem subsystem = new SingleSpeedTalonDriveSubsystem(leftMasterTalon, leftSlaveTalons, rightMasterTalon, rightSlaveTalons);
         subsystem.configure(m_configMap);
         return subsystem;
     }
 
     public SingleSpeedFalconDriveSubsystem CreateSingleSpeedFalconDriveSubsystem()
     {
-        FalconGroup rightFalconGroup = new FalconGroup(Constants.DRIVE_MOTOR_RIGHT_1, Constants.DRIVE_MOTOR_RIGHT_SLAVES);
-        FalconGroup leftFalconGroup = new FalconGroup(Constants.DRIVE_MOTOR_LEFT_1, Constants.DRIVE_MOTOR_LEFT_SLAVES);
-        SingleSpeedFalconDriveSubsystem subsystem = new SingleSpeedFalconDriveSubsystem(rightFalconGroup, leftFalconGroup);
+        WPI_TalonFX leftMasterFalcon = new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_1);
+        WPI_TalonFX[] leftSlaveFalcons = {new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_2)};
+        WPI_TalonFX rightMasterFalcon = new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_1);
+        WPI_TalonFX[] rightSlaveFalcons = {new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_2)};
+        SingleSpeedFalconDriveSubsystem subsystem = new SingleSpeedFalconDriveSubsystem(leftMasterFalcon, leftSlaveFalcons, rightMasterFalcon, rightSlaveFalcons);
         subsystem.configure(m_configMap);
         return subsystem;
     }
