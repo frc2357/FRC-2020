@@ -106,4 +106,19 @@ public final class Constants {
    * and I do as the Rasmsete command guides -- Nolan Campbell 
    */
   public static final double P_DRIVE_VEL = 8.5;
+
+  /**
+   * Vision and Limelight constants
+   */
+  /** Angle of the Limelight axis from horizontal (degrees) */
+  public static final double LIMELIGHT_MOUNTING_ANGLE = 0;
+
+  /** Height of the Limelight lens center from the floor (inches) */
+  public static final double LIMELIGHT_MOUNTING_HEIGHT = 0;
+
+  /** Target width in inches */
+  public static final double VISION_TARGET_WIDTH = 1;
+
+  /** Target height in inches */
+  public static final double VISION_TARGET_HEIGHT = 1;
 }

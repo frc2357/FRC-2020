@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.TalonTrajectoryDriveSubsystem;
+import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
 
@@ -126,5 +127,16 @@ public class SubsystemFactory {
         /*
          * TurretSubsystem subsystem = new TurretSubsystem(-1); return subsystem;
          */
+    }
+
+    public LimelightSubsystem CreateLimelightSubsystem() {
+        LimelightSubsystem subsystem = new LimelightSubsystem();
+        LimelightSubsystem.Configuration config = new LimelightSubsystem.Configuration();
+        config.m_LimelightMountingAngle = Constants.LIMELIGHT_MOUNTING_ANGLE;
+        config.m_LimelightMountingHeightInches = Constants.LIMELIGHT_MOUNTING_HEIGHT;
+        config.m_TargetWidth = Constants.VISION_TARGET_WIDTH;
+        config.m_TargetHeight = Constants.VISION_TARGET_HEIGHT;
+        subsystem.setConfiguration(config);
+        return subsystem;
     }
 }
