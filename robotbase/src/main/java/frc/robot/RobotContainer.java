@@ -30,6 +30,7 @@ import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.TrajectorySubsystem;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
+import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import java.util.List;
 
 /**
@@ -58,6 +59,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureDriveSub();
     configureButtonBindings();
+    configureShuffleboard();
   }
 
   /**
@@ -69,6 +71,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
     m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
+  }
+
+  private void configureShuffleboard() {
+    CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT");
+    CellNumberWidget.show();
   }
 
   private void configureDriveSub() {

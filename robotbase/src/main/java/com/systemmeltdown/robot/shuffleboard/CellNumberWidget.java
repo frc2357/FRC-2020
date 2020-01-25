@@ -1,15 +1,18 @@
 package com.systemmeltdown.robot.shuffleboard;
 
+import java.util.Map;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.util.Color;
 
 /**
 * A Shuffleboard widget that displays the amount of power cells in the robot
 * 
 * @param tabTitle Title of the tab you want to add the widget to
 */
-class CellNumberWidget {
+public class CellNumberWidget {
     private static final String TITLE = "Num of Power Cells";
     private static int m_cellNum = 0;
     private static NetworkTableEntry m_cellNumWidget;
@@ -47,7 +50,7 @@ class CellNumberWidget {
       return m_cellNum;
   }
 
-  public void show() {
+  public static void show() {
     Shuffleboard.selectTab(TITLE);
   }
 
