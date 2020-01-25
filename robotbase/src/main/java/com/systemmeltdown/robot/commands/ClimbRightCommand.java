@@ -14,4 +14,21 @@ public class ClimbRightCommand extends CommandBase {
         m_climbSubsystem = climbSubsystem;
         addRequirements(m_climbSubsystem);
     }
+
+    @Override
+    public void initialize() {
+        m_climbSubsystem.setKeepLevel(true);
+        m_climbSubsystem.climbRight();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        m_climbSubsystem.stopClimb();
+        m_climbSubsystem.setKeepLevel(false);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }
