@@ -6,6 +6,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.TalonTrajectoryDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
@@ -115,6 +116,12 @@ public class SubsystemFactory {
         /*
          * IntakeSub subsystem = new IntakeSub(-1, -1); return subsystem;
          */
+    }
+
+    public StorageSubsystem CreateStorageSubsystem() {
+        DigitalInput feedSensor = new DigitalInput(Constants.STORAGE_FEED_SENSOR_CHANNEL);
+        StorageSubsystem subsystem = new StorageSubsystem(feedSensor);
+        return subsystem;
     }
 
     public ShooterSubsystem CreateShooterSubsystem() {

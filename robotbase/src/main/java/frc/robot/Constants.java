@@ -62,6 +62,10 @@ public final class Constants {
   public static final int WINCH_MOTOR_LEFT = -1;
   public static final int WINCH_MOTOR_RIGHT = -1;
 
+
+  /** IR sensor before feed wheel */
+  public static final int STORAGE_FEED_SENSOR_CHANNEL = -1;
+
   /**
    * Characterization Constants Zeroes are currently placeholder values
    */
