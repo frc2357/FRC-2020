@@ -1,7 +1,5 @@
 package com.systemmeltdown.robot.subsystems;
 
-import java.util.Map;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -19,8 +17,6 @@ import frc.robot.Constants;
  * This class is a factory that creates subsystems.
  */
 public class SubsystemFactory {
-    Map<String, Object> m_configMap;
-
     /**
      * Constructor
      */
