@@ -35,8 +35,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 
-  static private double WHEEL_DIAMETER = 0.1524;
-  static private double ENCODER_EDGES_PER_REV = 2048;
+  static private double WHEEL_DIAMETER = 6.0;
+  static private double ENCODER_EDGES_PER_REV = 16384;
   static private int PIDIDX = 0;
 
   Joystick stick;
@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
     leftMaster.setNeutralMode(NeutralMode.Brake);
 
     rightMaster = new WPI_TalonFX(12);
-    rightMaster.setInverted(true);
+    rightMaster.setInverted(false);
     rightMaster.setSensorPhase(true);
     rightMaster.setNeutralMode(NeutralMode.Brake);
 
@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
     leftSlave0.setNeutralMode(NeutralMode.Brake);
 
     WPI_TalonFX rightSlave0 = new WPI_TalonFX(14);
-    rightSlave0.setInverted(true);
+    rightSlave0.setInverted(false);
     rightSlave0.follow(rightMaster);
     rightSlave0.setNeutralMode(NeutralMode.Brake);
 
@@ -94,7 +94,7 @@ public class Robot extends TimedRobot {
     // Note that the angle from the NavX and all implementors of wpilib Gyro
     // must be negated because getAngle returns a clockwise positive angle
     // Uncomment for Pigeon
-    PigeonIMU pigeon = new PigeonIMU();
+    PigeonIMU pigeon = new PigeonIMU(22);
     gyroAngleRadians = () -> {
       // Allocating a new array every loop is bad but concise
       double[] xyz = new double[3];
@@ -118,7 +118,7 @@ public class Robot extends TimedRobot {
     double encoderConstant =
         (1 / ENCODER_EDGES_PER_REV) * WHEEL_DIAMETER * Math.PI;
 
-    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
+    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,
                                                 PIDIDX, 10);
     leftEncoderPosition = ()
         -> leftMaster.getSelectedSensorPosition(PIDIDX) * encoderConstant;
@@ -126,7 +126,7 @@ public class Robot extends TimedRobot {
         -> leftMaster.getSelectedSensorVelocity(PIDIDX) * encoderConstant *
                10;
 
-    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
+    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,
                                                  PIDIDX, 10);
     rightEncoderPosition = ()
         -> rightMaster.getSelectedSensorPosition(PIDIDX) * encoderConstant;
