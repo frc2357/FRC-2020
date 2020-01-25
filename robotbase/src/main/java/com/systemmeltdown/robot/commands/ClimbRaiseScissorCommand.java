@@ -5,26 +5,27 @@ import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * This command climbs toward the left side of the robot.
+ * This command raises the scissor lift for climb.
+ * 
+ * This will start the scissor extension when initialized, then
+ * stop the extension when the command ends.
  */
-public class ClimbLeftCommand extends CommandBase {
+public class ClimbRaiseScissorCommand extends CommandBase {
     private ClimbSubsystem m_climbSubsystem;
 
-    public ClimbLeftCommand(ClimbSubsystem climbSubsystem) {
+    public ClimbRaiseScissorCommand(ClimbSubsystem climbSubsystem) {
         m_climbSubsystem = climbSubsystem;
         addRequirements(m_climbSubsystem);
     }
 
     @Override
     public void initialize() {
-        m_climbSubsystem.setKeepLevel(true);
-        m_climbSubsystem.climbLeft();
+        m_climbSubsystem.extendScissor();
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_climbSubsystem.stopClimb();
-        m_climbSubsystem.setKeepLevel(false);
+        m_climbSubsystem.releaseScissor();
     }
 
     @Override
