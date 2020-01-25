@@ -110,11 +110,9 @@ public class SubsystemFactory {
     }
 
     public IntakeSub CreateIntakeSub() {
-        // Need device IDs
-        throw new UnsupportedOperationException();
-        /*
-         * IntakeSub subsystem = new IntakeSub(-1, -1); return subsystem;
-         */
+        IntakeSub subsystem = new IntakeSub(Constants.INTAKE_SOLENOID_CHANNEL,
+            Constants.INTAKE_MOTOR_ID);
+        return subsystem;
     }
 
     public ShooterSubsystem CreateShooterSubsystem() {
