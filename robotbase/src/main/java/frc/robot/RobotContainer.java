@@ -21,16 +21,16 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
+import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
+import com.systemmeltdown.robotlib.subsystems.drive.TalonTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.TrajectorySubsystem;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -42,8 +42,7 @@ import java.util.Map;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SingleSpeedFalconDriveSubsystem m_driveSub;
-
-  private final TrajectorySubsystem m_trajectorySub;
+  private final FalconTrajectoryDriveSubsystem m_trajectorySub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -52,12 +51,9 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    Map<String, Object> configMap = new HashMap<>();
-    configMap.put(SingleSpeedFalconDriveSubsystem.CONFIG_IS_RIGHT_INVERTED, true);
-    configMap.put(SingleSpeedFalconDriveSubsystem.CONFIG_IS_LEFT_INVERTED, false);
-
-    SubsystemFactory subsystemFactory = new SubsystemFactory(configMap);
+    SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = subsystemFactory.CreateSingleSpeedFalconDriveSubsystem();
+    m_trajectorySub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
 
     // Configure the button bindings
     configureDriveSub();
