@@ -68,6 +68,9 @@ public final class Constants {
   /** Solenoid to extend intake assembly */
   public static final int INTAKE_SOLENOID_CHANNEL = -1;
 
+  /** IR sensor before feed wheel */
+  public static final int STORAGE_FEED_SENSOR_CHANNEL = -1;
+
   /**
    * Characterization Constants Zeroes are currently placeholder values
    */
