@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class IntakeSub extends SubsystemBase {
+
+    // opposing ToF
     private Solenoid m_intakeSolenoid;
     private WPI_TalonSRX m_intakeTalon;
     private boolean m_isArmOut = false;
@@ -25,8 +27,6 @@ public class IntakeSub extends SubsystemBase {
         m_intakeTalon.set(ControlMode.PercentOutput, percentPowerOutput);
     }
 
-    // Current values are most likley incorrect, actual values will be figured out
-    // through testing.
     public void changeArmPosition() {
 
         if (m_isArmOut) {

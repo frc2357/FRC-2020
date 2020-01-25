@@ -5,9 +5,11 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ControlPanelSub extends SubsystemBase {
+    //color sensor
     WPI_TalonSRX m_rotationTalon;
     Solenoid m_extenderSolenoid;
     boolean m_extenderPosition = false;
+    private int m_clicksPerRotation;
 
     public ControlPanelSub(int channel, int rotationTalonID) {
         m_rotationTalon = new WPI_TalonSRX(rotationTalonID);
@@ -28,5 +30,13 @@ public class ControlPanelSub extends SubsystemBase {
             m_extenderSolenoid.set(true);
             m_extenderPosition = true;
         }
+    }
+
+    public void setClicksPerRotation(int clicksPerRotation) {
+        m_clicksPerRotation = clicksPerRotation;
+    }
+
+    public int getRotations() {
+        return  m_clicksPerRotation / m_rotationTalon.getSelectedSensorPosition();
     }
 }

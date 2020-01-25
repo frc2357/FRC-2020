@@ -20,4 +20,8 @@ public class TurretSubsystem extends SubsystemBase {
     public void runMotor(WPI_TalonSRX rotatorMotor, double degreesToRotate) {
         rotatorMotor.set(ControlMode.Position, degreesToRotate);
     }
+
+    public int getSensorPosition() {
+        return m_rotateMotor.getSelectedSensorPosition();
+    }
 }
