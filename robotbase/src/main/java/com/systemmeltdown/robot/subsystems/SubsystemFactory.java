@@ -7,6 +7,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.TalonTrajectoryDriveSubsystem;
+
+import edu.wpi.first.wpilibj.Solenoid;
+
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
 
@@ -87,13 +90,19 @@ public class SubsystemFactory {
     public ClimbSubsystem CreateClimbSubsystem() {
         // Need device IDs
         throw new UnsupportedOperationException();
-        /*
-         * Solenoid solenoid = new Solenoid(-1); TalonGroup rightTalonGroup = new
-         * TalonGroup(-1, new int[]{}); TalonGroup leftTalonGroup = new TalonGroup(-1,
-         * new int[]{}); PigeonIMU imu = new PigeonIMU(-1); ClimbSubsystem subsystem =
-         * new ClimbSubsystem(solenoid, rightTalonGroup, leftTalonGroup, imu); return
-         * subsystem;
-         */
+        
+        /* SET CAN IDS BEFORE UNCOMMENTING
+        Solenoid solenoid = new Solenoid(Constants.SCISSOR_SOLENOID);
+        PigeonIMU gyro = new PigeonIMU(Constants.GYRO_ID);
+        WPI_TalonSRX leftWinch = new WPI_TalonSRX(Constants.WINCH_MOTOR_LEFT);
+        WPI_TalonSRX rightWinch = new WPI_TalonSRX(Constants.WINCH_MOTOR_RIGHT);
+        ClimbSubsystem subsystem = new ClimbSubsystem(solenoid, gyro, leftWinch, rightWinch);
+
+        ClimbSubsystem.Configuration config = new ClimbSubsystem.Configuration();
+        subsystem.setConfiguration(config);
+
+        return subsystem;
+        */
     }
 
     public ControlPanelSub CreateControlPanelSub() {

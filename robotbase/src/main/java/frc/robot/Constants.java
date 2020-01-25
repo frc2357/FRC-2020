@@ -58,6 +58,10 @@ public final class Constants {
     (WHEEL_DIAMETER_IN_METERS * Math.PI) / (double) ENCODER_CPR;
 
   public static final int GYRO_ID = 22;
+  public static final int SCISSOR_SOLENOID = -1;
+  public static final int WINCH_MOTOR_LEFT = -1;
+  public static final int WINCH_MOTOR_RIGHT = -1;
+
   /**
    * Characterization Constants Zeroes are currently placeholder values
    */
