@@ -47,63 +47,61 @@ public final class Constants {
   /**
    * CAN IDS 21-60 Mechanisms and other devices (robot specific)
    */
-
   public static final int[] LEFT_ENCODER_PORTS = new int[]{11, 13};
   public static final int[] RIGHT_ENCODER_PORTS = new int[]{12, 14};
 
   public static final double WHEEL_DIAMETER_IN_METERS = 0.1524;
-  public static final int ENCODER_CPR = 1024;
+  public static final int ENCODER_CPR = 16324;
 
   public static final double ENCODER_DISTANCE_PER_PULSE = 
     (WHEEL_DIAMETER_IN_METERS * Math.PI) / (double) ENCODER_CPR;
 
   public static final int GYRO_ID = 22;
-  /**
-   * Characterization Constants Zeroes are currently placeholder values
-   */
-
-  public static final double S_VOLTS = 0.0;
-  public static final double V_VOLT_SECONDS_PER_METER = 0.0;
-  public static final double A_VOLT_SECONDS_SQUARED_PER_METER = 0.0;
 
   /**
-   * Differential Drive Kinematics Zeroes as place holder values
+   * Values may require more tuning.
    */
+  public static final double KS_VOLTS = 0.377;
+  public static final double KV_VOLT_SECONDS_PER_METER = 1.8;
+  public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.208;
 
-  public static final double TRACK_WIDTH_METERS = 0.0;
+  /**
+   * Differential Drive Kinematics
+   * Values may require more tuning
+   */
+  public static final double TRACK_WIDTH_METERS = 0.02616690821256034;
   public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH_METERS);
 
   /**
-   * Max Trajectory acceleration and velocity Zeroes as place holder values
+   * Max Trajectory acceleration and velocity
+   * Values may require more tuning
    */
-
-  public static final double MAX_SPEED_METERS_PER_SECOND = 0;
-  public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 0;
+  public static final double MAX_SPEED_METERS_PER_SECOND = 3;
+  public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3;
 
   /**
    * Ramsete Parameters
    * Reasonable baseline values for a RAMSETE follower in units of meters and seconds
    */
-
   public static final double RAMSETE_B = 2;
   public static final double RAMSETE_ZETA = 0.7;
 
   /**
    * Controls if Ggyro is reversed or not.
    */
-
   public static final boolean GYRO_REVERSED = true;
 
   /**
    * Encoder Constants
    */
-
   public static final boolean LEFT_ENCODER_REVERSED = false;
   public static final boolean RIGHT_ENCODER_REVERSED = true;
 
   /**
-   * No idea, but the Ramsete command wants two PID controllers with it, 
-   * and I do as the Rasmsete command guides -- Nolan Campbell 
+   * Proportional gain
+   * This is the calculated gain that for each meter per second of velocity error, the controller will
+   * output an additional x volts.
+   * Values may require more tuning
    */
   public static final double P_DRIVE_VEL = 8.5;
 }

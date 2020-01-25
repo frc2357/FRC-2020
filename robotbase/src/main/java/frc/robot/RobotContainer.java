@@ -87,9 +87,9 @@ public class RobotContainer {
     // Create a voltage constraint to ensure we don't accelerate too fast
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(Constants.S_VOLTS,
-                                       Constants.V_VOLT_SECONDS_PER_METER,
-                                       Constants.A_VOLT_SECONDS_SQUARED_PER_METER),
+            new SimpleMotorFeedforward(Constants.KS_VOLTS,
+                                       Constants.KV_VOLT_SECONDS_PER_METER,
+                                       Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
             Constants.DRIVE_KINEMATICS, 10);
 
     // Create config for trajectory
@@ -120,9 +120,9 @@ public class RobotContainer {
       exampleTrajectory,
       m_trajectorySub::getPose,
       new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
-      new SimpleMotorFeedforward(Constants.S_VOLTS,
-                                  Constants.V_VOLT_SECONDS_PER_METER,
-                                  Constants.A_VOLT_SECONDS_SQUARED_PER_METER),
+      new SimpleMotorFeedforward(Constants.KS_VOLTS,
+                                  Constants.KV_VOLT_SECONDS_PER_METER,
+                                  Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
       Constants.DRIVE_KINEMATICS,
       m_trajectorySub::getWheelSpeeds,
       new PIDController(Constants.P_DRIVE_VEL, 0, 0),
