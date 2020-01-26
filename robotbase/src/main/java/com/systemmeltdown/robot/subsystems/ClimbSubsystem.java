@@ -3,6 +3,7 @@ package com.systemmeltdown.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -13,22 +14,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * 
  * This assumes that the winch motors have a ramp set.
  */
-public class ClimbSubsystem extends SubsystemBase {
+public class ClimbSubsystem extends SubsystemBase implements ClosedLoopSystem {
     private enum ClimbDirection {
-        Up,
-        Left,
-        Right,
-        Stop
+        Up, Left, Right, Stop
     }
 
     public static class Configuration {
         /** Target motor output setting for level climb, [0, 1] */
         public double m_climbSpeed = 0.1;
-        
+
         /**
-         * Target motor output setting for the climbing side when
-         * moving laterally, [0, 1]
-        */ 
+         * Target motor output setting for the climbing side when moving laterally, [0,
+         * 1]
+         */
         public double m_lateralSpeed = 0.1;
 
         /**
@@ -42,6 +40,8 @@ public class ClimbSubsystem extends SubsystemBase {
         public double m_F = 0;
     }
 
+    private boolean m_useClosedLoop;
+
     private Solenoid m_scissorExtendSolenoid;
     private PigeonIMU m_gyro;
     private WPI_TalonSRX m_leftWinchMotor;
@@ -53,7 +53,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
     private Configuration m_config;
 
-    public ClimbSubsystem(Solenoid solenoid, PigeonIMU gyro, WPI_TalonSRX leftWinchMotor, WPI_TalonSRX rightWinchMotor) {
+    public ClimbSubsystem(Solenoid solenoid, PigeonIMU gyro, WPI_TalonSRX leftWinchMotor,
+            WPI_TalonSRX rightWinchMotor) {
         m_scissorExtendSolenoid = solenoid;
         m_gyro = gyro;
         m_leftWinchMotor = leftWinchMotor;
@@ -81,7 +82,7 @@ public class ClimbSubsystem extends SubsystemBase {
         double leftOutput = 0;
         double rightOutput = 0;
 
-        switch(m_climbDirection) {
+        switch (m_climbDirection) {
         case Up:
             leftOutput = m_config.m_climbSpeed;
             rightOutput = m_config.m_climbSpeed;
@@ -96,7 +97,7 @@ public class ClimbSubsystem extends SubsystemBase {
             break;
         }
 
-        if(m_keepLevel) {
+        if (m_keepLevel) {
             double roll = getRoll();
             double rollDelta = m_rollController.calculate(roll);
             rollDelta += m_config.m_F;
@@ -152,5 +153,15 @@ public class ClimbSubsystem extends SubsystemBase {
         double[] ypr = new double[3];
         m_gyro.getYawPitchRoll(ypr);
         return ypr[2];
+    }
+
+    @Override
+    public boolean isClosedLoopEnabled() {
+        return m_useClosedLoop;
+    }
+
+    @Override
+    public void setClosedLoopEnabled(boolean ClosedLoopEnabled) {
+        m_useClosedLoop = ClosedLoopEnabled;
     }
 }

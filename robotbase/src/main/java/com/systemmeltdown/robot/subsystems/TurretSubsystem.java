@@ -2,10 +2,12 @@ package com.systemmeltdown.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class TurretSubsystem extends SubsystemBase {
+public class TurretSubsystem extends SubsystemBase implements ClosedLoopSystem {
+    private boolean m_useClosedLoop;
     private WPI_TalonSRX m_rotateMotor;
 
     public TurretSubsystem(int rotateMotorID) {
@@ -14,10 +16,21 @@ public class TurretSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-      // This method will be called once per scheduler run
+        // This method will be called once per scheduler run
     }
 
     public void runMotor(WPI_TalonSRX rotatorMotor, double degreesToRotate) {
         rotatorMotor.set(ControlMode.Position, degreesToRotate);
+    }
+
+    @Override
+    public boolean isClosedLoopEnabled() {
+        return m_useClosedLoop;
+    }
+
+    @Override
+    public void setClosedLoopEnabled(boolean ClosedLoopEnabled) {
+        m_useClosedLoop = ClosedLoopEnabled;
+
     }
 }
