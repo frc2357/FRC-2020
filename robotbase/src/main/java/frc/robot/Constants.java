@@ -62,6 +62,11 @@ public final class Constants {
   public static final int WINCH_MOTOR_LEFT = -1;
   public static final int WINCH_MOTOR_RIGHT = -1;
 
+  /** Intake motor */
+  public static final int INTAKE_MOTOR_ID = -1;
+
+  /** Solenoid to extend intake assembly */
+  public static final int INTAKE_SOLENOID_CHANNEL = -1;
 
   /** IR sensor before feed wheel */
   public static final int STORAGE_FEED_SENSOR_CHANNEL = -1;
