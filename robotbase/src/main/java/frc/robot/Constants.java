@@ -59,14 +59,27 @@ public final class Constants {
 
   public static final int SHOOT_MOTOR_1 = 20;
   public static final int SHOOT_MOTOR_2 = 21;
+  public static final int GYRO_ID = 22;
+  public static final int SCISSOR_SOLENOID = -1;
+  public static final int WINCH_MOTOR_LEFT = -1;
+  public static final int WINCH_MOTOR_RIGHT = -1;
+
+  /** Intake motor */
+  public static final int INTAKE_MOTOR_ID = -1;
+
+  /** Solenoid to extend intake assembly */
+  public static final int INTAKE_SOLENOID_CHANNEL = -1;
+
+  /** IR sensor before feed wheel */
+  public static final int STORAGE_FEED_SENSOR_CHANNEL = -1;
 
   /**
    * Characterization Constants Zeroes are currently placeholder values
    */
 
-  public static final double KS_VOLTS = 0.0;
-  public static final double KV_VOLT_SECONDS_PER_METER = 0.0;
-  public static final double kA_VOLT_SECONDS_SQUARED_PER_METER = 0.0;
+  public static final double S_VOLTS = 0.0;
+  public static final double V_VOLT_SECONDS_PER_METER = 0.0;
+  public static final double A_VOLT_SECONDS_SQUARED_PER_METER = 0.0;
 
   /**
    * Differential Drive Kinematics Zeroes as place holder values
@@ -102,4 +115,25 @@ public final class Constants {
 
   public static final boolean LEFT_ENCODER_REVERSED = false;
   public static final boolean RIGHT_ENCODER_REVERSED = true;
+
+  /**
+   * No idea, but the Ramsete command wants two PID controllers with it, 
+   * and I do as the Rasmsete command guides -- Nolan Campbell 
+   */
+  public static final double P_DRIVE_VEL = 8.5;
+
+  /**
+   * Vision and Limelight constants
+   */
+  /** Angle of the Limelight axis from horizontal (degrees) */
+  public static final double LIMELIGHT_MOUNTING_ANGLE = 0;
+
+  /** Height of the Limelight lens center from the floor (inches) */
+  public static final double LIMELIGHT_MOUNTING_HEIGHT = 0;
+
+  /** Target width in inches */
+  public static final double VISION_TARGET_WIDTH = 1;
+
+  /** Target height in inches */
+  public static final double VISION_TARGET_HEIGHT = 1;
 }
