@@ -11,17 +11,19 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 */
 public class CellNumberWidget {
     private static final String TITLE = "Num of Power Cells";
+    private static String m_tabTitle;
     private static int m_cellNum = 0;
     private static NetworkTableEntry m_cellNumWidget;
 
     
     public CellNumberWidget(String tabTitle) {
         NetworkTableEntry cellNumWidget = Shuffleboard.getTab(tabTitle)
-            .add("Num of Cells", 0)
+            .add(TITLE, 0)
             .withWidget(BuiltInWidgets.kTextView)
             .getEntry();
 
         m_cellNumWidget = cellNumWidget;
+        m_tabTitle = tabTitle;
     }
 
   /**
@@ -44,11 +46,11 @@ public class CellNumberWidget {
     * @return int: Amount of Power Cells in the robot.
     */
     public int getBallCount() {
-      return m_cellNum;
+        return m_cellNum;
     }
 
     public static void show() {
-    Shuffleboard.selectTab(TITLE);
+        Shuffleboard.selectTab(m_tabTitle);
     }
 
     public void periodic() {
