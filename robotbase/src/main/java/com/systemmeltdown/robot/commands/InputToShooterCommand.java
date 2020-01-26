@@ -13,7 +13,7 @@ public class InputToShooterCommand extends CommandBase{
     }
 
     @Override 
-    public void initialize() {
+    public void execute() {
         m_shooterSubsystem.runInputMotor(0);
     }
 
