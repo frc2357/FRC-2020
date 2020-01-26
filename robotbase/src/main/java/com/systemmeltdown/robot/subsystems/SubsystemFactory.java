@@ -115,7 +115,7 @@ public class SubsystemFactory {
             Constants.INTAKE_MOTOR_ID);
         return subsystem;
     }
-
+    
     public StorageSubsystem CreateStorageSubsystem() {
         DigitalInput feedSensor = new DigitalInput(Constants.STORAGE_FEED_SENSOR_CHANNEL);
         StorageSubsystem subsystem = new StorageSubsystem(feedSensor);
@@ -123,11 +123,9 @@ public class SubsystemFactory {
     }
 
     public ShooterSubsystem CreateShooterSubsystem() {
-        // Need device IDs
-        throw new UnsupportedOperationException();
-        /*
-         * ShooterSubsystem subsystem = new ShooterSubsystem(-1); return subsystem;
-         */
+        ShooterSubsystem subsystem = new ShooterSubsystem(Constants.SHOOT_MOTOR_1, Constants.SHOOT_MOTOR_2);
+        // TODO: add more config if needed
+        return subsystem;
     }
 
     public TurretSubsystem CreateTurretSubsystem() {

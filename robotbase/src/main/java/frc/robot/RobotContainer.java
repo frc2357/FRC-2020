@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
+import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
@@ -40,6 +42,7 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final FalconTrajectoryDriveSubsystem m_driveSub;
+  private final ShooterSubsystem m_shootSub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -50,6 +53,7 @@ public class RobotContainer {
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    m_shootSub = subsystemFactory.CreateShooterSubsystem();
 
     // Configure the button bindings
     configureDriveSub();
@@ -66,6 +70,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
     m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
+    m_gunnerControls.m_trigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
   }
 
   private void configureShuffleboard() {

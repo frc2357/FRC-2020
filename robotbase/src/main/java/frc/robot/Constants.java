@@ -57,6 +57,8 @@ public final class Constants {
   public static final double ENCODER_DISTANCE_PER_PULSE = 
     (WHEEL_DIAMETER_IN_METERS * Math.PI) / (double) ENCODER_CPR;
 
+  public static final int SHOOT_MOTOR_1 = 20;
+  public static final int SHOOT_MOTOR_2 = 21;
   public static final int GYRO_ID = 22;
   public static final int SCISSOR_SOLENOID = -1;
   public static final int WINCH_MOTOR_LEFT = -1;

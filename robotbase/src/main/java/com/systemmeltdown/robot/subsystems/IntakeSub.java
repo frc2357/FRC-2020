@@ -31,7 +31,6 @@ public class IntakeSub extends SubsystemBase {
     // Current values are most likley incorrect, actual values will be figured out
     // through testing.
     public void changeArmPosition() {
-
         if (m_isArmOut) {
             m_intakeSolenoid.set(false);
             m_isArmOut = false;
