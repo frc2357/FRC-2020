@@ -13,6 +13,13 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem(int shooterMotorID, int inputMotorID) {
     m_shooterMotor = new CANSparkMax(shooterMotorID,  MotorType.kBrushless);
     m_inputMotor = new TalonSRX(inputMotorID);
+  private CANSparkMax m_shooterMotor1;
+  private CANSparkMax m_shooterMotor2;
+
+  public ShooterSubsystem(int shooterMotorID1, int shooterMotorID2) {
+    m_shooterMotor1 = new CANSparkMax(shooterMotorID1,  MotorType.kBrushless);
+    m_shooterMotor2 = new CANSparkMax(shooterMotorID2,  MotorType.kBrushless);
+    m_shooterMotor2.setInverted(true);
   }
 
   @Override
@@ -20,8 +27,9 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void runMotor(CANSparkMax shootMotor, double speed) {
-    shootMotor.set(speed);
+  public void runMotor(double speed) {
+    m_shooterMotor1.set(speed);
+    m_shooterMotor2.set(speed);
   }
 
   public void runInputMotor(double speed) {
