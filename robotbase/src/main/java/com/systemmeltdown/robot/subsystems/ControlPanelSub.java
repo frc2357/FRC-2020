@@ -1,13 +1,15 @@
 package com.systemmeltdown.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.fasterxml.jackson.databind.util.ArrayBuilders.IntBuilder;
 import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
-    //color sensor
+    // color sensor
     boolean m_useClosedLoop;
 
     WPI_TalonSRX m_rotationTalon;
@@ -36,14 +38,42 @@ public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
         }
     }
 
+    public void rotate1Color() {
+        // while color hasn't changed
+        // TODO: Replace with color sensor
+        int i = 100;
+
+        if (isClosedLoopEnabled()) {
+
+            while (i > 1) {
+                m_rotationTalon.set(ControlMode.PercentOutput, 0.5);
+
+                i--;
+            }
+
+            m_rotationTalon.set(ControlMode.PercentOutput, 0.0);
+
+        } else {
+            rotateByClicks(4);
+        }
+    }
+
     public void setClicksPerRotation(int clicksPerRotation) {
         m_clicksPerRotation = clicksPerRotation;
     }
 
-    public int getRotations() {
-        return  m_clicksPerRotation / m_rotationTalon.getSelectedSensorPosition();
+    public int getClickPerRotation() {
+        return m_clicksPerRotation;
     }
-    
+
+    public int getRotations() {
+        return m_clicksPerRotation / m_rotationTalon.getSelectedSensorPosition();
+    }
+
+    public void rotateByClicks(int clicks) {
+        m_rotationTalon.set(ControlMode.Position, clicks);
+    }
+
     @Override
     public boolean isClosedLoopEnabled() {
         return m_useClosedLoop;
