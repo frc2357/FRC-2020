@@ -1,24 +1,24 @@
 package com.systemmeltdown.robot.commands;
 
-import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
+import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class InputToShooterCommand extends CommandBase{
-    private ShooterSubsystem m_shooterSubsystem;
+public class InputToShooterCommand extends CommandBase {
+    private FeederSubsystem m_feederSubsystem;
 
-    public InputToShooterCommand(ShooterSubsystem shooterSubsystem) {
-        m_shooterSubsystem = shooterSubsystem;
-        addRequirements(m_shooterSubsystem);
+    public InputToShooterCommand(FeederSubsystem feederSubsystem) {
+        m_feederSubsystem = feederSubsystem;
+        addRequirements(m_feederSubsystem);
     }
 
-    @Override 
+    @Override
     public void execute() {
-        m_shooterSubsystem.runFeederMotor(0);
+        m_feederSubsystem.runFeederMotor(0.0);
     }
 
     @Override
     public boolean isFinished() {
         return true;
     }
-} 
+}
