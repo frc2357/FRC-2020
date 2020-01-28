@@ -12,11 +12,6 @@ public class SetControlPanelColorCommand extends CommandBase {
         addRequirements(m_controlPanelSub);
     }
 
-    @Override 
-    public void initialize() {
-        
-    }
-
     @Override
     public boolean isFinished() {
         return true;
