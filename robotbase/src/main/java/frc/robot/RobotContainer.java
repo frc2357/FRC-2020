@@ -21,16 +21,17 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
-import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
+import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
+import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
-import com.systemmeltdown.robot.subsystems.TrajectorySubsystem;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
-import java.util.HashMap;
+import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
+import com.systemmeltdown.robot.shuffleboard.AutomodeChooserWidget;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -41,7 +42,8 @@ import java.util.Map;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final SingleSpeedFalconDriveSubsystem m_driveSub;
+  private final FalconTrajectoryDriveSubsystem m_driveSub;
+  private final ShooterSubsystem m_shootSub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -50,16 +52,14 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    Map<String, Object> configMap = new HashMap<>();
-    configMap.put(SingleSpeedFalconDriveSubsystem.CONFIG_IS_RIGHT_INVERTED, true);
-    configMap.put(SingleSpeedFalconDriveSubsystem.CONFIG_IS_LEFT_INVERTED, false);
-
-    SubsystemFactory subsystemFactory = new SubsystemFactory(configMap);
-    m_driveSub = subsystemFactory.CreateSingleSpeedFalconDriveSubsystem();
+    SubsystemFactory subsystemFactory = new SubsystemFactory();
+    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    m_shootSub = subsystemFactory.CreateShooterSubsystem();
 
     // Configure the button bindings
     configureDriveSub();
     configureButtonBindings();
+    configureShuffleboard();
   }
 
   /**
@@ -71,70 +71,60 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
     m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
+    m_gunnerControls.m_trigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
+  }
+
+  private void configureShuffleboard() {
+    CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT");
+    AutomodeChooserWidget automodeChooserWidget = new AutomodeChooserWidget("Auto");
   }
 
   private void configureDriveSub() {
-    m_driveSub
-        .setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
+    m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
 
-  //Taken from docs.wpilib.org example code
+  // Taken from docs.wpilib.org example code
   /**
-  * Use this to pass the autonomous command to the main {@link Robot} class.
-  *
-  * @return the command to run in autonomous
-  */
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
   public Command getAutonomousCommand() {
 
     // Create a voltage constraint to ensure we don't accelerate too fast
-    var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(Constants.S_VOLTS,
-                                       Constants.V_VOLT_SECONDS_PER_METER,
-                                       Constants.A_VOLT_SECONDS_SQUARED_PER_METER),
-            Constants.DRIVE_KINEMATICS, 10);
+    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.S_VOLTS,
+        Constants.V_VOLT_SECONDS_PER_METER, Constants.A_VOLT_SECONDS_SQUARED_PER_METER), Constants.DRIVE_KINEMATICS,
+        10);
 
     // Create config for trajectory
-    TrajectoryConfig config =
-        new TrajectoryConfig(Constants.MAX_SPEED_METERS_PER_SECOND,
-                             Constants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+    TrajectoryConfig config = new TrajectoryConfig(Constants.MAX_SPEED_METERS_PER_SECOND,
+        Constants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
             // Add kinematics to ensure max speed is actually obeyed
             .setKinematics(Constants.DRIVE_KINEMATICS)
             // Apply the voltage constraint
             .addConstraint(autoVoltageConstraint);
 
-    // An example trajectory to follow.  All units in meters.
+    // An example trajectory to follow. All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(
-            new Translation2d(1, 1),
-            new Translation2d(2, -1)
-        ),
+        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
         // End 3 meters straight ahead of where we started, facing forward
         new Pose2d(3, 0, new Rotation2d(0)),
         // Pass config
-        config
-    );
+        config);
 
-    RamseteCommand ramseteCommand = new RamseteCommand(
-      exampleTrajectory,
-      m_trajectorySub::getPose,
-      new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
-      new SimpleMotorFeedforward(Constants.S_VOLTS,
-                                  Constants.V_VOLT_SECONDS_PER_METER,
-                                  Constants.A_VOLT_SECONDS_SQUARED_PER_METER),
-      Constants.DRIVE_KINEMATICS,
-      m_trajectorySub::getWheelSpeeds,
-      new PIDController(Constants.P_DRIVE_VEL, 0, 0),
-      new PIDController(Constants.P_DRIVE_VEL, 0, 0),
-      // RamseteCommand passes volts to the callback
-      m_trajectorySub::setTankDriveVolts,
-      m_trajectorySub
-    );
+    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, m_driveSub::getPose,
+        new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
+        new SimpleMotorFeedforward(Constants.S_VOLTS, Constants.V_VOLT_SECONDS_PER_METER,
+            Constants.A_VOLT_SECONDS_SQUARED_PER_METER),
+        Constants.DRIVE_KINEMATICS, m_driveSub::getWheelSpeeds, new PIDController(Constants.P_DRIVE_VEL, 0, 0),
+        new PIDController(Constants.P_DRIVE_VEL, 0, 0),
+        // RamseteCommand passes volts to the callback
+        m_driveSub::setTankDriveVolts, m_driveSub);
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_trajectorySub.setTankDriveVolts(0, 0));
+    return ramseteCommand.andThen(() -> m_driveSub.setTankDriveVolts(0, 0));
   }
 }
