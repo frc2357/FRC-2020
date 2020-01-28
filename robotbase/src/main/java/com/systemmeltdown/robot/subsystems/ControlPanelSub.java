@@ -34,6 +34,7 @@ public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
         }
     }
 
+
     @Override
     public boolean isClosedLoopEnabled() {
         return m_useClosedLoop;
