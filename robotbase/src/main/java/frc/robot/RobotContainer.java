@@ -30,6 +30,7 @@ import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
+import com.systemmeltdown.robot.shuffleboard.AutomodeChooserWidget;
 import java.util.List;
 
 /**
@@ -75,7 +76,7 @@ public class RobotContainer {
 
   private void configureShuffleboard() {
     CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT");
-    CellNumberWidget.show();
+    AutomodeChooserWidget automodeChooserWidget = new AutomodeChooserWidget("Auto");
   }
 
   private void configureDriveSub() {
