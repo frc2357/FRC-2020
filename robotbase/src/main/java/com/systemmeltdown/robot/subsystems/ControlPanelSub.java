@@ -7,11 +7,13 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
+    //color sensor
     boolean m_useClosedLoop;
 
     WPI_TalonSRX m_rotationTalon;
     Solenoid m_extenderSolenoid;
     boolean m_extenderPosition = false;
+    private int m_clicksPerRotation;
 
     public ControlPanelSub(int channel, int rotationTalonID) {
         m_rotationTalon = new WPI_TalonSRX(rotationTalonID);
@@ -34,7 +36,14 @@ public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
         }
     }
 
+    public void setClicksPerRotation(int clicksPerRotation) {
+        m_clicksPerRotation = clicksPerRotation;
+    }
 
+    public int getRotations() {
+        return  m_clicksPerRotation / m_rotationTalon.getSelectedSensorPosition();
+    }
+    
     @Override
     public boolean isClosedLoopEnabled() {
         return m_useClosedLoop;

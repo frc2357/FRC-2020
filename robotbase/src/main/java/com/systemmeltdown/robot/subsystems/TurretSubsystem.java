@@ -23,6 +23,10 @@ public class TurretSubsystem extends SubsystemBase implements ClosedLoopSystem {
         rotatorMotor.set(ControlMode.Position, degreesToRotate);
     }
 
+    public int getSensorPosition() {
+        return m_rotateMotor.getSelectedSensorPosition();
+    }
+    
     @Override
     public boolean isClosedLoopEnabled() {
         return m_useClosedLoop;
