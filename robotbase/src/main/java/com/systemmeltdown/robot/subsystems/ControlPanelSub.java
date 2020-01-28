@@ -1,5 +1,6 @@
 package com.systemmeltdown.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.fasterxml.jackson.databind.util.ArrayBuilders.IntBuilder;
 import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
@@ -72,6 +73,10 @@ public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
 
     public void rotateByClicks(int clicks) {
         m_rotationTalon.set(ControlMode.Position, clicks);
+    }
+
+    public void rotateControlPanel(double fullRotationsToDo) {
+        m_rotationTalon.set(ControlMode.Position, m_clicksPerRotation * fullRotationsToDo);
     }
 
     @Override
