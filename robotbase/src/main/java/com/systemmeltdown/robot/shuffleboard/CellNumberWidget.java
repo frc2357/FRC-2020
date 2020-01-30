@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 */
 public class CellNumberWidget {
     private final StorageSubsystem m_storageSub;
-    private static final String TITLE = "Num of Power Cells";
     private static String m_tabTitle;
     private static NetworkTableEntry m_cellNumWidget;
 
@@ -21,7 +20,7 @@ public class CellNumberWidget {
     public CellNumberWidget(String tabTitle, StorageSubsystem storageSub) {
         m_storageSub = storageSub;
         NetworkTableEntry cellNumWidget = Shuffleboard.getTab(tabTitle)
-            .add(TITLE, 0)
+            .add("Num of Power Cells", 0)
             .withWidget(BuiltInWidgets.kTextView)
             .getEntry();
 

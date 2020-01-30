@@ -33,6 +33,7 @@ import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
+import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeSelector;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 import com.systemmeltdown.robot.shuffleboard.AutomodeChooserWidget;
 import java.util.List;
@@ -53,6 +54,9 @@ public class RobotContainer {
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
+
+  private final AutoWaitTimeSelector[] m_waitTimeSelctors = new AutoWaitTimeSelector[3]; 
+  private final AutomodeChooserWidget[] m_chooserWidgets =  new AutomodeChooserWidget[3];
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -85,7 +89,11 @@ public class RobotContainer {
 
   private void configureShuffleboard() {
     CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
-    AutomodeChooserWidget automodeChooserWidget = new AutomodeChooserWidget("Auto");
+    
+    for(int i = 0; i < 4; i++) {
+      m_chooserWidgets[i] = new AutomodeChooserWidget("AUTO", i);
+      m_waitTimeSelctors[i] = new AutoWaitTimeSelector("AUTO", i);
+    }
     LoggerTab loggerTab = new LoggerTab();
   }
 
