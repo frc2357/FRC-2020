@@ -42,6 +42,8 @@ public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
 
     public int getRotations() {
         return  m_clicksPerRotation / m_rotationTalon.getSelectedSensorPosition();
+    }
+
     @Override
     public boolean isClosedLoopEnabled() {
         return m_useClosedLoop;
