@@ -136,4 +136,19 @@ public final class Constants {
 
   /** Target height in inches */
   public static final double VISION_TARGET_HEIGHT = 1;
+
+  /** Target height from floor in inches */
+  public static final double VISION_TARGET_HEIGHT_FROM_FLOOR = 1;
+
+  /** Horizontal distance in inches between the target and the hole we're aiming at */
+  public static final double VISION_DISTANCE_TO_HOLE = 1;
+
+  /**
+   * Turret settings
+   */
+  public static final double TURRET_AIM_P = 1e-3;
+  public static final double TURRET_AIM_I = 0;
+  public static final double TURRET_AIM_D = 0;
+  public static final double TURRET_SEEK_SPEED = 0.2;
+  public static final double TURRET_AIM_TOLERANCE = 2;
 }
