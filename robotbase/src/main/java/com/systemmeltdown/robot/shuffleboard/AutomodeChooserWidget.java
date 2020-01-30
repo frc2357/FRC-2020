@@ -14,18 +14,21 @@ public class AutomodeChooserWidget {
     private static String m_tabTitle;
     //Use .addOption(String, COMMAND), with "String" being the name of the dropdown selection.
     private static SendableChooser<AutomodeActions> m_chooser;
+    private static SendableChooser<AutomodeActions> m_chooser2;
+    private static final String m_title2 = "Automode Chooser 2";
 
     public AutomodeChooserWidget(String tabTitle) {
         ShuffleboardTab tab = Shuffleboard.getTab(tabTitle);
         m_chooser = new SendableChooser<>();
-        m_chooser.setDefaultOption("Shoot", AutomodeActions.SHOOT);
+        m_chooser.setDefaultOption("Shoot", AutomodeActions.NONE);
         m_chooser.addOption("Pickup From Trench", AutomodeActions.PICKUP_FROM_TRENCH);
         m_chooser.addOption("Pickup From Shield", AutomodeActions.PICKUP_FROM_SHEILD);
-        m_chooser.addOption("None", AutomodeActions.NONE);
-
+        m_chooser.addOption("None", AutomodeActions.SHOOT);
+        
         tab.add(m_TITLE, m_chooser);
         m_tabTitle = tabTitle;
     }
+
 
     public static void show() {
         Shuffleboard.selectTab(m_tabTitle);
