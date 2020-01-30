@@ -12,6 +12,7 @@ public class PivotIntakeCommand extends CommandBase {
         addRequirements(m_intakeSubsystem);
     }
 
+    
     @Override 
     public void initialize() {
         m_intakeSubsystem.changeArmPosition();
