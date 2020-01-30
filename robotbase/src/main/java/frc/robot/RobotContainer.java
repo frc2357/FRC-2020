@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.subsystems.IntakeSub;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
+import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
@@ -48,6 +49,7 @@ public class RobotContainer {
   private final FalconTrajectoryDriveSubsystem m_driveSub;
   private final ShooterSubsystem m_shootSub;
   private final IntakeSub m_intakeSub;
+  private final StorageSubsystem m_storageSub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -60,6 +62,7 @@ public class RobotContainer {
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
     m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSub();
+    m_storageSub = subsystemFactory.CreateStorageSubsystem();
 
     // Configure the button bindings
     configureDriveSub();
@@ -81,7 +84,7 @@ public class RobotContainer {
   }
 
   private void configureShuffleboard() {
-    CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT");
+    CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
     AutomodeChooserWidget automodeChooserWidget = new AutomodeChooserWidget("Auto");
     LoggerTab loggerTab = new LoggerTab();
   }
