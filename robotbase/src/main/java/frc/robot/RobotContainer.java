@@ -22,9 +22,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.subsystems.IntakeSub;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
+import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
@@ -46,6 +48,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final FalconTrajectoryDriveSubsystem m_driveSub;
   private final ShooterSubsystem m_shootSub;
+  private final IntakeSub m_intakeSub;
   private final StorageSubsystem m_storageSub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
@@ -58,6 +61,7 @@ public class RobotContainer {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
     m_shootSub = subsystemFactory.CreateShooterSubsystem();
+    m_intakeSub = subsystemFactory.CreateIntakeSub();
     m_storageSub = subsystemFactory.CreateStorageSubsystem();
 
     // Configure the button bindings
@@ -75,7 +79,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
     m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
-    m_gunnerControls.m_trigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
+    m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
+    m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
   }
 
   private void configureShuffleboard() {
