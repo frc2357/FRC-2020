@@ -11,12 +11,14 @@ public class IntakeSub extends SubsystemBase implements ClosedLoopSystem {
     private boolean m_useClosedLoop;
         
     private Solenoid m_intakeSolenoid;
-    private WPI_TalonSRX m_intakeTalon;
+    private WPI_TalonSRX m_intakeTalon1;
+    private WPI_TalonSRX m_intakeTalon2;
     private boolean m_isArmOut = false;
 
-    public IntakeSub(int channel, int intakeTalonID) {
+    public IntakeSub(int channel, int intakeTalonID1, int intakeTalonID2) {
         m_intakeSolenoid = new Solenoid(channel);
-        m_intakeTalon = new WPI_TalonSRX(intakeTalonID);
+        m_intakeTalon1 = new WPI_TalonSRX(intakeTalonID1);
+        m_intakeTalon2 = new WPI_TalonSRX(intakeTalonID2);
     }
 
     @Override
@@ -29,7 +31,8 @@ public class IntakeSub extends SubsystemBase implements ClosedLoopSystem {
      * @param percentPowerOutput -1 = reverse | 0 = stop | 1 = foward
      */
     public void triggerIntakeRoller(double percentPowerOutput) {
-        m_intakeTalon.set(ControlMode.PercentOutput, percentPowerOutput);
+        m_intakeTalon1.set(ControlMode.PercentOutput, percentPowerOutput);
+        m_intakeTalon2.set(ControlMode.PercentOutput, percentPowerOutput);
     }
 
     public void changeArmPosition() {
