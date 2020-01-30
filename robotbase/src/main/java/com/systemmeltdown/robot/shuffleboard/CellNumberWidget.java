@@ -1,5 +1,7 @@
 package com.systemmeltdown.robot.shuffleboard;
 
+import com.systemmeltdown.robot.subsystems.StorageSubsystem;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -10,13 +12,14 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 * @param tabTitle Title of the tab you want to add the widget to
 */
 public class CellNumberWidget {
+    private final StorageSubsystem m_storageSub;
     private static final String TITLE = "Num of Power Cells";
     private static String m_tabTitle;
-    private static int m_cellNum = 0;
     private static NetworkTableEntry m_cellNumWidget;
 
     
-    public CellNumberWidget(String tabTitle) {
+    public CellNumberWidget(String tabTitle, StorageSubsystem storageSub) {
+        m_storageSub = storageSub;
         NetworkTableEntry cellNumWidget = Shuffleboard.getTab(tabTitle)
             .add(TITLE, 0)
             .withWidget(BuiltInWidgets.kTextView)
@@ -30,23 +33,18 @@ public class CellNumberWidget {
    * Adds one to the power cell count.
    */
     public void addBall() {
-        m_cellNum++;
-        m_cellNumWidget.setNumber(m_cellNum);
+        int numOfBalls = m_storageSub.getNumbOfBalls();
+        m_storageSub.setNumOfBalls(++numOfBalls);
+        m_cellNumWidget.setNumber(numOfBalls);
     }
 
     /**
     * Subtracts one from the power cell count.
     */
     public void subBall() {
-        m_cellNum--;
-        m_cellNumWidget.setNumber(m_cellNum);
-    }
-
-    /**
-    * @return int: Amount of Power Cells in the robot.
-    */
-    public int getBallCount() {
-        return m_cellNum;
+        int numOfBalls = m_storageSub.getNumbOfBalls();
+        m_storageSub.setNumOfBalls(--numOfBalls);
+        m_cellNumWidget.setNumber(numOfBalls);
     }
 
     public static void show() {
