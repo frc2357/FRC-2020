@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class StorageSubsystem extends SubsystemBase implements ClosedLoopSystem {
     private boolean m_useClosedLoop;
+    private int m_numOfBalls = 3;
     private DigitalInput m_feedSensor;
 
     public StorageSubsystem(DigitalInput feedSensor) {
@@ -15,6 +16,14 @@ public class StorageSubsystem extends SubsystemBase implements ClosedLoopSystem 
 
     public boolean isFeedSensorBlocked() {
         return m_feedSensor.get();
+    }
+
+    public void setNumOfBalls(int numOfBalls) {
+        m_numOfBalls = numOfBalls;
+    }
+ 
+    public int getNumbOfBalls() {
+        return m_numOfBalls;
     }
 
     @Override
