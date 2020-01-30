@@ -88,7 +88,7 @@ public class RobotContainer {
   }
 
   private void configureShuffleboard() {
-    CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT");
+    CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
     
     for(int i = 0; i < 4; i++) {
       m_chooserWidgets[i] = new AutomodeChooserWidget("AUTO", i);
