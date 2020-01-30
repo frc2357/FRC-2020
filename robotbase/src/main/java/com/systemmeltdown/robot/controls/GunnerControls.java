@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 public class GunnerControls {
     XboxController m_controller;
 
-    public AxisThresholdTrigger m_trigger;
+    public AxisThresholdTrigger m_rightTrigger;
+    public AxisThresholdTrigger m_leftTrigger;
 
     public GunnerControls(XboxController controller) {
         m_controller = controller;
-        m_trigger = new AxisThresholdTrigger(controller, Hand.kRight, .1);
+        m_rightTrigger = new AxisThresholdTrigger(controller, Hand.kRight, .1);
+        m_leftTrigger = new AxisThresholdTrigger(controller, Hand.kLeft, .1);
     }
 
     public double getTriggerValue(Hand hand) {

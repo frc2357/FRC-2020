@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.TalonTrajectoryDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -50,23 +49,6 @@ public class SubsystemFactory {
                 leftFalconSlaves, rightFalconMaster, rightFalconSlaves);
         subsystem.configure(config);
         return subsystem;
-    }
-
-    public TalonTrajectoryDriveSubsystem CreateTalonTrajectoryDriveSubsystem() {
-        throw new UnsupportedOperationException();
-        // TalonTrajectoryDriveSubsystem.Configuration config = new TalonTrajectoryDriveSubsystem.Configuration();
-        // config.m_isRightInverted = true;
-
-        // WPI_TalonSRX leftTalonMaster = new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_1);
-        // WPI_TalonSRX[] leftTalonSlaves = new WPI_TalonSRX[] { new WPI_TalonSRX(Constants.DRIVE_MOTOR_LEFT_2) };
-        // WPI_TalonSRX rightTalonMaster = new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_1);
-        // WPI_TalonSRX[] rightTalonSlaves = new WPI_TalonSRX[] { new WPI_TalonSRX(Constants.DRIVE_MOTOR_RIGHT_2) };
-        // PigeonIMU gyro = new PigeonIMU(Constants.GYRO_ID);
-        // TalonTrajectoryDriveSubsystem subsystem = new TalonTrajectoryDriveSubsystem(leftTalonMaster, leftTalonSlaves,
-        //         rightTalonMaster, rightTalonSlaves, gyro,
-        //         Constants.ENCODER_DISTANCE_PER_PULSE);
-        // subsystem.configure(config);
-        // return subsystem;
     }
 
     public FalconTrajectoryDriveSubsystem CreateFalconTrajectoryDriveSubsystem() {
