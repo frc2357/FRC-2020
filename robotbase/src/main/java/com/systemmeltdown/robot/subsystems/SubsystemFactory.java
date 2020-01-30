@@ -112,7 +112,7 @@ public class SubsystemFactory {
 
     public IntakeSub CreateIntakeSub() {
         IntakeSub subsystem = new IntakeSub(Constants.INTAKE_SOLENOID_CHANNEL,
-            Constants.INTAKE_MOTOR_ID1, Constants.INTAKE_MOTOR_ID2);
+            Constants.INTAKE_MOTOR_ID);
         return subsystem;
     }
     
