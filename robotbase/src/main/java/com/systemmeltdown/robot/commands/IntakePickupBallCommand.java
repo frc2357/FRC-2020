@@ -25,7 +25,7 @@ public class IntakePickupBallCommand extends CommandBase {
     }
 
     @Override
-    public boolean isFinished() {
-        return true;
+    public void end(boolean interupted) {
+        m_intakeSub.triggerIntakeRoller(0.0);
     }
 }
