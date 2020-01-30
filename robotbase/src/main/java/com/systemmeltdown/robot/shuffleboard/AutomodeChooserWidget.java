@@ -15,7 +15,7 @@ public class AutomodeChooserWidget {
     //Use .addOption(String, COMMAND), with "String" being the name of the dropdown selection.
     private static SendableChooser<AutomodeActions> m_chooser;
 
-    public AutomodeChooserWidget(String tabTitle) {
+    public AutomodeChooserWidget(String tabTitle, int index) {
         ShuffleboardTab tab = Shuffleboard.getTab(tabTitle);
         m_chooser = new SendableChooser<>();
         m_chooser.setDefaultOption("Shoot", AutomodeActions.SHOOT);
@@ -23,7 +23,7 @@ public class AutomodeChooserWidget {
         m_chooser.addOption("Pickup From Shield", AutomodeActions.PICKUP_FROM_SHEILD);
         m_chooser.addOption("None", AutomodeActions.NONE);
 
-        tab.add(m_TITLE, m_chooser);
+        tab.add(m_TITLE + index, m_chooser);
         m_tabTitle = tabTitle;
     }
 
