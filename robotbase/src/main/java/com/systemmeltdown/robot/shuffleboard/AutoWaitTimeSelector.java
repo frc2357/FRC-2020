@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 * @param tabTitle Title of the tab you want to add the widget to
 */
 public class AutoWaitTimeSelector {
-    private static final String TITLE = "Wait Time";
     private static String m_tabTitle;
     private static double m_waitTime = 0;
     private static NetworkTableEntry m_timeSelectorWidget;
@@ -18,7 +17,7 @@ public class AutoWaitTimeSelector {
     
     public AutoWaitTimeSelector(String tabTitle, int index) {
         NetworkTableEntry timeSelctorWidget = Shuffleboard.getTab(tabTitle)
-            .add(TITLE + index, 0)
+            .add("Wait Time" + index, 0)
             .withWidget(BuiltInWidgets.kTextView)
             .getEntry();
 

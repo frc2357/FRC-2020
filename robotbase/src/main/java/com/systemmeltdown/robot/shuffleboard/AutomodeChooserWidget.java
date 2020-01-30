@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 * @param tabTitle Title of the tab you want to add the widget to
 */
 public class AutomodeChooserWidget {
-    private static final String m_TITLE = "Automode Chooser";
     private static String m_tabTitle;
     //Use .addOption(String, COMMAND), with "String" being the name of the dropdown selection.
     private static SendableChooser<AutomodeActions> m_chooser;
@@ -23,7 +22,7 @@ public class AutomodeChooserWidget {
         m_chooser.addOption("Pickup From Shield", AutomodeActions.PICKUP_FROM_SHEILD);
         m_chooser.addOption("None", AutomodeActions.NONE);
 
-        tab.add(m_TITLE + index, m_chooser);
+        tab.add("Automode Chooser" + index, m_chooser);
         m_tabTitle = tabTitle;
     }
 
