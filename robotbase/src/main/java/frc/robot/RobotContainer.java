@@ -54,8 +54,6 @@ public class RobotContainer {
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
 
-  private final AutoWaitTimeSelector[] m_waitTimeSelctors = new AutoWaitTimeSelector[3]; 
-  private final AutomodeChooserWidget[] m_chooserWidgets =  new AutomodeChooserWidget[3];
   private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
 
   /**
