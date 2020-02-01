@@ -49,9 +49,9 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final FalconTrajectoryDriveSubsystem m_driveSub;
-  private final ShooterSubsystem m_shootSub;
-  private final IntakeSub m_intakeSub;
-  private final StorageSubsystem m_storageSub;
+ //private final ShooterSubsystem m_shootSub;
+  //private final IntakeSub m_intakeSub;
+  //private final StorageSubsystem m_storageSub;
   private final TrajectorySubsystem m_trajectorySub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
@@ -66,9 +66,9 @@ public class RobotContainer {
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    m_shootSub = subsystemFactory.CreateShooterSubsystem();
-    m_intakeSub = subsystemFactory.CreateIntakeSub();
-    m_storageSub = subsystemFactory.CreateStorageSubsystem();
+   // m_shootSub = subsystemFactory.CreateShooterSubsystem();
+    //m_intakeSub = subsystemFactory.CreateIntakeSub();
+    //m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_trajectorySub = new TrajectorySubsystem();
 
     // Configure the button bindings
@@ -86,12 +86,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
     m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
-    m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
-    m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
+   // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
+   // m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
   }
 
   private void configureShuffleboard() {
-    CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
+   // CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
     
     for(int i = 0; i < 4; i++) {
       m_chooserWidgets[i] = new AutomodeChooserWidget("AUTO", i);
