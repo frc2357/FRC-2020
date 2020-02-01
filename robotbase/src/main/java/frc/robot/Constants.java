@@ -52,6 +52,8 @@ public final class Constants {
 
   public static final double WHEEL_DIAMETER_IN_METERS = 0.1524;
   public static final int ENCODER_CPR = 16324;
+  //Possible CPR, 16324, 2048, 
+  //Seems that lower is farther in routine
 
   public static final double ENCODER_DISTANCE_PER_PULSE = 
     (WHEEL_DIAMETER_IN_METERS * Math.PI) / (double) ENCODER_CPR;
@@ -90,8 +92,8 @@ public final class Constants {
    * Max Trajectory acceleration and velocity
    * Values may require more tuning
    */
-  public static final double MAX_SPEED_METERS_PER_SECOND = 3;
-  public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3;
+  public static final double MAX_SPEED_METERS_PER_SECOND = 0.25;
+  public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 0.1;
 
   /**
    * Ramsete Parameters
@@ -117,7 +119,7 @@ public final class Constants {
    * output an additional x volts.
    * Values may require more tuning
    */
-  public static final double P_DRIVE_VEL = 8.5;
+  public static final double P_DRIVE_VEL = 0.0;
 
   /**
    * Vision and Limelight constants

@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.commands.TankVoltCommand;
 import com.systemmeltdown.robot.subsystems.IntakeSub;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
@@ -48,11 +49,11 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final FalconTrajectoryDriveSubsystem m_driveSub;
+ private final FalconTrajectoryDriveSubsystem m_driveSub;
  //private final ShooterSubsystem m_shootSub;
   //private final IntakeSub m_intakeSub;
   //private final StorageSubsystem m_storageSub;
-  private final TrajectorySubsystem m_trajectorySub;
+  //private final TrajectorySubsystem m_trajectorySub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -69,12 +70,12 @@ public class RobotContainer {
    // m_shootSub = subsystemFactory.CreateShooterSubsystem();
     //m_intakeSub = subsystemFactory.CreateIntakeSub();
     //m_storageSub = subsystemFactory.CreateStorageSubsystem();
-    m_trajectorySub = new TrajectorySubsystem();
+    //m_trajectorySub = new TrajectorySubsystem();
 
     // Configure the button bindings
     configureDriveSub();
     configureButtonBindings();
-    configureShuffleboard();
+    //configureShuffleboard();
   }
 
   /**
@@ -86,11 +87,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
     m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
+    m_driverControls.m_BButton.whenHeld(new TankVoltCommand(m_driveSub, m_driverControls));
    // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
    // m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
   }
 
-  private void configureShuffleboard() {
+  /*private void configureShuffleboard() {
    // CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
     
     for(int i = 0; i < 4; i++) {
@@ -98,7 +100,7 @@ public class RobotContainer {
       m_waitTimeSelctors[i] = new AutoWaitTimeSelector("AUTO", i);
     }
     LoggerTab loggerTab = new LoggerTab();
-  }
+  }*/
 
   private void configureDriveSub() {
     m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
@@ -115,7 +117,7 @@ public class RobotContainer {
     // Create a voltage constraint to ensure we don't accelerate too fast
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.KS_VOLTS,
         Constants.KV_VOLT_SECONDS_PER_METER, Constants.KA_VOLT_SECONDS_SQUARED_PER_METER), Constants.DRIVE_KINEMATICS,
-        10);
+        2);
 
     // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(Constants.MAX_SPEED_METERS_PER_SECOND,
@@ -139,18 +141,18 @@ public class RobotContainer {
 
     RamseteCommand ramseteCommand = new RamseteCommand(
       exampleTrajectory,
-      m_trajectorySub::getPose,
+      m_driveSub::getPose,
       new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
       new SimpleMotorFeedforward(Constants.KS_VOLTS,
                                   Constants.KV_VOLT_SECONDS_PER_METER,
                                   Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
       Constants.DRIVE_KINEMATICS,
-      m_trajectorySub::getWheelSpeeds,
+      m_driveSub::getWheelSpeeds,
       new PIDController(Constants.P_DRIVE_VEL, 0, 0),
       new PIDController(Constants.P_DRIVE_VEL, 0, 0),
       // RamseteCommand passes volts to the callback
-      m_trajectorySub::setTankDriveVolts,
-      m_trajectorySub
+      m_driveSub::setTankDriveVolts,
+      m_driveSub
     );
 
     // Run path following command, then stop at the end.
