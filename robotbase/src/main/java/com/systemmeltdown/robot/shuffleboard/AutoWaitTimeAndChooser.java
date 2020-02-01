@@ -13,9 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  */
 public class AutoWaitTimeAndChooser {
     private static String m_tabTitle;
-    private static double m_waitTime = 0;
-    private static NetworkTableEntry m_autoTimeSelectorWidget;
-    private static SendableChooser<AutomodeActions> m_chooser;
+    public NetworkTableEntry m_autoTimeSelectorWidget;
+    public SendableChooser<AutomodeActions> m_chooser;
 
     public AutoWaitTimeAndChooser(String tabTitle, int index) {
         // Adds Chooser Widget
@@ -41,9 +40,6 @@ public class AutoWaitTimeAndChooser {
      * 
      * @return Amount of time to wait before next Command.
      */
-    public double getWaitTime() {
-        return m_waitTime;
-    }
 
     public static void show() {
         Shuffleboard.selectTab(m_tabTitle);
