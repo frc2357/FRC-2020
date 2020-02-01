@@ -12,6 +12,9 @@ public class TurretSubsystem extends SubsystemBase implements ClosedLoopSystem {
 
     public TurretSubsystem(int rotateMotorID) {
         m_rotateMotor = new WPI_TalonSRX(rotateMotorID);
+
+        // add dashboard controls for children
+        addChild("rotateMotor", m_rotateMotor);
     }
 
     @Override
@@ -19,8 +22,15 @@ public class TurretSubsystem extends SubsystemBase implements ClosedLoopSystem {
         // This method will be called once per scheduler run
     }
 
-    public void runMotor(WPI_TalonSRX rotatorMotor, double degreesToRotate) {
-        rotatorMotor.set(ControlMode.Position, degreesToRotate);
+    /**
+     * Set the turret motor control
+     * @param percentOutput [-1, 1] positive values turn clockwise when looking
+     *                      from the top of the robot
+     * 
+     * TODO when the turret motor is installed update the code to use the correct rotation direction
+     */
+    public void setTurretMotor(double percentOutput) {
+        m_rotateMotor.set(ControlMode.PercentOutput, percentOutput);
     }
 
     public int getSensorPosition() {
