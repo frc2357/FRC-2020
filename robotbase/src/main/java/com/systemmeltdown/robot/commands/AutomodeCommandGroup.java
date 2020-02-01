@@ -20,38 +20,33 @@ public class AutomodeCommandGroup extends SequentialCommandGroup {
       double waitTime = autoWaitTimeAndChooser.m_autoTimeSelectorWidget.getDouble(0.0);
 
       switch (selectedAction) {
-      case SHOOT: {
-        // addCommands shoot command
-        System.out.println("Ran shoot command after " + waitTime + " seconds.");
-        break;
-      }
-      case PICKUP_FROM_SHEILD: {
-        // addCommands pickup from shield command
-        System.out.println("Ran pickup from shield command after " + waitTime + " seconds.");
-        break;
+        case SHOOT: {
+          // addCommands shoot command
+          System.out.println("Ran shoot command after " + waitTime + " seconds.");
+          break;
+        }
+        case PICKUP_FROM_SHEILD: {
+          // addCommands pickup from shield command
+          System.out.println("Ran pickup from shield command after " + waitTime + " seconds.");
+          break;
 
-      }
-      case PICKUP_FROM_TRENCH: {
-        // addCommands pickup from trench command
-        System.out.println("Ran pickup from trench command after " + waitTime + " seconds.");
-        break;
+        }
+        case PICKUP_FROM_TRENCH: {
+          // addCommands pickup from trench command
+          System.out.println("Ran pickup from trench command after " + waitTime + " seconds.");
+          break;
 
-      }
-      case NONE: {
-        toBreak = true;
-        System.out.println("Stopped running commands.");
-        break;
+        }
+        case NONE: {
+          toBreak = true;
+          System.out.println("Stopped running commands.");
+          break;
 
+        }
       }
-
-      }
-
       if (toBreak) {
         break;
       }
-
-      
-
     }
   }
 }
