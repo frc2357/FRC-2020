@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
+import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -120,6 +121,8 @@ public class SubsystemFactory {
 
     public TogglableLimelightSubsystem CreateLimelightSubsystem() {
         TogglableLimelightSubsystem subsystem = new TogglableLimelightSubsystem(false);
+        subsystem.setPipeline(PipelineIndex.HUMAN_VIEW);
+        subsystem.setStream(false);
         LimelightSubsystem.Configuration config = new LimelightSubsystem.Configuration();
         config.m_LimelightMountingAngle = Constants.LIMELIGHT_MOUNTING_ANGLE;
         config.m_LimelightMountingHeightInches = Constants.LIMELIGHT_MOUNTING_HEIGHT;
