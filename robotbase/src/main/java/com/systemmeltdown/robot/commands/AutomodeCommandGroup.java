@@ -53,13 +53,5 @@ public class AutomodeCommandGroup extends SequentialCommandGroup {
       
 
     }
-
-    addCommands(
-    /*
-     * Create an object of the command you want to add here. //Example: new
-     * ClimbLeftCommand(Paramaters bla bla bla), //The comma is part of the example,
-     * since you are creating the object as parameters for addCommands()
-     */
-    );
   }
 }
