@@ -7,11 +7,13 @@ import com.systemmeltdown.robotlib.util.XboxRaw;
 
 public class InvertDriveControls extends DriverControls {
     public final JoystickButton m_invertButton;
+    public final JoystickButton m_toggleCameraButton;
     private boolean m_isToggled = false;
 
     public InvertDriveControls(XboxController controller, double deadband) {
         super(controller, deadband);
         m_invertButton = new JoystickButton(controller, XboxRaw.A.value);
+        m_toggleCameraButton = new JoystickButton(controller, XboxRaw.B.value);
     }
 
     /**

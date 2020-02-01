@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.commands.VisionToggleMainCameraCommand;
 import com.systemmeltdown.robot.subsystems.IntakeSub;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
@@ -31,9 +32,10 @@ import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
+import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
-import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
+// import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 import java.util.List;
 
@@ -47,14 +49,15 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final FalconTrajectoryDriveSubsystem m_driveSub;
-  private final ShooterSubsystem m_shootSub;
-  private final IntakeSub m_intakeSub;
-  private final StorageSubsystem m_storageSub;
+  // private final ShooterSubsystem m_shootSub;
+  // private final IntakeSub m_intakeSub;
+  // private final StorageSubsystem m_storageSub;
+  private final TogglableLimelightSubsystem m_visionSub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
 
-  private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
+  // private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -62,9 +65,10 @@ public class RobotContainer {
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    m_shootSub = subsystemFactory.CreateShooterSubsystem();
-    m_intakeSub = subsystemFactory.CreateIntakeSub();
-    m_storageSub = subsystemFactory.CreateStorageSubsystem();
+    // m_shootSub = subsystemFactory.CreateShooterSubsystem();
+    // m_intakeSub = subsystemFactory.CreateIntakeSub();
+    // m_storageSub = subsystemFactory.CreateStorageSubsystem();
+    m_visionSub = subsystemFactory.CreateLimelightSubsystem();
 
     // Configure the button bindings
     configureDriveSub();
@@ -81,15 +85,16 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
     m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
-    m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
-    m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
+    m_driverControls.m_toggleCameraButton.whenPressed(new VisionToggleMainCameraCommand(m_visionSub));
+    // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
+    // m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
   }
 
   private void configureShuffleboard() {
-    CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
+    // CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
     
     for(int i = 0; i < 4; i++) {
-     m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
+    //  m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
     }
     LoggerTab loggerTab = new LoggerTab();
   }

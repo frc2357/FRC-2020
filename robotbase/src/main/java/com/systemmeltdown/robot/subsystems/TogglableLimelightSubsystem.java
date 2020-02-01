@@ -16,6 +16,6 @@ public class TogglableLimelightSubsystem extends LimelightSubsystem {
     }
 
     public void toggleStream() {
-        setStream(m_stream.getDouble(1.0) == 1.0);
+        setStream(m_stream.getDouble(1.0) != 1.0);
     }
 }
