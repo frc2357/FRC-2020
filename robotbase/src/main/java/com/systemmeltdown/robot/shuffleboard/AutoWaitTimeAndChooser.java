@@ -3,7 +3,6 @@ package com.systemmeltdown.robot.shuffleboard;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
@@ -16,11 +15,9 @@ public class AutoWaitTimeAndChooser {
     private static String m_tabTitle;
     private static double m_waitTime = 0;
     private static NetworkTableEntry m_autoTimeSelectorWidget;
-
     private static SendableChooser<AutomodeActions> m_chooser;
 
     public AutoWaitTimeAndChooser(String tabTitle, int index) {
-
         // Adds Chooser Widget
         ShuffleboardTab tab = Shuffleboard.getTab(tabTitle);
         m_chooser = new SendableChooser<>();
