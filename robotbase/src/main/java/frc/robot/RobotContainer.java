@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 import com.systemmeltdown.robot.commands.ShootCommand;
-import com.systemmeltdown.robot.commands.VisionToggleMainCameraCommand;
 import com.systemmeltdown.robot.subsystems.IntakeSub;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
@@ -84,8 +83,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
-    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
-    m_driverControls.m_toggleCameraButton.whenPressed(new VisionToggleMainCameraCommand(m_visionSub));
+    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSub, m_driverControls));
     // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
     // m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
   }

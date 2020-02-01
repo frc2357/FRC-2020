@@ -7,8 +7,8 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 public class TogglableLimelightSubsystem extends LimelightSubsystem {
     private NetworkTableEntry m_stream = super.m_Table.getEntry("stream");
     
-    public TogglableLimelightSubsystem() {
-        m_stream.setValue(1);
+    public TogglableLimelightSubsystem(boolean isLimelightPrimary) {
+        setStream(isLimelightPrimary);
     }
 
     public void setStream(boolean isLimelightPrimary) {

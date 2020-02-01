@@ -119,7 +119,7 @@ public class SubsystemFactory {
     }
 
     public TogglableLimelightSubsystem CreateLimelightSubsystem() {
-        TogglableLimelightSubsystem subsystem = new TogglableLimelightSubsystem();
+        TogglableLimelightSubsystem subsystem = new TogglableLimelightSubsystem(true);
         LimelightSubsystem.Configuration config = new LimelightSubsystem.Configuration();
         config.m_LimelightMountingAngle = Constants.LIMELIGHT_MOUNTING_ANGLE;
         config.m_LimelightMountingHeightInches = Constants.LIMELIGHT_MOUNTING_HEIGHT;
