@@ -3,6 +3,7 @@
 package com.systemmeltdown.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -17,30 +18,31 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 
-public class TrajectorySubsystem extends SubsystemBase {
+public class TrajectorySubsystem extends SubsystemBase implements ClosedLoopSystem {
+  private boolean m_useClosedLoop;
+
   // The motors on the left side of the drive.
-  private final SpeedControllerGroup m_leftMotors =
-    new SpeedControllerGroup(new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_1), new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_2));
+  private final SpeedControllerGroup m_leftMotors = new SpeedControllerGroup(
+      new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_1), new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_2));
 
   // The motors on the right side of the drive.
-  private final SpeedControllerGroup m_rightMotors =
-    new SpeedControllerGroup(new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_1), new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_2));
+  private final SpeedControllerGroup m_rightMotors = new SpeedControllerGroup(
+      new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_1), new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_2));
 
   // The robot's drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
   // The left-side drive encoder
   private final Encoder m_leftEncoder =
-      
+
       new Encoder(Constants.LEFT_ENCODER_PORTS[0], Constants.LEFT_ENCODER_PORTS[1], Constants.LEFT_ENCODER_REVERSED);
   // The right-side drive encoder
-  private final Encoder m_rightEncoder =
-      new Encoder(Constants.RIGHT_ENCODER_PORTS[0], Constants.RIGHT_ENCODER_PORTS[1],
-                  Constants.RIGHT_ENCODER_REVERSED);
+  private final Encoder m_rightEncoder = new Encoder(Constants.RIGHT_ENCODER_PORTS[0], Constants.RIGHT_ENCODER_PORTS[1],
+      Constants.RIGHT_ENCODER_REVERSED);
 
   // The gyro sensor
   private PigeonIMU m_gyro;
- 
+
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
 
@@ -61,8 +63,7 @@ public class TrajectorySubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    m_odometry.update(Rotation2d.fromDegrees(getHeading()), m_leftEncoder.getDistance(),
-                      m_rightEncoder.getDistance());
+    m_odometry.update(Rotation2d.fromDegrees(getHeading()), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());
   }
 
   /**
@@ -113,7 +114,7 @@ public class TrajectorySubsystem extends SubsystemBase {
     m_leftMotors.setVoltage(leftVolts);
     m_rightMotors.setVoltage(-rightVolts);
   }
-  
+
   /**
    * Resets the drive encoders to currently read a position of 0.
    */
@@ -150,7 +151,8 @@ public class TrajectorySubsystem extends SubsystemBase {
   }
 
   /**
-   * Sets the max output of the drive.  Useful for scaling the drive to drive more slowly.
+   * Sets the max output of the drive. Useful for scaling the drive to drive more
+   * slowly.
    *
    * @param maxOutput the maximum output to which the drive will be constrained
    */
@@ -193,5 +195,15 @@ public class TrajectorySubsystem extends SubsystemBase {
 
     return ypr;
 
+  }
+
+  @Override
+  public boolean isClosedLoopEnabled() {
+    return m_useClosedLoop;
+  }
+
+  @Override
+  public void setClosedLoopEnabled(boolean ClosedLoopEnabled) {
+    m_useClosedLoop = ClosedLoopEnabled;
   }
 }

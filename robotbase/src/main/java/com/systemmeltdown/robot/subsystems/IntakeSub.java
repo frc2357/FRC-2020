@@ -4,8 +4,12 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
 
-public class IntakeSub extends SubsystemBase {
+public class IntakeSub extends SubsystemBase implements ClosedLoopSystem {
+    //opposing ToF
+    private boolean m_useClosedLoop;
+        
     private Solenoid m_intakeSolenoid;
     private WPI_TalonSRX m_intakeTalon;
     private boolean m_isArmOut = false;
@@ -20,13 +24,14 @@ public class IntakeSub extends SubsystemBase {
         // nothing
     }
 
-    // percentPowerOuput defintion: -1 = reverse | 0 = stop | 1 = foward
+    /**
+     *
+     * @param percentPowerOutput -1 = reverse | 0 = stop | 1 = foward
+     */
     public void triggerIntakeRoller(double percentPowerOutput) {
         m_intakeTalon.set(ControlMode.PercentOutput, percentPowerOutput);
     }
 
-    // Current values are most likley incorrect, actual values will be figured out
-    // through testing.
     public void changeArmPosition() {
 
         if (m_isArmOut) {
@@ -36,5 +41,16 @@ public class IntakeSub extends SubsystemBase {
             m_intakeSolenoid.set(true);
             m_isArmOut = true;
         }
+    }
+
+    @Override
+    public boolean isClosedLoopEnabled() {
+        return m_useClosedLoop;
+    }
+
+    @Override
+    public void setClosedLoopEnabled(boolean ClosedLoopEnabled) {
+        m_useClosedLoop = ClosedLoopEnabled;
+
     }
 }

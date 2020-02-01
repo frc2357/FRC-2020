@@ -21,15 +21,22 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
+import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.subsystems.IntakeSub;
+import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
+import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.TalonTrajectoryDriveSubsystem;
+import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
-import com.systemmeltdown.robot.subsystems.TrajectorySubsystem;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
+import com.systemmeltdown.robot.subsystems.TrajectorySubsystem;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
+import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
+import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeSelector;
+import com.systemmeltdown.robot.shuffleboard.LoggerTab;
+import com.systemmeltdown.robot.shuffleboard.AutomodeChooserWidget;
 import java.util.List;
 
 /**
@@ -41,23 +48,33 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final SingleSpeedFalconDriveSubsystem m_driveSub;
-  private final FalconTrajectoryDriveSubsystem m_trajectorySub;
+  private final FalconTrajectoryDriveSubsystem m_driveSub;
+  private final ShooterSubsystem m_shootSub;
+  private final IntakeSub m_intakeSub;
+  private final StorageSubsystem m_storageSub;
+  private final TrajectorySubsystem m_trajectorySub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
+
+  private final AutoWaitTimeSelector[] m_waitTimeSelctors = new AutoWaitTimeSelector[3]; 
+  private final AutomodeChooserWidget[] m_chooserWidgets =  new AutomodeChooserWidget[3];
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
-    m_driveSub = subsystemFactory.CreateSingleSpeedFalconDriveSubsystem();
-    m_trajectorySub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    m_shootSub = subsystemFactory.CreateShooterSubsystem();
+    m_intakeSub = subsystemFactory.CreateIntakeSub();
+    m_storageSub = subsystemFactory.CreateStorageSubsystem();
+    m_trajectorySub = new TrajectorySubsystem();
 
     // Configure the button bindings
     configureDriveSub();
     configureButtonBindings();
+    configureShuffleboard();
   }
 
   /**
@@ -69,47 +86,51 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
     m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
+    m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
+    m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
+  }
+
+  private void configureShuffleboard() {
+    CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
+    
+    for(int i = 0; i < 4; i++) {
+      m_chooserWidgets[i] = new AutomodeChooserWidget("AUTO", i);
+      m_waitTimeSelctors[i] = new AutoWaitTimeSelector("AUTO", i);
+    }
+    LoggerTab loggerTab = new LoggerTab();
   }
 
   private void configureDriveSub() {
-    m_driveSub
-        .setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
+    m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
 
-  //Taken from docs.wpilib.org example code
+  // Taken from docs.wpilib.org example code
   /**
-  * Use this to pass the autonomous command to the main {@link Robot} class.
-  *
-  * @return the command to run in autonomous
-  */
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
   public Command getAutonomousCommand() {
 
     // Create a voltage constraint to ensure we don't accelerate too fast
-    var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(Constants.KS_VOLTS,
-                                       Constants.KV_VOLT_SECONDS_PER_METER,
-                                       Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
-            Constants.DRIVE_KINEMATICS, 10);
+    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.KS_VOLTS,
+        Constants.KV_VOLT_SECONDS_PER_METER, Constants.KA_VOLT_SECONDS_SQUARED_PER_METER), Constants.DRIVE_KINEMATICS,
+        10);
 
     // Create config for trajectory
-    TrajectoryConfig config =
-        new TrajectoryConfig(Constants.MAX_SPEED_METERS_PER_SECOND,
-                             Constants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+    TrajectoryConfig config = new TrajectoryConfig(Constants.MAX_SPEED_METERS_PER_SECOND,
+        Constants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
             // Add kinematics to ensure max speed is actually obeyed
             .setKinematics(Constants.DRIVE_KINEMATICS)
             // Apply the voltage constraint
             .addConstraint(autoVoltageConstraint);
 
-    // An example trajectory to follow.  All units in meters.
+    // An example trajectory to follow. All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(
-            new Translation2d(1, 1),
-            new Translation2d(2, -1)
-        ),
+        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
         // End 3 meters straight ahead of where we started, facing forward
         new Pose2d(3, 0, new Rotation2d(0)),
         // Pass config
@@ -133,6 +154,6 @@ public class RobotContainer {
     );
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_trajectorySub.setTankDriveVolts(0, 0));
+    return ramseteCommand.andThen(() -> m_driveSub.setTankDriveVolts(0, 0));
   }
 }
