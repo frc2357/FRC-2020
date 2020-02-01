@@ -88,7 +88,7 @@ public class RobotContainer {
   private void configureShuffleboard() {
     CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
     
-    for(int i = 0; i < 4; i++) {
+    for(int i = 0; i < 3; i++) {
      m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
     }
     LoggerTab loggerTab = new LoggerTab();
