@@ -3,7 +3,6 @@
 package com.systemmeltdown.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
-import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -14,13 +13,10 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 
-public class TrajectorySubsystem extends SubsystemBase implements ClosedLoopSystem {
-  private boolean m_useClosedLoop;
-
+public class TrajectorySubsystem extends ClosedLoopSubsystem {
   // The motors on the left side of the drive.
   private final SpeedControllerGroup m_leftMotors = new SpeedControllerGroup(
       new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_1), new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_2));
@@ -195,15 +191,5 @@ public class TrajectorySubsystem extends SubsystemBase implements ClosedLoopSyst
 
     return ypr;
 
-  }
-
-  @Override
-  public boolean isClosedLoopEnabled() {
-    return m_useClosedLoop;
-  }
-
-  @Override
-  public void setClosedLoopEnabled(boolean ClosedLoopEnabled) {
-    m_useClosedLoop = ClosedLoopEnabled;
   }
 }

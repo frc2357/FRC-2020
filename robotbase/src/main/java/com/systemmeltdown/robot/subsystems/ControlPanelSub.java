@@ -2,14 +2,11 @@ package com.systemmeltdown.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
-
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
+public class ControlPanelSub extends ClosedLoopSubsystem {
     //color sensor
-    boolean m_useClosedLoop;
+    //boolean m_useClosedLoop; I could not find any references of this, but VS code was not giving me any warnings, so I'm going to leave that there.
 
     WPI_TalonSRX m_rotationTalon;
     Solenoid m_extenderSolenoid;
@@ -47,15 +44,5 @@ public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
 
     public void rotateControlPanel(double fullRotationsToDo) {
         m_rotationTalon.set(ControlMode.Position, m_clicksPerRotation * fullRotationsToDo);
-    }
-
-    @Override
-    public boolean isClosedLoopEnabled() {
-        return m_useClosedLoop;
-    }
-
-    @Override
-    public void setClosedLoopEnabled(boolean ClosedLoopEnabled) {
-        m_useClosedLoop = ClosedLoopEnabled;
     }
 }

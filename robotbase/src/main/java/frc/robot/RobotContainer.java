@@ -25,15 +25,17 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 //import com.systemmeltdown.robot.subsystems.IntakeSub;
 //import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 //import com.systemmeltdown.robot.subsystems.StorageSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 //import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
+import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
+import com.systemmeltdown.robot.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 //import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
+import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 import java.util.List;
 
@@ -47,9 +49,9 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final FalconTrajectoryDriveSubsystem m_driveSub;
-  //private final ShooterSubsystem m_shootSub;
-  //private final IntakeSub m_intakeSub;
-  //private final StorageSubsystem m_storageSub;
+  // private final ShooterSubsystem m_shootSub;
+  // private final IntakeSub m_intakeSub;
+  // private final StorageSubsystem m_storageSub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -86,12 +88,15 @@ public class RobotContainer {
   }
 
   private void configureShuffleboard() {
-    //CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
+    //CellNumberWidget cellNumberWidget = new CellNumberWidget("Robot", m_storageSub);
     
-    for(int i = 0; i < 4; i++) {
-     m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
-    }
+    // for(int i = 0; i < 4; i++) {
+    //  m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
+    // }
+
     LoggerTab loggerTab = new LoggerTab();
+    ClosedLoopSubsystem[] subsystems = {/*m_shootSub, m_intakeSub, m_storageSub*/ m_driveSub};
+    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
   }
 
   private void configureDriveSub() {
