@@ -17,10 +17,10 @@ public class SetControlPanelColorCommand extends CommandBase {
     @Override
     public void execute() {
         String color = DriverStation.getInstance().getGameSpecificMessage();
+
         switch (color) {
             case "R": case "G": case "B": case "Y": {
-                //TODO: Rotate to color
-                // m_controlPanelSub.rotateToColor(color);
+                 m_controlPanelSub.rotateToColor(color);
                 break;
             }
             case "": {
