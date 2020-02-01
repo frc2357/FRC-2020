@@ -4,13 +4,23 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
 
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.revrobotics.ColorSensorV3;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorMatch;
+
 
 public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
     //color sensor
-    boolean m_useClosedLoop;
+    private final I2C.Port i2cPort = I2C.Port.kOnboard;
+    private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
+    boolean m_useClosedLoop;
+    
     WPI_TalonSRX m_rotationTalon;
     Solenoid m_extenderSolenoid;
     boolean m_extenderPosition = false;
@@ -47,6 +57,37 @@ public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
 
     public void rotateControlPanel(double fullRotationsToDo) {
         m_rotationTalon.set(ControlMode.Position, m_clicksPerRotation * fullRotationsToDo);
+    }
+
+    public Color getCurrentColor() {
+        return m_colorSensor.getColor();
+    }
+
+    public void rotateToColor(String color) {
+        Color translatedColor = null;
+
+        switch(color) {
+            case "R": {
+                translatedColor = Color.kRed;
+                break;
+
+            } case "G": {
+                translatedColor = Color.kGreen;
+                break;
+
+            } case "B": {
+                translatedColor = Color.kBlue;
+                break;
+
+            } case "Y": {
+                translatedColor = Color.kYellow;
+                break;
+            }
+        }
+
+        while(m_colorSensor.getColor() != translatedColor) {
+            rotateControlPanel(0.125);
+        }
     }
 
     @Override
