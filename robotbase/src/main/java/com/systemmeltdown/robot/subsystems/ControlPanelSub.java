@@ -2,12 +2,19 @@ package com.systemmeltdown.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.util.Color;
+
+import com.revrobotics.ColorSensorV3;
+
 
 public class ControlPanelSub extends ClosedLoopSubsystem {
     //color sensor
-    //boolean m_useClosedLoop; I could not find any references of this, but VS code was not giving me any warnings, so I'm going to leave that there.
-
+    private final I2C.Port i2cPort = I2C.Port.kOnboard;
+    private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+    
     WPI_TalonSRX m_rotationTalon;
     Solenoid m_extenderSolenoid;
     boolean m_extenderPosition = false;
@@ -44,5 +51,46 @@ public class ControlPanelSub extends ClosedLoopSubsystem {
 
     public void rotateControlPanel(double fullRotationsToDo) {
         m_rotationTalon.set(ControlMode.Position, m_clicksPerRotation * fullRotationsToDo);
+    }
+
+    public Color getCurrentColor() {
+        return m_colorSensor.getColor();
+    }
+
+    public void rotateToColor(String color) {
+        Color translatedColor = null;
+
+        switch(color) {
+            case "R": {
+                translatedColor = Color.kRed;
+                break;
+
+            } case "G": {
+                translatedColor = Color.kGreen;
+                break;
+
+            } case "B": {
+                translatedColor = Color.kBlue;
+                break;
+
+            } case "Y": {
+                translatedColor = Color.kYellow;
+                break;
+            }
+        }
+
+        while(m_colorSensor.getColor() != translatedColor) {
+            rotateControlPanel(0.125);
+        }
+    }
+
+    @Override
+    public boolean isClosedLoopEnabled() {
+        return m_useClosedLoop;
+    }
+
+    @Override
+    public void setClosedLoopEnabled(boolean ClosedLoopEnabled) {
+        m_useClosedLoop = ClosedLoopEnabled;
     }
 }

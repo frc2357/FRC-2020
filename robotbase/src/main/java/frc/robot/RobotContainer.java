@@ -32,8 +32,9 @@ import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
+import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
-//import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
+import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
@@ -52,6 +53,7 @@ public class RobotContainer {
   // private final ShooterSubsystem m_shootSub;
   // private final IntakeSub m_intakeSub;
   // private final StorageSubsystem m_storageSub;
+  private final TogglableLimelightSubsystem m_visionSub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -64,9 +66,10 @@ public class RobotContainer {
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    //m_shootSub = subsystemFactory.CreateShooterSubsystem();
-    //m_intakeSub = subsystemFactory.CreateIntakeSub();
-    //m_storageSub = subsystemFactory.CreateStorageSubsystem();
+    // m_shootSub = subsystemFactory.CreateShooterSubsystem();
+    // m_intakeSub = subsystemFactory.CreateIntakeSub();
+    // m_storageSub = subsystemFactory.CreateStorageSubsystem();
+    m_visionSub = subsystemFactory.CreateLimelightSubsystem();
 
     // Configure the button bindings
     configureDriveSub();
@@ -82,9 +85,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
-    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_driverControls));
-    //m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
-    //m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
+    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSub, m_driverControls));
+    // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
+    // m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
   }
 
   private void configureShuffleboard() {

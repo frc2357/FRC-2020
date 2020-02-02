@@ -14,11 +14,11 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
         return m_feedSensor.get();
     }
 
-    public void setNumOfBalls(int numOfBalls) {
-        m_numOfBalls = numOfBalls;
+    public void setNumOfCells(int numOfCells) {
+        m_numOfCells = numOfCells;
     }
  
-    public int getNumbOfBalls() {
-        return m_numOfBalls;
+    public int getNumbOfCells() {
+        return m_numOfCells;
     }
 }

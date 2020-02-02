@@ -32,18 +32,18 @@ public class CellNumberWidget {
    * Adds one to the power cell count.
    */
     public void addBall() {
-        int numOfBalls = m_storageSub.getNumbOfBalls();
-        m_storageSub.setNumOfBalls(++numOfBalls);
-        m_cellNumWidget.setNumber(numOfBalls);
+        int numOfCells = m_storageSub.getNumbOfCells();
+        m_storageSub.setNumOfCells(++numOfCells);
+        m_cellNumWidget.setNumber(numOfCells);
     }
 
     /**
     * Subtracts one from the power cell count.
     */
     public void subBall() {
-        int numOfBalls = m_storageSub.getNumbOfBalls();
-        m_storageSub.setNumOfBalls(--numOfBalls);
-        m_cellNumWidget.setNumber(numOfBalls);
+        int numOfCells = m_storageSub.getNumbOfCells();
+        m_storageSub.setNumOfCells(--numOfCells);
+        m_cellNumWidget.setNumber(numOfCells);
     }
 
     public static void show() {
