@@ -83,14 +83,4 @@ public class ControlPanelSub extends ClosedLoopSubsystem {
             rotateControlPanel(0.125);
         }
     }
-
-    @Override
-    public boolean isClosedLoopEnabled() {
-        return m_useClosedLoop;
-    }
-
-    @Override
-    public void setClosedLoopEnabled(boolean ClosedLoopEnabled) {
-        m_useClosedLoop = ClosedLoopEnabled;
-    }
 }

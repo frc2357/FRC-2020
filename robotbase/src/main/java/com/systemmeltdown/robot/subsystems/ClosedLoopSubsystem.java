@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * This class is basically {@link SubsystemBase} but with a getter and setter for a closed loop variable.
  * Also implements {@link ClosedLoopSubsystem} so you don't need to implement it in your subsystem.
  */
-public abstract class ClosedLoopSubsystem extends SubsystemBase implements ClosedLoopSystem {
+public class ClosedLoopSubsystem extends SubsystemBase implements ClosedLoopSystem {
     protected boolean m_closedLoopEnabled = true;
 
     /**

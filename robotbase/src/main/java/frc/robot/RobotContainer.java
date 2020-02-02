@@ -36,6 +36,7 @@ import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
+import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
@@ -51,7 +52,7 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final FalconTrajectoryDriveSubsystem m_driveSub;
+  private FalconTrajectoryDriveSubsystem m_driveSub;
   // private final ShooterSubsystem m_shootSub;
   // private final IntakeSub m_intakeSub;
   // private final StorageSubsystem m_storageSub;
@@ -101,7 +102,7 @@ public class RobotContainer {
     // }
 
     LoggerTab loggerTab = new LoggerTab();
-    ClosedLoopSubsystem[] subsystems = {/*m_shootSub, m_intakeSub, m_storageSub*/ m_driveSub};
+    ClosedLoopSubsystem[] subsystems = {/*m_shootSub, m_intakeSub, m_storageSub*/ (ClosedLoopSubsystem) m_driveSub};
     FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
   }
 
@@ -115,7 +116,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  /*public Command getAutonomousCommand() {
 
     // Create a voltage constraint to ensure we don't accelerate too fast
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.S_VOLTS,
@@ -141,7 +142,7 @@ public class RobotContainer {
         // Pass config
         config);
 
-    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, m_driveSub::getPose,
+    /*RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, m_driveSub::getPose,
         new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
         new SimpleMotorFeedforward(Constants.S_VOLTS, Constants.V_VOLT_SECONDS_PER_METER,
             Constants.A_VOLT_SECONDS_SQUARED_PER_METER),
@@ -151,6 +152,6 @@ public class RobotContainer {
         m_driveSub::setTankDriveVolts, m_driveSub);
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_driveSub.setTankDriveVolts(0, 0));
-  }
+    return ramseteCommand.andThen(() -> m_driveSub.setTankDriveVolts(0, 0)); 
+  } */
 }
