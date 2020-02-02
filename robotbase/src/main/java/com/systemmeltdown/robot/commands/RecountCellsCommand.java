@@ -14,15 +14,15 @@ public class RecountCellsCommand extends CommandBase {
 
     @Override
     public void execute() {
-        int countOfBalls = 0;
+        int countOfCells = 0;
         for (int i = 0; i < 5; i++) {
             if (m_storageSub.isFeedSensorBlocked()) {
-                countOfBalls++;
+                countOfCells++;
             }
             new RotateStorageSingleCell(m_storageSub);
             i++;
         }
-        m_storageSub.setNumOfBalls(countOfBalls);
+        m_storageSub.setNumOfCells(countOfCells);
     }
 
     @Override
