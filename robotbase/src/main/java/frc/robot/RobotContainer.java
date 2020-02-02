@@ -27,12 +27,14 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 //import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 //import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
+import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
+import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
@@ -86,6 +88,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
     m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSub, m_driverControls));
+    m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSub));
     // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
     // m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
   }
