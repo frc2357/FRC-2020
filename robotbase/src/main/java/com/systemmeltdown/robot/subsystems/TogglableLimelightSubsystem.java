@@ -34,7 +34,6 @@ public class TogglableLimelightSubsystem extends LimelightSubsystem {
     }
 
     public void setPipeline(PipelineIndex p) {
-        
         m_pipeline.setDouble(p.index);
     }
 
