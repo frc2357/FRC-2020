@@ -51,7 +51,7 @@ public final class Constants {
   public static final int[] RIGHT_ENCODER_PORTS = new int[]{12, 14};
 
   public static final double WHEEL_DIAMETER_IN_METERS = 0.1524;
-  public static final int ENCODER_CPR = 16324;
+  public static final int ENCODER_CPR = 2048;
   //Possible CPR, 16324, 2048, 
   //Seems that lower is farther in routine
 
@@ -85,7 +85,7 @@ public final class Constants {
    * Differential Drive Kinematics
    * Values may require more tuning
    */
-  public static final double TRACK_WIDTH_METERS = 0.02616690821256034;
+  public static final double TRACK_WIDTH_METERS = 0.711;
   public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH_METERS);
 
   /**

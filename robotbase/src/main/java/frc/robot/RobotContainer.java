@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -32,6 +34,7 @@ import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
+import com.systemmeltdown.robot.subsystems.TestFalcon;
 import com.systemmeltdown.robot.subsystems.TrajectorySubsystem;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
@@ -49,7 +52,7 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
- private final FalconTrajectoryDriveSubsystem m_driveSub;
+ private final TestFalcon m_driveSub;
  //private final ShooterSubsystem m_shootSub;
   //private final IntakeSub m_intakeSub;
   //private final StorageSubsystem m_storageSub;
@@ -65,8 +68,8 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    SubsystemFactory subsystemFactory = new SubsystemFactory();
-    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    //SubsystemFactory subsystemFactory = new SubsystemFactory();
+    m_driveSub = new TestFalcon();
    // m_shootSub = subsystemFactory.CreateShooterSubsystem();
     //m_intakeSub = subsystemFactory.CreateIntakeSub();
     //m_storageSub = subsystemFactory.CreateStorageSubsystem();
@@ -139,19 +142,44 @@ public class RobotContainer {
         config
     );
 
+    // Paste this variable in
+    RamseteController disabledRamsete = new RamseteController() {
+      @Override
+      public ChassisSpeeds calculate(Pose2d currentPose, Pose2d poseRef, double linearVelocityRefMeters,
+              double angularVelocityRefRadiansPerSecond) {
+          return new ChassisSpeeds(linearVelocityRefMeters, 0.0, angularVelocityRefRadiansPerSecond);
+      }
+    };
+
+    var table = NetworkTableInstance.getDefault().getTable("troubleshooting");
+    var leftReference = table.getEntry("left_reference");
+    var leftMeasurement = table.getEntry("left_measurement");
+    var rightReference = table.getEntry("right_reference");
+    var rightMeasurement = table.getEntry("right_measurement");
+
+    var leftController = new PIDController(Constants.P_DRIVE_VEL, 0, 0);
+    var rightController = new PIDController(Constants.P_DRIVE_VEL, 0, 0);
     RamseteCommand ramseteCommand = new RamseteCommand(
       exampleTrajectory,
       m_driveSub::getPose,
-      new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
+      disabledRamsete,
       new SimpleMotorFeedforward(Constants.KS_VOLTS,
                                   Constants.KV_VOLT_SECONDS_PER_METER,
                                   Constants.KA_VOLT_SECONDS_SQUARED_PER_METER),
       Constants.DRIVE_KINEMATICS,
       m_driveSub::getWheelSpeeds,
-      new PIDController(Constants.P_DRIVE_VEL, 0, 0),
-      new PIDController(Constants.P_DRIVE_VEL, 0, 0),
+      leftController,
+      rightController,
       // RamseteCommand passes volts to the callback
-      m_driveSub::setTankDriveVolts,
+      (leftVolts, rightVolts) -> {
+        m_driveSub.setTankDriveVolts(leftVolts, rightVolts);
+
+        leftMeasurement.setNumber(m_driveSub.getWheelSpeeds().leftMetersPerSecond);
+        leftReference.setNumber(leftController.getSetpoint());
+
+        rightMeasurement.setNumber(m_driveSub.getWheelSpeeds().rightMetersPerSecond);
+        rightReference.setNumber(rightController.getSetpoint());
+    },
       m_driveSub
     );
 
