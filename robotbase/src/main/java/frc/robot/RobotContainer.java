@@ -28,15 +28,15 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 //import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
-import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
+//import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
-import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
-import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
+//import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
+//import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
-import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
+//import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 import java.util.List;
 
@@ -53,12 +53,12 @@ public class RobotContainer {
   // private final ShooterSubsystem m_shootSub;
   // private final IntakeSub m_intakeSub;
   // private final StorageSubsystem m_storageSub;
-  private final TogglableLimelightSubsystem m_visionSub;
+  //private final TogglableLimelightSubsystem m_visionSub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
 
-  private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
+  //private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -69,7 +69,7 @@ public class RobotContainer {
     // m_shootSub = subsystemFactory.CreateShooterSubsystem();
     // m_intakeSub = subsystemFactory.CreateIntakeSub();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
-    m_visionSub = subsystemFactory.CreateLimelightSubsystem();
+    //m_visionSub = subsystemFactory.CreateLimelightSubsystem();
 
     // Configure the button bindings
     configureDriveSub();
@@ -85,8 +85,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
-    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSub, m_driverControls));
-    m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSub));
+    //m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSub, m_driverControls));
+    //m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSub));
     // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
     // m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
   }
@@ -95,7 +95,7 @@ public class RobotContainer {
     // CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
     
     for(int i = 0; i < 3; i++) {
-     m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
+     //m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
     }
     LoggerTab loggerTab = new LoggerTab();
   }

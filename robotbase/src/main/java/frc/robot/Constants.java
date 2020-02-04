@@ -21,6 +21,12 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants {
   /**
+   * General purpose
+   */
+  public static final int MILLISECONDS_PER_SECOND = 1000;
+  public static final int MILLIS_PER_MINUTE = 60 * MILLISECONDS_PER_SECOND;
+
+  /**
    * CAN IDS 1-10 Core Components of the Robot
    */
   public static final int PDP = 1;
@@ -110,13 +116,6 @@ public final class Constants {
   public static final boolean GYRO_REVERSED = true;
 
   /**
-   * Encoder Constants
-   */
-
-  public static final boolean LEFT_ENCODER_REVERSED = false;
-  public static final boolean RIGHT_ENCODER_REVERSED = true;
-
-  /**
    * No idea, but the Ramsete command wants two PID controllers with it, 
    * and I do as the Rasmsete command guides -- Nolan Campbell 
    */
@@ -151,4 +150,27 @@ public final class Constants {
   public static final double TURRET_AIM_D = 0;
   public static final double TURRET_SEEK_SPEED = 0.2;
   public static final double TURRET_AIM_TOLERANCE = 2;
+
+  /**
+   * Driver Controls
+   */
+  public static final double DRIVE_STICK_DEADBAND = -1.0;
+
+  /**
+   * Encoder Constants
+   */
+  public static final int DRIVE_MAX_RPMS = -1;
+
+  public static final int VELOCITY_UNITS_PER_MIN = MILLIS_PER_MINUTE / 100;
+  public static final int MAX_ENCODER_VELOCITY = DRIVE_MAX_RPMS * ENCODER_CPR / VELOCITY_UNITS_PER_MIN;
+
+
+  public static final int DRIVER_ENCODER_TURN_RATE = (int)(MAX_ENCODER_VELOCITY * -1.0);
+  public static final int DRIVER_ENCODER_SPEED = MAX_ENCODER_VELOCITY;
+  public static final int DRIVER_ENCODER_SLOW_TURN_RATE = (int)(MAX_ENCODER_VELOCITY * -1.0);
+  public static final int DRIVER_ENCODER_SLOW_SPEED = (int)(MAX_ENCODER_VELOCITY * -1.0);
+  public static final double DRIVER_ENCODER_MAX_FORWARD_LIMIT_FACTOR = -1.0;
+  public static final int DRIVER_ENCODER_MAX_DIFF = -1;
+  public static final boolean LEFT_ENCODER_REVERSED = false;
+  public static final boolean RIGHT_ENCODER_REVERSED = true;
 }
