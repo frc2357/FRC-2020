@@ -2,6 +2,7 @@ package com.systemmeltdown.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 public class ShooterSubsystem extends ClosedLoopSubsystem {
   private CANSparkMax m_shooterMotor1;

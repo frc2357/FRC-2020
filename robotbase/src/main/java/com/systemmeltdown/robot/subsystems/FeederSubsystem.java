@@ -2,6 +2,7 @@ package com.systemmeltdown.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 public class FeederSubsystem extends ClosedLoopSubsystem {
     private WPI_TalonSRX m_feederMotor;

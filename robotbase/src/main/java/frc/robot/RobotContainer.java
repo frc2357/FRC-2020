@@ -31,16 +31,18 @@ import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
-import com.systemmeltdown.robot.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
+import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -102,8 +104,12 @@ public class RobotContainer {
     // }
 
     LoggerTab loggerTab = new LoggerTab();
-    ClosedLoopSubsystem[] subsystems = {/*m_shootSub, m_intakeSub, m_storageSub*/ (ClosedLoopSubsystem) m_driveSub};
-    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
+    List<ClosedLoopSubsystem> subsystems = new ArrayList<>();
+    // subsystems.add(m_shootSub);
+    // subsystems.add(m_intakeSub);
+    // subsystems.add(m_storageSub);
+    subsystems.add(m_driveSub);
+    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", (ClosedLoopSubsystem[]) subsystems.toArray());
   }
 
   private void configureDriveSub() {

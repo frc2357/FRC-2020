@@ -3,6 +3,7 @@
 package com.systemmeltdown.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Encoder;

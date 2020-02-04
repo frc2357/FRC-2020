@@ -1,5 +1,7 @@
 package com.systemmeltdown.robot.subsystems;
 
+import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class StorageSubsystem extends ClosedLoopSubsystem {

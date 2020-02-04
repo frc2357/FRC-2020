@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.ColorSensorV3;
+import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 
 public class ControlPanelSub extends ClosedLoopSubsystem {

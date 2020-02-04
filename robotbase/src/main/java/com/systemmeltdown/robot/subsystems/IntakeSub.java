@@ -3,6 +3,7 @@ package com.systemmeltdown.robot.subsystems;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 public class IntakeSub extends ClosedLoopSubsystem {
     private Solenoid m_intakeSolenoid;
