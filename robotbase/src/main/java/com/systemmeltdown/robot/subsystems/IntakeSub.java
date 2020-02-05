@@ -1,38 +1,49 @@
 package com.systemmeltdown.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
 
 public class IntakeSub extends SubsystemBase implements ClosedLoopSystem {
-    //opposing ToF
+    // opposing ToF
     private boolean m_useClosedLoop;
-        
-    // private Solenoid m_intakeSolenoid;
-    private WPI_TalonSRX m_intakeTalon;
 
-    public IntakeSub(int channel, int intakeTalonID) {
-        // m_intakeSolenoid = new Solenoid(channel);
+    // private DoubleSolenoid m_intakeSolenoid;
+    private WPI_TalonSRX m_intakeTalon;
+    private boolean m_rollIntoBot = true;
+
+    public IntakeSub(int intakeTalonID, int forwardChannel, int reverseChannel) {
+        // m_intakeSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
         m_intakeTalon = new WPI_TalonSRX(intakeTalonID);
     }
 
-    @Override
-    public void periodic() {
-        // nothing
-    }
-
     /**
-     *
      * @param percentPowerOutput -1 = reverse | 0 = stop | 1 = foward
      */
     public void triggerIntakeRoller(double percentPowerOutput) {
+        if (!m_rollIntoBot) {
+            percentPowerOutput = -percentPowerOutput;
+        }
         m_intakeTalon.set(ControlMode.PercentOutput, percentPowerOutput);
     }
 
+    public void toggleRollDirection() {
+        m_rollIntoBot = !m_rollIntoBot;
+    }
+
     public void changeArmPosition() {
-        // m_intakeSolenoid.set(!m_intakeSolenoid.get());
+        // switch (m_intakeSolenoid.get()) {
+        // case kForward: {
+        //     m_intakeSolenoid.set(Value.kReverse);
+        //     break;
+        // }
+        // default: {
+        //     m_intakeSolenoid.set(Value.kForward);
+        // }
+        // }
     }
 
     @Override
