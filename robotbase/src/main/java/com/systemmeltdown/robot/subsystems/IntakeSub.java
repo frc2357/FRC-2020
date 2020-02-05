@@ -10,12 +10,11 @@ public class IntakeSub extends SubsystemBase implements ClosedLoopSystem {
     //opposing ToF
     private boolean m_useClosedLoop;
         
-    private Solenoid m_intakeSolenoid;
+    // private Solenoid m_intakeSolenoid;
     private WPI_TalonSRX m_intakeTalon;
-    private boolean m_isArmOut = false;
 
     public IntakeSub(int channel, int intakeTalonID) {
-        m_intakeSolenoid = new Solenoid(channel);
+        // m_intakeSolenoid = new Solenoid(channel);
         m_intakeTalon = new WPI_TalonSRX(intakeTalonID);
     }
 
@@ -33,14 +32,7 @@ public class IntakeSub extends SubsystemBase implements ClosedLoopSystem {
     }
 
     public void changeArmPosition() {
-
-        if (m_isArmOut) {
-            m_intakeSolenoid.set(false);
-            m_isArmOut = false;
-        } else {
-            m_intakeSolenoid.set(true);
-            m_isArmOut = true;
-        }
+        // m_intakeSolenoid.set(!m_intakeSolenoid.get());
     }
 
     @Override
@@ -51,6 +43,5 @@ public class IntakeSub extends SubsystemBase implements ClosedLoopSystem {
     @Override
     public void setClosedLoopEnabled(boolean ClosedLoopEnabled) {
         m_useClosedLoop = ClosedLoopEnabled;
-
     }
 }
