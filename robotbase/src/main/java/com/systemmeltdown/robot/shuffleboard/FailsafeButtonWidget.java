@@ -1,7 +1,6 @@
 package com.systemmeltdown.robot.shuffleboard;
 
-import java.util.List;
-
+import java.util.ArrayList;
 import com.systemmeltdown.robot.commands.FailsafeCommand;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robotlib.triggers.ToggleTrigger;
@@ -23,9 +22,9 @@ public class FailsafeButtonWidget {
      * 
      * @param subsystems All of the subsystems. Needs these so the button can call the {@link FailsafeCommand}
      * on all of the subsystems.
-     * IMPORTANT: TO PUT SUBSYSTEMS INTO THE PARAMETER, YOU MUST PUT IT INTO AN ARRAY, NOT A LIST.
+     * IMPORTANT: TO PUT SUBSYSTEMS INTO THE PARAMETER, YOU MUST PUT IT INTO AN ARRAYLIST, NOT AN ARRAY.
      */
-    public FailsafeButtonWidget(String tabTitle, ClosedLoopSubsystem[] subsystems) {
+    public FailsafeButtonWidget(String tabTitle, ArrayList<ClosedLoopSubsystem> subsystems) {
         m_failsafeButton = Shuffleboard.getTab(tabTitle)
             .add("FAILSAFE", false)
             .withWidget(BuiltInWidgets.kToggleButton)
