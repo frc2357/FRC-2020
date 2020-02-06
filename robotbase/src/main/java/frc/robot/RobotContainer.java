@@ -46,7 +46,6 @@ import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
