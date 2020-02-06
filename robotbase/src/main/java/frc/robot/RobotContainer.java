@@ -32,14 +32,19 @@ import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
+import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
+import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
+import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
+import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
-import java.util.List;
+
+import java.util.ArrayList;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -50,7 +55,7 @@ import java.util.List;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final FalconTrajectoryDriveSubsystem m_driveSub;
+  private FalconTrajectoryDriveSubsystem m_driveSub;
   // private final ShooterSubsystem m_shootSub;
   private final IntakeSub m_intakeSub;
   // private final StorageSubsystem m_storageSub;
@@ -94,12 +99,19 @@ public class RobotContainer {
   }
 
   private void configureShuffleboard() {
-    // CellNumberWidget cellNumberWidget = new CellNumberWidget("ROBOT", m_storageSub);
+    //CellNumberWidget cellNumberWidget = new CellNumberWidget("Robot", m_storageSub);
     
-    for(int i = 0; i < 3; i++) {
-     m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
-    }
+    // for(int i = 0; i < 4; i++) {
+    //  m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
+    // }
+
     LoggerTab loggerTab = new LoggerTab();
+    ArrayList<ClosedLoopSubsystem> subsystems = new ArrayList<>();
+    // subsystems.add(m_shootSub);
+    // subsystems.add(m_intakeSub);
+    // subsystems.add(m_storageSub);
+    subsystems.add(m_driveSub);
+    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
   }
 
   private void configureDriveSub() {
@@ -112,7 +124,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  /*public Command getAutonomousCommand() {
 
     // Create a voltage constraint to ensure we don't accelerate too fast
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.S_VOLTS,
@@ -138,7 +150,7 @@ public class RobotContainer {
         // Pass config
         config);
 
-    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, m_driveSub::getPose,
+    /*RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, m_driveSub::getPose,
         new RamseteController(Constants.RAMSETE_B, Constants.RAMSETE_ZETA),
         new SimpleMotorFeedforward(Constants.S_VOLTS, Constants.V_VOLT_SECONDS_PER_METER,
             Constants.A_VOLT_SECONDS_SQUARED_PER_METER),
@@ -148,6 +160,6 @@ public class RobotContainer {
         m_driveSub::setTankDriveVolts, m_driveSub);
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_driveSub.setTankDriveVolts(0, 0));
-  }
+    return ramseteCommand.andThen(() -> m_driveSub.setTankDriveVolts(0, 0)); 
+  } */
 }

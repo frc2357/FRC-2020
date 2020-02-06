@@ -1,17 +1,15 @@
 package com.systemmeltdown.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
+import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
-public class IntakeSub extends SubsystemBase implements ClosedLoopSystem {
-    // opposing ToF
-    private boolean m_useClosedLoop;
-
-    // private DoubleSolenoid m_intakeSolenoid;
+public class IntakeSub extends ClosedLoopSubsystem {
+    private Solenoid m_intakeSolenoid;
     private WPI_TalonSRX m_intakeTalon;
     private boolean m_rollIntoBot = true;
 
@@ -44,15 +42,5 @@ public class IntakeSub extends SubsystemBase implements ClosedLoopSystem {
         //     m_intakeSolenoid.set(Value.kForward);
         // }
         // }
-    }
-
-    @Override
-    public boolean isClosedLoopEnabled() {
-        return m_useClosedLoop;
-    }
-
-    @Override
-    public void setClosedLoopEnabled(boolean ClosedLoopEnabled) {
-        m_useClosedLoop = ClosedLoopEnabled;
     }
 }

@@ -2,22 +2,19 @@ package com.systemmeltdown.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.systemmeltdown.robotlib.util.ClosedLoopSystem;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.ColorSensorV3;
+import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 
-public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
+public class ControlPanelSub extends ClosedLoopSubsystem {
     //color sensor
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
     private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
-
-    boolean m_useClosedLoop;
     
     WPI_TalonSRX m_rotationTalon;
     Solenoid m_extenderSolenoid;
@@ -86,15 +83,5 @@ public class ControlPanelSub extends SubsystemBase implements ClosedLoopSystem {
         while(m_colorSensor.getColor() != translatedColor) {
             rotateControlPanel(0.125);
         }
-    }
-
-    @Override
-    public boolean isClosedLoopEnabled() {
-        return m_useClosedLoop;
-    }
-
-    @Override
-    public void setClosedLoopEnabled(boolean ClosedLoopEnabled) {
-        m_useClosedLoop = ClosedLoopEnabled;
     }
 }
