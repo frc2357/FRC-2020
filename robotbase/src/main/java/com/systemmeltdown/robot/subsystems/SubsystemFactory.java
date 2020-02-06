@@ -94,8 +94,10 @@ public class SubsystemFactory {
     }
 
     public IntakeSub CreateIntakeSub() {
-        IntakeSub subsystem = new IntakeSub(Constants.INTAKE_SOLENOID_CHANNEL,
-            Constants.INTAKE_MOTOR_ID);
+        IntakeSub subsystem = new IntakeSub(
+            Constants.INTAKE_MOTOR_ID,
+            Constants.INTAKE_SOLENOID_CHANNEL_FORWARD,
+            Constants.INTAKE_SOLENOID_CHANNEL_REVERSE);
         return subsystem;
     }
     

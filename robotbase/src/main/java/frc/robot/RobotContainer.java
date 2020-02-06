@@ -27,6 +27,7 @@ import com.systemmeltdown.robot.subsystems.IntakeSub;
 //import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
+import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
@@ -89,6 +90,7 @@ public class RobotContainer {
     m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSub));
     // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
     m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
+    m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
   }
 
   private void configureShuffleboard() {
