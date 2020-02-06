@@ -108,7 +108,6 @@ public class RobotContainer {
     m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
 
-  // Taken from docs.wpilib.org example code
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
