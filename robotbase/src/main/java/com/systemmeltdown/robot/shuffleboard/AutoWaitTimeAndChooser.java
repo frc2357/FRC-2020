@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
- * A Shuffleboard widget allows editing of wait time and Automode actions
+ * A Shuffleboard widget that allows editing of wait time and Automode actions
  * 
  * @param tabTitle Title of the tab you want to add the widget to
  */

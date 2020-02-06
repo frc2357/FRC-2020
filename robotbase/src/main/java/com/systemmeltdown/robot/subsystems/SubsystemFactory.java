@@ -7,8 +7,6 @@ import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsyst
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Solenoid;
-
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
 
