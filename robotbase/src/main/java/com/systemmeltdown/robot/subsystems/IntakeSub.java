@@ -31,7 +31,7 @@ public class IntakeSub extends ClosedLoopSubsystem {
         m_rollIntoBot = !m_rollIntoBot;
     }
 
-    // public void changeArmPosition() {
+    public void changeArmPosition() {
     //     switch (m_intakeSolenoid.get()) {
     //         case kForward: {
     //             m_intakeSolenoid.set(Value.kReverse);
@@ -41,5 +41,5 @@ public class IntakeSub extends ClosedLoopSubsystem {
     //             m_intakeSolenoid.set(Value.kForward);
     //         }
     //     }
-    // }
+    }
 }

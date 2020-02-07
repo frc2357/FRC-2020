@@ -56,7 +56,6 @@ public class ControlPanelSub extends ClosedLoopSubsystem {
             case "G": {
                 translatedColor = Color.kGreen;
                 break;
-
             } 
             case "B": {
                 translatedColor = Color.kBlue;
