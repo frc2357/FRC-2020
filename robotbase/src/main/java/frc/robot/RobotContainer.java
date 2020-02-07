@@ -7,34 +7,24 @@
 
 package frc.robot;
 
-//import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.subsystems.IntakeSub;
-//import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
-//import com.systemmeltdown.robot.subsystems.StorageSubsystem;
+import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
+import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
-import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
-import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
-import com.systemmeltdown.robot.commands.InvertDriveCommand;
-import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
+import com.systemmeltdown.robot.commands.CommandBuilder;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
-import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
-import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
-import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
-import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
-import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
-import com.systemmeltdown.robot.shuffleboard.LoggerTab;
+import com.systemmeltdown.robot.shuffleboard.ShuffleboardBuilder;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-
-import java.util.ArrayList;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -53,8 +43,6 @@ public class RobotContainer {
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
-
-  private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -80,28 +68,31 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // m_gunnerControls.m_shootButton.whenPressed(command)
-    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSub, m_driverControls));
-    m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSub));
-    // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
-    m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
-    m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
+    new CommandBuilder(m_driverControls, m_gunnerControls)
+      // .withClimbSub(m_climbSub)
+      // .withControlPanelSub(m_controlPanelSub)
+      .withDriveSub(m_driveSub)
+      // .withFeederSub(m_feederSub)
+      .withIntakeSub(m_intakeSub)
+      // .withShooterSub(m_shooterSubsystem)
+      // .withStorageSub(m_storageSub)
+      // .withTurretSub(m_turretSub)
+      .withVisionSub(m_visionSub)
+      .build();
   }
 
   private void configureShuffleboard() {
-    //CellNumberWidget cellNumberWidget = new CellNumberWidget("Robot", m_storageSub);
-    
-    // for(int i = 0; i < 4; i++) {
-    //  m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
-    // }
-
-    LoggerTab loggerTab = new LoggerTab();
-    ArrayList<ClosedLoopSubsystem> subsystems = new ArrayList<>();
-    // subsystems.add(m_shootSub);
-    // subsystems.add(m_intakeSub);
-    // subsystems.add(m_storageSub);
-    subsystems.add(m_driveSub);
-    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
+    new ShuffleboardBuilder()
+    // .withClimbSub(m_climbSub)
+    // .withControlPanelSub(m_controlPanelSub)
+    .withDriveSub(m_driveSub)
+    // .withFeederSub(m_feederSub)
+    .withIntakeSub(m_intakeSub)
+    // .withShooterSub(m_shooterSubsystem)
+    // .withStorageSub(m_storageSub)
+    // .withTurretSub(m_turretSub)
+    .withVisionSub(m_visionSub)
+    .build();
   }
 
   private void configureDriveSub() {
