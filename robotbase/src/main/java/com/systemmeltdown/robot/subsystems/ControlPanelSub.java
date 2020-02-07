@@ -49,25 +49,20 @@ public class ControlPanelSub extends ClosedLoopSubsystem {
         Color translatedColor = null;
 
         switch (color) {
-        case "R": {
-            translatedColor = Color.kRed;
-            break;
+            case "R": {
+                translatedColor = Color.kRed;
+                break;
+            } case "G": {
+                translatedColor = Color.kGreen;
+                break;
 
-        }
-        case "G": {
-            translatedColor = Color.kGreen;
-            break;
-
-        }
-        case "B": {
-            translatedColor = Color.kBlue;
-            break;
-
-        }
-        case "Y": {
-            translatedColor = Color.kYellow;
-            break;
-        }
+            } case "B": {
+                translatedColor = Color.kBlue;
+                break;
+            } case "Y": {
+                translatedColor = Color.kYellow;
+                break;
+            }
         }
 
         while (m_colorSensor.getColor() != translatedColor) {

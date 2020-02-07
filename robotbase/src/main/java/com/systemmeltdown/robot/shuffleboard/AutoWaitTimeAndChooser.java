@@ -46,6 +46,4 @@ public class AutoWaitTimeAndChooser {
     public static void show() {
         Shuffleboard.selectTab(m_tabTitle);
     }
-
-    public void periodic() {}
 }
