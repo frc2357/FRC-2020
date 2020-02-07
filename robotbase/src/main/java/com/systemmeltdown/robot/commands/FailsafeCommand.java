@@ -1,8 +1,6 @@
 package com.systemmeltdown.robot.commands;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
