@@ -17,8 +17,8 @@ public class TrackTargetCommand extends CommandBase {
     /** The tracking mode */
     private enum Mode {
         Seeking, /// < No target visible, looking for it
-        Aiming, /// < Target visible, aiming turret
-        Locked /// < Turret aimed at target
+        Aiming,  /// < Target visible, aiming turret
+        Locked   /// < Turret aimed at target
     }
 
     private TurretSubsystem m_turretSubsystem;
