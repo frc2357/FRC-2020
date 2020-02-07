@@ -16,9 +16,9 @@ import frc.robot.Constants;
 public class TrackTargetCommand extends CommandBase {
     /** The tracking mode */
     private enum Mode {
-        Seeking,    ///< No target visible, looking for it
-        Aiming,     ///< Target visible, aiming turret
-        Locked      ///< Turret aimed at target
+        Seeking, /// < No target visible, looking for it
+        Aiming,  /// < Target visible, aiming turret
+        Locked   /// < Turret aimed at target
     }
 
     private TurretSubsystem m_turretSubsystem;
@@ -26,8 +26,9 @@ public class TrackTargetCommand extends CommandBase {
     private Mode m_currentMode;
     private PIDController m_aimController;
 
-    /** Speed at which to turn the turret while seeking,
-     * units match TurretSubsystem.setTurretMotor
+    /**
+     * Speed at which to turn the turret while seeking, units match
+     * TurretSubsystem.setTurretMotor
      */
     private double m_seekingSpeed = Constants.TURRET_SEEK_SPEED;
 
@@ -67,32 +68,30 @@ public class TrackTargetCommand extends CommandBase {
         LimelightSubsystem.VisionTarget target = m_limelightSubsystem.acquireTarget(m_targetHeight);
 
         // possibly change mode based on target
-        switch(m_currentMode) {
+        switch (m_currentMode) {
         case Seeking:
-            if(target != null) {
+            if (target != null) {
                 m_currentMode = Mode.Aiming;
             }
             break;
         case Aiming:
-            if(target == null) {
+            if (target == null) {
                 m_currentMode = Mode.Seeking;
-            }
-            else if(isTargetLocked()) {
+            } else if (isTargetLocked()) {
                 m_currentMode = Mode.Locked;
             }
             break;
         case Locked:
-            if(target == null) {
+            if (target == null) {
                 m_currentMode = Mode.Seeking;
-            }
-            else if(!isTargetLocked()) {
+            } else if (!isTargetLocked()) {
                 m_currentMode = Mode.Aiming;
             }
             break;
         }
 
         double turretRotateSpeed = 0;
-        switch(m_currentMode) {
+        switch (m_currentMode) {
         case Seeking:
             turretRotateSpeed = m_seekingSpeed;
             break;
@@ -111,7 +110,7 @@ public class TrackTargetCommand extends CommandBase {
 
     public boolean isTargetLocked() {
         LimelightSubsystem.VisionTarget target = m_limelightSubsystem.getCurrentTarget();
-        if(target == null) {
+        if (target == null) {
             return false;
         }
         double desiredAngle = getDesiredTargetAngle(target);
@@ -119,11 +118,12 @@ public class TrackTargetCommand extends CommandBase {
     }
 
     /**
-     * To aim at the hole behind the target, we need the target to be offset from the center
-     * of the camera. This function uses the law of cosines to determine the correct offset
-     * angle.
+     * To aim at the hole behind the target, we need the target to be offset from
+     * the center of the camera. This function uses the law of cosines to determine
+     * the correct offset angle.
      * 
      * TODO check that the target rotation sign is positive to the left of the robot
+     * 
      * @param target
      * @return desired vision target offset in degrees
      */
@@ -133,9 +133,11 @@ public class TrackTargetCommand extends CommandBase {
         final double recessDist = Constants.VISION_DISTANCE_TO_HOLE;
 
         // cos(pi - theta) = -cos(theta)
-        double distanceToHoleSq = recessDist * recessDist + targetDist * targetDist + 2 * recessDist * targetDist * Math.cos(theta);
-        double phi = Math.acos(recessDist * recessDist - distanceToHoleSq - targetDist * targetDist + 2 * Math.sqrt(distanceToHoleSq) * targetDist);
+        double distanceToHoleSq = recessDist * recessDist + targetDist * targetDist
+                + 2 * recessDist * targetDist * Math.cos(theta);
+        double phi = Math.acos(recessDist * recessDist - distanceToHoleSq - targetDist * targetDist
+                + 2 * Math.sqrt(distanceToHoleSq) * targetDist);
         return Math.toDegrees(phi);
     }
-  
+
 }

@@ -5,7 +5,7 @@ import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class InvertDriveCommand extends CommandBase{
+public class InvertDriveCommand extends CommandBase {
     private TogglableLimelightSubsystem m_visionSub;
     private InvertDriveControls m_controls;
 

@@ -16,7 +16,6 @@ import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.commands.CommandBuilder;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
-import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
