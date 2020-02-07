@@ -66,14 +66,6 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
         setConfiguration(new Configuration());
     }
 
-    public void setConfiguration(Configuration configuration) {
-        m_config = configuration;
-
-        m_rollController.setP(m_config.m_P);
-        m_rollController.setI(m_config.m_I);
-        m_rollController.setD(m_config.m_D);
-    }
-
     @Override
     public void periodic() {
         double leftOutput = 0;
@@ -110,6 +102,10 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
         m_rightWinchMotor.set(ControlMode.PercentOutput, rightOutput);
     }
 
+    //===================
+    //     SCISSOR
+    //===================
+
     public void extendScissor() {
         m_scissorExtendSolenoid.set(true);
     }
@@ -122,13 +118,9 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
         return m_scissorExtendSolenoid.get();
     }
 
-    public void setKeepLevel(boolean keepLevel) {
-        m_keepLevel = keepLevel;
-    }
-
-    public boolean getKeepLevel() {
-        return m_keepLevel;
-    }
+    //===================
+    //  CLIMB[DIRECTION]
+    //===================
 
     public void climbUp() {
         m_climbDirection = ClimbDirection.Up;
@@ -146,9 +138,33 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
         m_climbDirection = ClimbDirection.Stop;
     }
 
+    //===================
+    //     GETTERS
+    //===================
+
     public double getRoll() {
         double[] ypr = new double[3];
         m_gyro.getYawPitchRoll(ypr);
         return ypr[2];
+    }
+
+    public boolean getKeepLevel() {
+        return m_keepLevel;
+    }
+
+    //===================
+    //     SETTERS
+    //===================
+
+    public void setKeepLevel(boolean keepLevel) {
+        m_keepLevel = keepLevel;
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        m_config = configuration;
+
+        m_rollController.setP(m_config.m_P);
+        m_rollController.setI(m_config.m_I);
+        m_rollController.setD(m_config.m_D);
     }
 }
