@@ -82,27 +82,28 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    ClosedLoopSubsystem[] subsystems = {
-      m_driveSub,
-      // m_climbSub,
-      // m_controlPanelSub,
-      // m_feederSub,
-      m_intakeSub,
-      // m_shooterSub,
-      // m_storageSub,
-      m_visionSub,
-      // m_turretSub,
-    };
-    ControlsFactory factory = new ControlsFactory(m_driverControls, m_gunnerControls, subsystems);
+    ControlsFactory factory = new ControlsFactory(m_driverControls, m_gunnerControls,
+        new ClosedLoopSubsystem[] { 
+            m_driveSub,
+            // m_climbSub,
+            // m_controlPanelSub,
+            // m_feederSub,
+            m_intakeSub,
+            // m_shooterSub,
+            // m_storageSub,
+            m_visionSub,
+            // m_turretSub,
+        });
     m_driverControls = factory.buildDriveControls();
     m_gunnerControls = factory.buildGunnerControls();
   }
 
   private void configureShuffleboard() {
-    //CellNumberWidget cellNumberWidget = new CellNumberWidget("Robot", m_storageSub);
-    
+    // CellNumberWidget cellNumberWidget = new CellNumberWidget("Robot",
+    // m_storageSub);
+
     // for(int i = 0; i < 4; i++) {
-    //  m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
+    // m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
     // }
 
     LoggerTab loggerTab = new LoggerTab();
@@ -120,6 +121,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   // public Command getAutonomousCommand() {
-  //   return new AutoTemporaryCommand(m_driveSub).getRamsete();
+  // return new AutoTemporaryCommand(m_driveSub).getRamsete();
   // }
 }
