@@ -39,7 +39,8 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
         public double m_F = 0;
     }
 
-    private Solenoid m_scissorExtendSolenoid;
+    private Solenoid m_scissorExtendSolenoidLeft;
+    private Solenoid m_scissorExtendSolenoidRight;
     private PigeonIMU m_gyro;
     private WPI_TalonSRX m_leftWinchMotor;
     private WPI_TalonSRX m_rightWinchMotor;
@@ -50,9 +51,10 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
 
     private Configuration m_config;
 
-    public ClimbSubsystem(Solenoid solenoid, PigeonIMU gyro, WPI_TalonSRX leftWinchMotor,
+    public ClimbSubsystem(Solenoid solenoidLeft, Solenoid solenoidRight, PigeonIMU gyro, WPI_TalonSRX leftWinchMotor,
             WPI_TalonSRX rightWinchMotor) {
-        m_scissorExtendSolenoid = solenoid;
+        m_scissorExtendSolenoidLeft = solenoidLeft;
+        m_scissorExtendSolenoidRight = solenoidRight;
         m_gyro = gyro;
         m_leftWinchMotor = leftWinchMotor;
         m_rightWinchMotor = rightWinchMotor;
@@ -107,15 +109,21 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     //===================
 
     public void extendScissor() {
-        m_scissorExtendSolenoid.set(true);
+        m_scissorExtendSolenoidLeft.set(true);
+        m_scissorExtendSolenoidRight.set(true);
     }
 
     public void releaseScissor() {
-        m_scissorExtendSolenoid.set(false);
+        m_scissorExtendSolenoidLeft.set(false);
+        m_scissorExtendSolenoidRight.set(false);
     }
 
-    public boolean isScissorExtending() {
-        return m_scissorExtendSolenoid.get();
+    public boolean isLeftScissorExtending() {
+        return m_scissorExtendSolenoidLeft.get();
+    }
+
+    public boolean isRightScissorExtending() {
+        return m_scissorExtendSolenoidRight.get();
     }
 
     //===================
