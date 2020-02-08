@@ -7,10 +7,10 @@
 
 package frc.robot;
 
-//import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.subsystems.IntakeSub;
-//import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
-//import com.systemmeltdown.robot.subsystems.StorageSubsystem;
+import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
+import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
@@ -21,17 +21,12 @@ import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
-import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
-import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
-import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 import com.systemmeltdown.robot.shuffleboard.ShuffleboardFactory;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,10 +45,8 @@ public class RobotContainer {
   // private final StorageSubsystem m_storageSub;
   // private final TogglableLimelightSubsystem m_visionSub;
 
-  private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
-  private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
-
-  private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
+  // private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
+  // private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -88,7 +81,7 @@ public class RobotContainer {
   }
 
   private void configureShuffleboard() {
-    LoggerTab loggerTab = new LoggerTab();
+    // LoggerTab loggerTab = new LoggerTab();
     Map<String, ClosedLoopSubsystem> subsystems = new HashMap<>();
     // subsystems.put("DriveSub", m_driveSub);
     // subsystems.put("ClimbSub", m_climbSub);
@@ -102,9 +95,9 @@ public class RobotContainer {
     new ShuffleboardFactory().build(subsystems);
   }
 
-  // private void configureDriveSub() {
-  //   m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
-  // }
+  private void configureDriveSub() {
+    // m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
