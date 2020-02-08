@@ -63,6 +63,8 @@ public final class Constants {
   public static final int SCISSOR_SOLENOID = -1;
   public static final int WINCH_MOTOR_LEFT = -1;
   public static final int WINCH_MOTOR_RIGHT = -1;
+  public static final int TURRET_ROTATE_MOTOR = -1;
+  public static final int TURRET_HOOD_MOTOR = -1;
 
   /** Intake motor */
   public static final int INTAKE_MOTOR_ID = 23;
