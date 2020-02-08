@@ -1,13 +1,13 @@
 package com.systemmeltdown.robot.commands;
 
-import com.systemmeltdown.robot.subsystems.IntakeSub;
+import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class PivotIntakeCommand extends CommandBase {
-    private IntakeSub m_intakeSubsystem;
+    private IntakeSubsystem m_intakeSubsystem;
 
-    public PivotIntakeCommand(IntakeSub intakeSubsystem) {
+    public PivotIntakeCommand(IntakeSubsystem intakeSubsystem) {
         m_intakeSubsystem = intakeSubsystem;
         addRequirements(m_intakeSubsystem);
     }

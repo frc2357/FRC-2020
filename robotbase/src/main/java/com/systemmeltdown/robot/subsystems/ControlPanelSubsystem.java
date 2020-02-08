@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorSensorV3;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
-public class ControlPanelSub extends ClosedLoopSubsystem {
+public class ControlPanelSubsystem extends ClosedLoopSubsystem {
     // color sensor
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
     private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
@@ -20,7 +20,7 @@ public class ControlPanelSub extends ClosedLoopSubsystem {
     Solenoid m_extenderSolenoid;
     boolean m_extenderPosition = false;
     
-    public ControlPanelSub(int channel, int rotationTalonID) {
+    public ControlPanelSubsystem(int channel, int rotationTalonID) {
         m_rotationTalon = new WPI_TalonSRX(rotationTalonID);
         m_extenderSolenoid = new Solenoid(channel);
     }

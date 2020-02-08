@@ -1,13 +1,13 @@
 package com.systemmeltdown.robot.commands;
 
-import com.systemmeltdown.robot.subsystems.IntakeSub;
+import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IntakeToggleDirectionCommand extends CommandBase {
-    private IntakeSub m_intakeSub;
+    private IntakeSubsystem m_intakeSub;
 
-    public IntakeToggleDirectionCommand(IntakeSub intakeSub) {
+    public IntakeToggleDirectionCommand(IntakeSubsystem intakeSub) {
         m_intakeSub = intakeSub;
         addRequirements(intakeSub);
     }

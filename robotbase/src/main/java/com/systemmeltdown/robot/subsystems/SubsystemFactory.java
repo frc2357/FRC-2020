@@ -83,7 +83,7 @@ public class SubsystemFactory {
         */
     }
 
-    public ControlPanelSub CreateControlPanelSub() {
+    public ControlPanelSubsystem CreateControlPanelSub() {
         // Need device IDs
         throw new UnsupportedOperationException();
         /*
@@ -91,8 +91,8 @@ public class SubsystemFactory {
          */
     }
 
-    public IntakeSub CreateIntakeSub() {
-        IntakeSub subsystem = new IntakeSub(
+    public IntakeSubsystem CreateIntakeSub() {
+        IntakeSubsystem subsystem = new IntakeSubsystem(
             Constants.INTAKE_MOTOR_ID,
             Constants.INTAKE_SOLENOID_CHANNEL_FORWARD,
             Constants.INTAKE_SOLENOID_CHANNEL_REVERSE);
