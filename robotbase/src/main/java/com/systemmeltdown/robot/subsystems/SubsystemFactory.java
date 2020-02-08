@@ -91,6 +91,11 @@ public class SubsystemFactory {
          */
     }
 
+    public FeederSubsystem CreateFeederSubsystem() {
+        FeederSubsystem subsystem = new FeederSubsystem(Constants.FEEDER_MOTOR_ID);
+        return subsystem;
+    }
+
     public IntakeSub CreateIntakeSub() {
         IntakeSub subsystem = new IntakeSub(
             Constants.INTAKE_MOTOR_ID,

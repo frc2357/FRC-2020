@@ -71,6 +71,9 @@ public final class Constants {
   public static final int INTAKE_SOLENOID_CHANNEL_FORWARD = -1;
   public static final int INTAKE_SOLENOID_CHANNEL_REVERSE = -1;
 
+  /** Feeder motor */
+  public static final int FEEDER_MOTOR_ID = -1;
+
   /** IR sensor before feed wheel */
   public static final int STORAGE_FEED_SENSOR_CHANNEL = -1;
 
