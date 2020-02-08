@@ -8,10 +8,10 @@
 package frc.robot;
 
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
-import com.systemmeltdown.robot.subsystems.ControlPanelSub;
+import com.systemmeltdown.robot.subsystems.ControlPanelSubsystem;
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 //import com.systemmeltdown.robot.commands.ShootCommand;
-import com.systemmeltdown.robot.subsystems.IntakeSub;
+import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
@@ -44,9 +44,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final FalconTrajectoryDriveSubsystem m_driveSub;
   private final ClimbSubsystem m_climbSub;
-  private final ControlPanelSub m_controlPanelSub;
+  private final ControlPanelSubsystem m_controlPanelSub;
   private final FeederSubsystem m_feederSub;
-  private final IntakeSub m_intakeSub;
+  private final IntakeSubsystem m_intakeSub;
   private final ShooterSubsystem m_shooterSub;
   private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
@@ -66,7 +66,7 @@ public class RobotContainer {
     m_climbSub = subsystemFactory.CreateClimbSubsystem();
     m_controlPanelSub = subsystemFactory.CreateControlPanelSub();
     m_feederSub = subsystemFactory.CreateFeederSubsystem();
-    m_intakeSub = subsystemFactory.CreateIntakeSub();
+    m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
     m_shooterSub = subsystemFactory.CreateShooterSubsystem();
     m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();

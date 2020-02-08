@@ -7,12 +7,12 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 // import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-public class IntakeSub extends ClosedLoopSubsystem {
+public class IntakeSubsystem extends ClosedLoopSubsystem {
     // private DoubleSolenoid m_intakeSolenoid;
     private WPI_TalonSRX m_intakeTalon;
     private boolean m_rollIntoBot = true;
 
-    public IntakeSub(int intakeTalonID, int forwardChannel, int reverseChannel) {
+    public IntakeSubsystem(int intakeTalonID, int forwardChannel, int reverseChannel) {
         // m_intakeSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
         m_intakeTalon = new WPI_TalonSRX(intakeTalonID);
     }
