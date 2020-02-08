@@ -63,6 +63,7 @@ public final class Constants {
   public static final int SCISSOR_SOLENOID = -1;
   public static final int WINCH_MOTOR_LEFT = -1;
   public static final int WINCH_MOTOR_RIGHT = -1;
+  public static final int STORAGE_CAROUSEL_MOTOR = -1;
 
   /** Intake motor */
   public static final int INTAKE_MOTOR_ID = 23;
@@ -72,7 +73,12 @@ public final class Constants {
   public static final int INTAKE_SOLENOID_CHANNEL_REVERSE = -1;
 
   /** IR sensor before feed wheel */
-  public static final int STORAGE_FEED_SENSOR_CHANNEL = -1;
+  public static final int FEED_SENSOR_CHANNEL = -1;
+
+  /** Hall effect sensor on storage system for carousel alignment */
+  public static final int STORAGE_ALIGNMENT_SENSOR_CHANNEL = -1;
+  public static final double STORAGE_CAROUSEL_ROTATION_SPEED = 0.25;
+  public static final int STORAGE_CAROUSEL_SEGMENTS = 6;
 
   /**
    * Characterization Constants Zeroes are currently placeholder values

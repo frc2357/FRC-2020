@@ -32,7 +32,7 @@ public class CellNumberWidget {
    * Adds one to the power cell count.
    */
     public void addBall() {
-        int numOfCells = m_storageSub.getNumbOfCells();
+        int numOfCells = m_storageSub.getNumOfCells();
         m_storageSub.setNumOfCells(++numOfCells);
         m_cellNumWidget.setNumber(numOfCells);
     }
@@ -41,7 +41,7 @@ public class CellNumberWidget {
     * Subtracts one from the power cell count.
     */
     public void subBall() {
-        int numOfCells = m_storageSub.getNumbOfCells();
+        int numOfCells = m_storageSub.getNumOfCells();
         m_storageSub.setNumOfCells(--numOfCells);
         m_cellNumWidget.setNumber(numOfCells);
     }
