@@ -59,7 +59,7 @@ public final class Constants {
 
   public static final int SHOOT_MOTOR_1 = 20;
   public static final int SHOOT_MOTOR_2 = 21;
-  public static final int GYRO_ID = 22;
+  public static final int GYRO_ID = 20;
   public static final int SCISSOR_SOLENOID = -1;
   public static final int WINCH_MOTOR_LEFT = -1;
   public static final int WINCH_MOTOR_RIGHT = -1;
@@ -152,4 +152,9 @@ public final class Constants {
   public static final double TURRET_AIM_D = 0;
   public static final double TURRET_SEEK_SPEED = 0.2;
   public static final double TURRET_AIM_TOLERANCE = 2;
+
+  /**
+   * Sensor Contants
+   */
+  public static final int BAUD_RATE = 115200;
 }
