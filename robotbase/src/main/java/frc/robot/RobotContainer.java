@@ -26,11 +26,14 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
+import com.systemmeltdown.robot.shuffleboard.ShuffleboardFactory;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -41,11 +44,11 @@ import java.util.ArrayList;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private FalconTrajectoryDriveSubsystem m_driveSub;
+  // private FalconTrajectoryDriveSubsystem m_driveSub;
   // private final ShooterSubsystem m_shootSub;
   private final IntakeSub m_intakeSub;
   // private final StorageSubsystem m_storageSub;
-  private final TogglableLimelightSubsystem m_visionSub;
+  // private final TogglableLimelightSubsystem m_visionSub;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -57,15 +60,15 @@ public class RobotContainer {
    */
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
-    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    // m_shootSub = subsystemFactory.CreateShooterSubsystem();
+    // m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    // m_shooterSub = subsystemFactory.CreateShooterSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSub();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
-    m_visionSub = subsystemFactory.CreateLimelightSubsystem();
+    // m_visionSub = subsystemFactory.CreateLimelightSubsystem();
 
     // Configure the button bindings
-    configureDriveSub();
-    configureButtonBindings();
+    // configureDriveSub();
+    // configureButtonBindings();
     configureShuffleboard();
   }
 
@@ -76,40 +79,39 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // m_gunnerControls.m_shootButton.whenPressed(command)
-    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSub, m_driverControls));
-    m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSub));
-    // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
-    m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
-    m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
+    // // m_gunnerControls.m_shootButton.whenPressed(command)
+    // m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSub, m_driverControls));
+    // m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSub));
+    // // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
+    // m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
+    // m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
   }
 
   private void configureShuffleboard() {
-    //CellNumberWidget cellNumberWidget = new CellNumberWidget("Robot", m_storageSub);
-    
-    // for(int i = 0; i < 4; i++) {
-    //  m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
-    // }
-
     LoggerTab loggerTab = new LoggerTab();
-    ArrayList<ClosedLoopSubsystem> subsystems = new ArrayList<>();
-    // subsystems.add(m_shootSub);
-    // subsystems.add(m_intakeSub);
-    // subsystems.add(m_storageSub);
-    subsystems.add(m_driveSub);
-    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
+    Map<String, ClosedLoopSubsystem> subsystems = new HashMap<>();
+    // subsystems.put("DriveSub", m_driveSub);
+    // subsystems.put("ClimbSub", m_climbSub);
+    // subsystems.put("ControlPanelSub", m_controlPanelSub);
+    // subsystems.put("FeederSub", m_feederSub);
+    subsystems.put("IntakeSub", m_intakeSub);
+    // subsystems.put("ShooterSub", m_shooterSub);
+    // subsystems.put("StorageSub", m_storageSub);
+    // subsystems.put("TurretSub", m_turretSub);
+    // subsystems.put("VisionSub", m_visionSub);
+    new ShuffleboardFactory().build(subsystems);
   }
 
-  private void configureDriveSub() {
-    m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
-  }
+  // private void configureDriveSub() {
+  //   m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
+  // }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return new AutoTemporaryCommand(m_driveSub).getRamsete();
-  }
+  // public Command getAutonomousCommand() {
+  //   return new AutoTemporaryCommand(m_driveSub).getRamsete();
+  // }
 }
