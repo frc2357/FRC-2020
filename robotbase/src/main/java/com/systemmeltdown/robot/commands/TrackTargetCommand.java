@@ -1,7 +1,6 @@
 package com.systemmeltdown.robot.commands;
 
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
-import com.systemmeltdown.robotlib.util.Utility;
 import com.systemmeltdown.robot.subsystems.TurretSubsystem;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -24,7 +23,6 @@ public class TrackTargetCommand extends CommandBase {
     private TurretSubsystem m_turretSubsystem;
     private LimelightSubsystem m_limelightSubsystem;
     private Mode m_currentMode;
-    private PIDController m_aimController;
 
     /**
      * Speed at which to turn the turret while seeking, units match
@@ -44,8 +42,6 @@ public class TrackTargetCommand extends CommandBase {
         addRequirements(m_turretSubsystem, m_limelightSubsystem);
 
         m_currentMode = Mode.Seeking;
-        m_aimController = new PIDController(Constants.TURRET_AIM_P, Constants.TURRET_AIM_I, Constants.TURRET_AIM_D);
-        SendableRegistry.addLW(m_aimController, getSubsystem(), "aimPID");
     }
 
     public String getCurrentMode() {
@@ -90,22 +86,23 @@ public class TrackTargetCommand extends CommandBase {
             break;
         }
 
-        double turretRotateSpeed = 0;
         switch (m_currentMode) {
         case Seeking:
-            turretRotateSpeed = m_seekingSpeed;
+            m_turretSubsystem.disableHorizontalAimClosedLoop();
+            m_turretSubsystem.setTurretMotor(m_seekingSpeed);
             break;
         case Aiming:
-            double cv = m_aimController.calculate(target.getX(), getDesiredTargetAngle(target));
-            turretRotateSpeed = Utility.clamp(cv, -1, 1);
+            double verticalAngle = getVerticalTargetAngle(target);
+            double horizontalAngle = getDesiredTargetAngle(target);
+            m_turretSubsystem.setHorizontalAimClosedLoop(horizontalAngle, target.getX());
+            m_turretSubsystem.setHoodAngle(verticalAngle);
             break;
         case Locked:
             // hold still if locked. change this if minor adjustments are needed
-            turretRotateSpeed = 0;
+            m_turretSubsystem.disableHorizontalAimClosedLoop();
+            m_turretSubsystem.setTurretMotor(0);
             break;
         }
-
-        m_turretSubsystem.setTurretMotor(turretRotateSpeed);
     }
 
     public boolean isTargetLocked() {
@@ -138,6 +135,14 @@ public class TrackTargetCommand extends CommandBase {
         double phi = Math.acos(recessDist * recessDist - distanceToHoleSq - targetDist * targetDist
                 + 2 * Math.sqrt(distanceToHoleSq) * targetDist);
         return Math.toDegrees(phi);
+    }
+
+    /**
+     * Get the vertical aiming angle for the target distance
+     */
+    private double getVerticalTargetAngle(LimelightSubsystem.VisionTarget target) {
+        // TODO
+        return 0;
     }
 
 }
