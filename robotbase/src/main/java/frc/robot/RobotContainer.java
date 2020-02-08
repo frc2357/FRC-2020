@@ -121,34 +121,4 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return new AutoTemporaryCommand(m_driveSub).getRamsete();
   }
-
-  /**
-   * Create the command sequence for climbing
-   * @return
-   */
-  private Command createClimbCommandSequence() {
-    Command sequence;
-
-    if(m_climbSub != null) {
-      Command raiseHook = new ClimbRaiseScissorCommand(m_climbSub);
-      Command reelWinch = new ClimbReelWinchCommand(m_climbSub);
-      Command climbLevel = new ClimbLevelCommand(m_climbSub);
-
-      // Run the raise scissor lift and reel winch commands in parallel. The reel
-      // winch command ends when it detects that the hook is hooked.
-      Command reachToHookBar = new ParallelRaceGroup(
-        raiseHook,
-        new SequentialCommandGroup(
-          new WaitCommand(Constants.CLIMB_WAIT_FOR_WINCH),
-          reelWinch));
-
-      // Hook on the bar and then climb level
-      sequence = new SequentialCommandGroup(reachToHookBar, climbLevel);
-    } else {
-      // Do nothing
-      sequence = new WaitCommand(0);
-    }
-
-    return sequence;
-  }
 }
