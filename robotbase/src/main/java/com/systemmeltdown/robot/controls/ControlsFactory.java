@@ -1,7 +1,5 @@
 package com.systemmeltdown.robot.controls;
 
-import java.util.Map;
-
 import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
@@ -25,81 +23,116 @@ public class ControlsFactory {
     private InvertDriveControls m_driverControls;
     private GunnerControls m_gunnerControls;
 
-    public ControlsFactory(InvertDriveControls driverControls, GunnerControls gunnerControls) {
-        this.m_driverControls = driverControls;
-        this.m_gunnerControls = gunnerControls;
+    private ClimbSubsystem climbSub = null;
+    private ControlPanelSub controlPanelSub = null;
+    private FeederSubsystem feederSub = null;
+    private IntakeSub intakeSub = null;
+    private ShooterSubsystem shooterSub = null;
+    private StorageSubsystem storageSub = null;
+    private TogglableLimelightSubsystem visionSub = null;
+    private TurretSubsystem turretSub = null;
+    private FalconTrajectoryDriveSubsystem driveSub = null;
+
+
+    public ControlsFactory(InvertDriveControls driverControls, GunnerControls gunnerControls, ClosedLoopSubsystem[] subsystems) {
+        m_driverControls = driverControls;
+        m_gunnerControls = gunnerControls;
+        for (ClosedLoopSubsystem subsystem : subsystems) {
+            if (subsystem.getClass() == ClimbSubsystem.class) {
+                climbSub = (ClimbSubsystem) subsystem;
+            }
+            if (subsystem.getClass() == ControlPanelSub.class) {
+                controlPanelSub = (ControlPanelSub) subsystem;
+            }
+            if (subsystem.getClass() == FeederSubsystem.class) {
+                feederSub = (FeederSubsystem) subsystem;
+            }
+            if (subsystem.getClass() == IntakeSub.class) {
+                intakeSub = (IntakeSub) subsystem;
+            }
+            if (subsystem.getClass() == ShooterSubsystem.class) {
+                shooterSub = (ShooterSubsystem) subsystem;
+            }
+            if (subsystem.getClass() == StorageSubsystem.class) {
+                storageSub = (StorageSubsystem) subsystem;
+            }
+            if (subsystem.getClass() == TogglableLimelightSubsystem.class) {
+                visionSub = (TogglableLimelightSubsystem) subsystem;
+            }
+            if (subsystem.getClass() == TurretSubsystem.class) {
+                turretSub = (TurretSubsystem) subsystem;
+            }
+            if (subsystem.getClass() == FalconTrajectoryDriveSubsystem.class) {
+                driveSub = (FalconTrajectoryDriveSubsystem) subsystem;
+            }
+        }
     }
 
-    public InvertDriveControls buildDriveControls(Map<String, ClosedLoopSubsystem> subsystems) {
-        if (subsystems.containsKey("ClimbSub")) {
+    public InvertDriveControls buildDriveControls() {
+        if (climbSub != null) {
 
         }
-        if (subsystems.containsKey("ControlPanelSub")) {
+        if (controlPanelSub != null) {
 
         }
-        if (subsystems.containsKey("DriveSub")) {
-            FalconTrajectoryDriveSubsystem driveSub = (FalconTrajectoryDriveSubsystem) subsystems.get("DriveSub");
-            // driveSub.setDefaultCommand(new DriveProportionalCommand(driveSub, m_driverControls));
-            if (subsystems.containsKey("VisionSub")) {
-                TogglableLimelightSubsystem visionSub = (TogglableLimelightSubsystem) subsystems.get("VisionSub");
+        if (driveSub != null) {
+            driveSub.setDefaultCommand(new DriveProportionalCommand(driveSub, m_driverControls));
+            if (visionSub != null) {
                 this.m_driverControls.m_invertButton
                         .whenPressed(new InvertDriveCommand(visionSub, this.m_driverControls));
             }
         }
-        if (subsystems.containsKey("FeederSub")) {
+        if (feederSub != null) {
 
         }
-        if (subsystems.containsKey("IntakeSub")) {
+        if (intakeSub != null) {
 
         }
-        if (subsystems.containsKey("ShooterSub")) {
+        if (shooterSub != null) {
 
         }
-        if (subsystems.containsKey("StorageSub")) {
+        if (storageSub != null) {
 
         }
-        if (subsystems.containsKey("TurretSub")) {
+        if (turretSub != null) {
 
         }
-        if (subsystems.containsKey("VisionSub")) {
-            TogglableLimelightSubsystem visionSub = (TogglableLimelightSubsystem) subsystems.get("VisionSub");
-            this.m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(visionSub));
+        if (visionSub != null) {
+            this.m_driverControls.m_changePipelineButton
+                    .whileHeld(new VisionChangePipelineCommand(visionSub));
         }
         return this.m_driverControls;
     }
 
-    public GunnerControls buildGunnerControls(Map<String, ClosedLoopSubsystem> subsystems) {
-        if (subsystems.containsKey("ClimbSub")) {
+    public GunnerControls buildGunnerControls() {
+        if (climbSub != null) {
 
         }
-        if (subsystems.containsKey("ControlPanelSub")) {
+        if (controlPanelSub != null) {
 
         }
-        if (subsystems.containsKey("DriveSub")) {
+        if (driveSub != null) {
 
         }
-        if (subsystems.containsKey("FeederSub")) {
+        if (feederSub != null) {
 
         }
-        if (subsystems.containsKey("IntakeSub")) {
-            IntakeSub intakeSub = (IntakeSub) subsystems.get("IntakeSub");
+        if (intakeSub != null) {
             this.m_gunnerControls.m_leftTrigger
                     .whileActiveContinuous(new IntakePickupBallCommand(intakeSub, this.m_gunnerControls));
             this.m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(intakeSub));
         }
-        if (subsystems.containsKey("ShooterSub")) {
-            ShooterSubsystem shooterSub = (ShooterSubsystem) subsystems.get("ShooterSub");
+        if (shooterSub != null) {
             this.m_gunnerControls.m_rightTrigger
                     .whileActiveContinuous(new ShootCommand(shooterSub, this.m_gunnerControls));
         }
-        if (subsystems.containsKey("StorageSub")) {
+        if (storageSub != null) {
 
         }
-        if (subsystems.containsKey("TurretSUb")) {
+        if (turretSub != null) {
 
         }
-        if (subsystems.containsKey("VisionSub")) {
-
+        if (visionSub != null) {
         }
         return this.m_gunnerControls;
     }

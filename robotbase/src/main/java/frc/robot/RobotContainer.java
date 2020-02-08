@@ -83,19 +83,20 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    Map<String, ClosedLoopSubsystem> subsystems = new HashMap<>();
-    // subsystems.put("DriveSub", m_driveSub);
-    // subsystems.put("ClimbSub", m_climbSub);
-    // subsystems.put("ControlPanelSub", m_controlPanelSub);
-    // subsystems.put("FeederSub", m_feederSub);
-    subsystems.put("IntakeSub", m_intakeSub);
-    // subsystems.put("ShooterSub", m_shooterSub);
-    // subsystems.put("StorageSub", m_storageSub);
-    // subsystems.put("TurretSub", m_turretSub);
-    // subsystems.put("VisionSub", m_visionSub);
-    ControlsFactory factory = new ControlsFactory(m_driverControls, m_gunnerControls);
-    m_driverControls = factory.buildDriveControls(subsystems);
-    m_gunnerControls = factory.buildGunnerControls(subsystems);
+    ClosedLoopSubsystem[] subsystems = {
+      // m_driveSub,
+      // m_climbSub,
+      // m_controlPanelSub,
+      // m_feederSub,
+      m_intakeSub,
+      // m_shooterSub,
+      // m_storageSub,
+      // m_visionSub,
+      // m_turretSub,
+    };
+    ControlsFactory factory = new ControlsFactory(m_driverControls, m_gunnerControls, subsystems);
+    m_driverControls = factory.buildDriveControls();
+    m_gunnerControls = factory.buildGunnerControls();
   }
 
   private void configureShuffleboard() {
@@ -115,6 +116,7 @@ public class RobotContainer {
   }
 
   private void configureDriveSub() {
+    // m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
 
   /**
