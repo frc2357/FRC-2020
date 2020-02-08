@@ -7,6 +7,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class IntakeToggleDirectionCommand extends CommandBase {
     private IntakeSub m_intakeSub;
 
+    /**
+     * When the {@link InvertDriveCommand} is called, this command should be called. When it is, 
+     * this command should will call {@link IntakeSub.toggleRollDirection()} on the intake sub.
+     * 
+     * @param intakeSub The {@link IntakeSub}.
+     */
     public IntakeToggleDirectionCommand(IntakeSub intakeSub) {
         m_intakeSub = intakeSub;
         addRequirements(intakeSub);

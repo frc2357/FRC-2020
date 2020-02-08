@@ -21,7 +21,15 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import frc.robot.Constants;
 
 
-// Moved out of the RobotContainer. Will be removed once we get our robot fully characterized.
+
+/**
+ * This command has been moved out of the RobotContainer. Will be removed once we get our 
+ * robot fully characterized.
+ * 
+ * This command is from WpiLib's Trajectory class, found here: https://docs.wpilib.org/en/latest/docs/software/examples-tutorials/trajectory-tutorial/trajectory-tutorial-overview.html
+ * 
+ * @category Automode Commands
+ */
 public class AutoTemporaryCommand extends CommandBase {
     private FalconTrajectoryDriveSubsystem driveSub;
 

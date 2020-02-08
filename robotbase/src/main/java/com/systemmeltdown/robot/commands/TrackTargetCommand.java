@@ -38,6 +38,12 @@ public class TrackTargetCommand extends CommandBase {
     /** We consider the aim correct if the target offset is within this (degrees) */
     private double m_targetLockTolerance = Constants.TURRET_AIM_TOLERANCE;
 
+    /**
+     * This command uses the limelight to track targets. Uses constants from {@link Constants} to find the target.
+     * 
+     * @param turretSubsystem The {@link TurretSubsystem}.
+     * @param limelightSubsystem The {@link LimelightSubsystem}.
+     */
     public TrackTargetCommand(TurretSubsystem turretSubsystem, LimelightSubsystem limelightSubsystem) {
         m_turretSubsystem = turretSubsystem;
         m_limelightSubsystem = limelightSubsystem;
@@ -46,10 +52,6 @@ public class TrackTargetCommand extends CommandBase {
         m_currentMode = Mode.Seeking;
         m_aimController = new PIDController(Constants.TURRET_AIM_P, Constants.TURRET_AIM_I, Constants.TURRET_AIM_D);
         SendableRegistry.addLW(m_aimController, getSubsystem(), "aimPID");
-    }
-
-    public String getCurrentMode() {
-        return m_currentMode.name();
     }
 
     @Override
@@ -108,6 +110,9 @@ public class TrackTargetCommand extends CommandBase {
         m_turretSubsystem.setTurretMotor(turretRotateSpeed);
     }
 
+    /**
+     * @return True if the robot is locked onto the target, false if not.
+     */
     public boolean isTargetLocked() {
         LimelightSubsystem.VisionTarget target = m_limelightSubsystem.getCurrentTarget();
         if (target == null) {
@@ -117,6 +122,16 @@ public class TrackTargetCommand extends CommandBase {
         return Math.abs(desiredAngle - target.getX()) <= m_targetLockTolerance;
     }
 
+    
+
+    //===================
+    //     GETTERS
+    //===================
+
+    public String getCurrentMode() {
+        return m_currentMode.name();
+    }
+
     /**
      * To aim at the hole behind the target, we need the target to be offset from
      * the center of the camera. This function uses the law of cosines to determine
@@ -124,7 +139,7 @@ public class TrackTargetCommand extends CommandBase {
      * 
      * TODO check that the target rotation sign is positive to the left of the robot
      * 
-     * @param target
+     * @param target The target; Type: {@link LimelightSubsystem.VisionTarget}.
      * @return desired vision target offset in degrees
      */
     private double getDesiredTargetAngle(LimelightSubsystem.VisionTarget target) {
@@ -139,5 +154,4 @@ public class TrackTargetCommand extends CommandBase {
                 + 2 * Math.sqrt(distanceToHoleSq) * targetDist);
         return Math.toDegrees(phi);
     }
-
 }

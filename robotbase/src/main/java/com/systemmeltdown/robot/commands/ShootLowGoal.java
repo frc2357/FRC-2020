@@ -9,6 +9,14 @@ public class ShootLowGoal extends CommandBase {
     private ShooterSubsystem m_shooterSubsystem;
     private GunnerControls m_gunnerControls;
 
+    /**
+     * Auto command that shoots power cells into the low goal Will continue to shoot until the buton that
+     * calls this command is let go of. NOTE: This command is incomplete, as there is no code telling the
+     * hood to move to the low goal.
+     * 
+     * @param shootersub The {@link ShooterSubsystem}.
+     * @param gunnerControls The {@link GunnerControls}.
+     */
     public ShootLowGoal (ShooterSubsystem shootersub, GunnerControls gunnerControls) {
         m_shooterSubsystem = shootersub;
         m_gunnerControls = gunnerControls;

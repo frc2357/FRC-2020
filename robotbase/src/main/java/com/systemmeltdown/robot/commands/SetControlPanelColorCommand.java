@@ -8,6 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class SetControlPanelColorCommand extends CommandBase {
     private ControlPanelSub m_controlPanelSub;
 
+    /**
+     * Calls on a wheel/motor/whatever we decide on to rotate the control panel to the color given by FMS.
+     * If a color has not been given, then this command will simply print a line to the console.
+     * 
+     * @param controlPanelSub The {@link ControlPanelSub}.
+     */
     public SetControlPanelColorCommand(ControlPanelSub controlPanelSub) {
         m_controlPanelSub = controlPanelSub;
         addRequirements(m_controlPanelSub);

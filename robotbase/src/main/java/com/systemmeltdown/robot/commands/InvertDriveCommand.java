@@ -9,6 +9,17 @@ public class InvertDriveCommand extends CommandBase {
     private TogglableLimelightSubsystem m_visionSub;
     private InvertDriveControls m_controls;
 
+    /**
+     * This command inverts the controls. For example: when pressed, forward becomes back,
+     * and left becomes right, and vice versa. This is done so that the driver does not have to turn the robot
+     * all the way around: they can just press a button instead.
+     * 
+     * @param visionSub The {@link TogglableLimelightSubsystem}. When this command is called, the stream
+     * will switch to a camera on the other side of the robot.
+     * 
+     * @param controls The controls. The {@link InvertDriveControls} class extends off of 
+     * {@link DriverControls} so these should be used instead of DriverControls.
+     */
     public InvertDriveCommand(TogglableLimelightSubsystem visionSub, InvertDriveControls controls) {
         m_controls = controls;
         m_visionSub = visionSub;

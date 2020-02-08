@@ -8,6 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class VisionChangePipelineCommand extends CommandBase {
     private TogglableLimelightSubsystem m_visionSub;
 
+    /**
+     * Changes the camera pipeline (which camera stream is being shown).
+     * @param visionSub The {@link TogglableLimelightSubsystem}.
+     * 
+     * @category Camera Control
+     */
     public VisionChangePipelineCommand(TogglableLimelightSubsystem visionSub) {
         m_visionSub = visionSub;
         addRequirements(visionSub);

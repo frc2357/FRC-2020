@@ -10,6 +10,12 @@ public class ShootCommand extends CommandBase {
     private ShooterSubsystem m_shootSub;
     private GunnerControls m_gunnerControls;
 
+    /**
+     * Tells the turret to shoot by calling runMotor() on the {@link ShooterSubsystem}.
+     * @param shootSub The {@link ShooterSubsystem}.
+     * 
+     * @param gunnerControls The {@link GunnerControls}.
+     */
     public ShootCommand(ShooterSubsystem shootSub, GunnerControls gunnerControls) {
         m_shootSub = shootSub;
         m_gunnerControls = gunnerControls;
