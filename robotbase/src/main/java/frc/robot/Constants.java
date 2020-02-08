@@ -20,6 +20,9 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  /** Time between robot updates in seconds */
+  public static final double UPDATE_PERIOD = Robot.kDefaultPeriod;
+
   /**
    * CAN IDS 1-10 Core Components of the Robot
    */
@@ -152,4 +155,19 @@ public final class Constants {
   public static final double TURRET_AIM_D = 0;
   public static final double TURRET_SEEK_SPEED = 0.2;
   public static final double TURRET_AIM_TOLERANCE = 2;
+
+  /**
+   * Current spike threshold for detecting that we have clamped the bar
+   * at the start of climb. A/s
+   * 
+   * TODO measure this during climb to come up with a reasonable value
+   */
+  public static final double WINCH_CURRENT_SPIKE_THRESHOLD = 5;
+
+  /**
+   * This is a delay between when the scissor lift starts extending and
+   * when the winch starts pulling in the slack at the start of the
+   * climb. seconds
+   */
+  public static final double CLIMB_WAIT_FOR_WINCH = 0;
 }
