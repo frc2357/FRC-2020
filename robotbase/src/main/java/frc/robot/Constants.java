@@ -157,4 +157,10 @@ public final class Constants {
    * Sensor Contants
    */
   public static final int BAUD_RATE = 115200;
+
+  /**
+   * Arduino device name
+   */
+
+  public static final String ARDUINO_DEVICE_NAME = "ttyACM0";
 }

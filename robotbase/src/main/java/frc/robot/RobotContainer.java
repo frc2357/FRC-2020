@@ -27,6 +27,7 @@ import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 import com.systemmeltdown.robotlib.sensors.VL53LOXSensorOutput;
+import com.systemmeltdown.robotlib.subsystems.VL53LOXSensorOutputSubsystem;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.SerialPort.Port;
@@ -49,7 +50,8 @@ public class RobotContainer {
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
 
-  public final VL53LOXSensorOutput m_sensor = new VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
+  //public final VL53LOXSensorOutput m_sensor = new VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
+  public final VL53LOXSensorOutputSubsystem m_sensor = new VL53LOXSensorOutputSubsystem(Constants.ARDUINO_DEVICE_NAME);
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
