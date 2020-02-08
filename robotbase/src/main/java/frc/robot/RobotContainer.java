@@ -71,7 +71,6 @@ public class RobotContainer {
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
 
     // Configure the button bindings
-    configureDriveSub();
     configureButtonBindings();
     // configureShuffleboard();
   }
@@ -113,10 +112,6 @@ public class RobotContainer {
     // subsystems.add(m_storageSub);
     // subsystems.add(m_driveSub);
     FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
-  }
-
-  private void configureDriveSub() {
-    // m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
 
   /**
