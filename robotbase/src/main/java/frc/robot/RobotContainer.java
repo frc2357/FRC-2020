@@ -72,8 +72,8 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureDriveSub();
-    // configureButtonBindings();
-    configureShuffleboard();
+    configureButtonBindings();
+    // configureShuffleboard();
   }
 
   /**
@@ -85,7 +85,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     Map<String, ClosedLoopSubsystem> subsystems = new HashMap<>();
     // subsystems.put("DriveSub", m_driveSub);
+    // subsystems.put("ClimbSub", m_climbSub);
+    // subsystems.put("ControlPanelSub", m_controlPanelSub);
+    // subsystems.put("FeederSub", m_feederSub);
     subsystems.put("IntakeSub", m_intakeSub);
+    // subsystems.put("ShooterSub", m_shooterSub);
+    // subsystems.put("StorageSub", m_storageSub);
+    // subsystems.put("TurretSub", m_turretSub);
+    // subsystems.put("VisionSub", m_visionSub);
     ControlsFactory factory = new ControlsFactory(m_driverControls, m_gunnerControls);
     m_driverControls = factory.buildDriveControls(subsystems);
     m_gunnerControls = factory.buildGunnerControls(subsystems);
