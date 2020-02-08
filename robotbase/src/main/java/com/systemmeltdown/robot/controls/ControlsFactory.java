@@ -8,9 +8,9 @@ import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
-import com.systemmeltdown.robot.subsystems.ControlPanelSub;
+import com.systemmeltdown.robot.subsystems.ControlPanelSubsystem;
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
-import com.systemmeltdown.robot.subsystems.IntakeSub;
+import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
@@ -24,9 +24,9 @@ public class ControlsFactory {
     private GunnerControls m_gunnerControls;
 
     private ClimbSubsystem climbSub = null;
-    private ControlPanelSub controlPanelSub = null;
+    private ControlPanelSubsystem controlPanelSub = null;
     private FeederSubsystem feederSub = null;
-    private IntakeSub intakeSub = null;
+    private IntakeSubsystem intakeSub = null;
     private ShooterSubsystem shooterSub = null;
     private StorageSubsystem storageSub = null;
     private TogglableLimelightSubsystem visionSub = null;
@@ -41,14 +41,14 @@ public class ControlsFactory {
             if (subsystem.getClass() == ClimbSubsystem.class) {
                 climbSub = (ClimbSubsystem) subsystem;
             }
-            if (subsystem.getClass() == ControlPanelSub.class) {
-                controlPanelSub = (ControlPanelSub) subsystem;
+            if (subsystem.getClass() == ControlPanelSubsystem.class) {
+                controlPanelSub = (ControlPanelSubsystem) subsystem;
             }
             if (subsystem.getClass() == FeederSubsystem.class) {
                 feederSub = (FeederSubsystem) subsystem;
             }
-            if (subsystem.getClass() == IntakeSub.class) {
-                intakeSub = (IntakeSub) subsystem;
+            if (subsystem.getClass() == IntakeSubsystem.class) {
+                intakeSub = (IntakeSubsystem) subsystem;
             }
             if (subsystem.getClass() == ShooterSubsystem.class) {
                 shooterSub = (ShooterSubsystem) subsystem;
