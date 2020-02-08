@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+// import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class IntakeSub extends ClosedLoopSubsystem {
     // private DoubleSolenoid m_intakeSolenoid;
