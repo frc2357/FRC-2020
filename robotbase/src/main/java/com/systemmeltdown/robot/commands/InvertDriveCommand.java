@@ -5,15 +5,18 @@ import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * This command inverts the controls. For example: when pressed, forward becomes back,
+ * and left becomes right, and vice versa. This is done so that the driver does not have to turn the robot
+ * all the way around: they can just press a button instead.
+ * 
+ * @category Drive
+ */
 public class InvertDriveCommand extends CommandBase {
     private TogglableLimelightSubsystem m_visionSub;
     private InvertDriveControls m_controls;
 
     /**
-     * This command inverts the controls. For example: when pressed, forward becomes back,
-     * and left becomes right, and vice versa. This is done so that the driver does not have to turn the robot
-     * all the way around: they can just press a button instead.
-     * 
      * @param visionSub The {@link TogglableLimelightSubsystem}. When this command is called, the stream
      * will switch to a camera on the other side of the robot.
      * 

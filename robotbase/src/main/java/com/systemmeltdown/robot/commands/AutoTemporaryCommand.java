@@ -28,11 +28,14 @@ import frc.robot.Constants;
  * 
  * This command is from WpiLib's Trajectory class, found here: https://docs.wpilib.org/en/latest/docs/software/examples-tutorials/trajectory-tutorial/trajectory-tutorial-overview.html
  * 
- * @category Automode Commands
+ * @category Automode
  */
 public class AutoTemporaryCommand extends CommandBase {
     private FalconTrajectoryDriveSubsystem driveSub;
 
+    /**
+     * @param driveSub The drive sub.
+     */
     public AutoTemporaryCommand(FalconTrajectoryDriveSubsystem driveSub) {
         this.driveSub = driveSub;
     }

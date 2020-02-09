@@ -12,6 +12,9 @@ import frc.robot.Constants;
 
 /**
  * This command makes the shooter track a target.
+ * 
+ * @category Turret
+ * @category Automode Commands
  */
 public class TrackTargetCommand extends CommandBase {
     /** The tracking mode */

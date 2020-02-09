@@ -8,11 +8,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * This command brings a ball into the intake from the ground.
+ * 
+ * @category Intake
  */
 public class IntakePickupBallCommand extends CommandBase {
     private IntakeSub m_intakeSub;
     private GunnerControls m_gunnerControls;
 
+    /**
+     * @param intakeSub The {@link IntakeSub}.
+     * @param gunnerControls The {@link GunnerControls}.
+     */
     public IntakePickupBallCommand(IntakeSub intakeSub, GunnerControls gunnerControls) {
         m_intakeSub = intakeSub;
         m_gunnerControls = gunnerControls;

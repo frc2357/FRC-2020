@@ -8,10 +8,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 /**
  * Automode command group. This command will run a series of commands depending
  * on what selections have been selected in shuffleboard.
+ * 
+ * @category Automode
  */
 public class AutomodeCommandGroup extends SequentialCommandGroup {
   /**
    * Creates a new ComplexAuto.
+   * 
+   * @param autoWaitAndChoosers an array of {@link AutoWaitTimeAndChooser}
    */
   public AutomodeCommandGroup(AutoWaitTimeAndChooser[] autoWaitAndChoosers) {
     for (AutoWaitTimeAndChooser autoWaitTimeAndChooser : autoWaitAndChoosers) {

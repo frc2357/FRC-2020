@@ -5,17 +5,18 @@ import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsyst
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/** 
+* An auto command to line the robot up with the loading bay.
+* 
+* @category Automode
+*/
 public class AutoLineUpToLoadingBayCommand extends CommandBase {
     private LimelightSubsystem m_limeLightSub;
     private FalconTrajectoryDriveSubsystem m_falconTrajectoryDriveSub;
 
     /**
-     * An auto command to line up with the loading bay.
-     * 
      * @param limeLightSub The {@link LimelightSubsystem}.
      * @param falconTrajectoryDriveSub The drive subsystem.
-     * 
-     * @category Automode Commands
      */
     public AutoLineUpToLoadingBayCommand(LimelightSubsystem limeLightSub,
             FalconTrajectoryDriveSubsystem falconTrajectoryDriveSub) {
