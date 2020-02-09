@@ -10,7 +10,6 @@ package frc.robot;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.ControlPanelSubsystem;
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
-//import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
@@ -64,7 +63,7 @@ public class RobotContainer {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
     m_climbSub = subsystemFactory.CreateClimbSubsystem();
-    m_controlPanelSub = subsystemFactory.CreateControlPanelSub();
+    m_controlPanelSub = subsystemFactory.CreateControlPanelSubsystem();
     m_feederSub = subsystemFactory.CreateFeederSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
     m_shooterSub = subsystemFactory.CreateShooterSubsystem();

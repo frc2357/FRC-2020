@@ -85,7 +85,7 @@ public class SubsystemFactory {
         */
     }
 
-    public ControlPanelSubsystem CreateControlPanelSub() {
+    public ControlPanelSubsystem CreateControlPanelSubsystem() {
         // Need device IDs
         throw new UnsupportedOperationException();
         /*
