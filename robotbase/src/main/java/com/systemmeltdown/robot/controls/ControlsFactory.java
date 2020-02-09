@@ -32,33 +32,62 @@ public class ControlsFactory {
 
     public ControlsFactory(ClosedLoopSubsystem[] subsystems) {
         for (ClosedLoopSubsystem subsystem : subsystems) {
-            if (subsystem.getClass() == ClimbSubsystem.class) {
+            switch (subsystem.getClass().getSimpleName()) {
+            case "ClimbSubsystem":
                 climbSub = (ClimbSubsystem) subsystem;
-            }
-            if (subsystem.getClass() == ControlPanelSubsystem.class) {
+                break;
+            case "ControlPanelSubsystem":
                 controlPanelSub = (ControlPanelSubsystem) subsystem;
-            }
-            if (subsystem.getClass() == FeederSubsystem.class) {
+                break;
+            case "FeederSubsystem":
                 feederSub = (FeederSubsystem) subsystem;
-            }
-            if (subsystem.getClass() == IntakeSubsystem.class) {
+                break;
+            case "IntakeSubsystem":
                 intakeSub = (IntakeSubsystem) subsystem;
-            }
-            if (subsystem.getClass() == ShooterSubsystem.class) {
+                break;
+            case "ShooterSubsystem":
                 shooterSub = (ShooterSubsystem) subsystem;
-            }
-            if (subsystem.getClass() == StorageSubsystem.class) {
+                break;
+            case "StorageSubsystem":
                 storageSub = (StorageSubsystem) subsystem;
-            }
-            if (subsystem.getClass() == TogglableLimelightSubsystem.class) {
+                break;
+            case "TogglableLimelightSubsystem":
                 visionSub = (TogglableLimelightSubsystem) subsystem;
-            }
-            if (subsystem.getClass() == TurretSubsystem.class) {
-                turretSub = (TurretSubsystem) subsystem;
-            }
-            if (subsystem.getClass() == FalconTrajectoryDriveSubsystem.class) {
+                break;
+            case "FalconTrajectoryDriveSubsystem":
                 driveSub = (FalconTrajectoryDriveSubsystem) subsystem;
+                break;
+            default: 
+                System.out.println(subsystem.getClass().getSimpleName() + " not found in switch.");
             }
+
+            // if (subsystem.getClass() == ClimbSubsystem.class) {
+            // climbSub = (ClimbSubsystem) subsystem;
+            // }
+            // if (subsystem.getClass() == ControlPanelSubsystem.class) {
+            // controlPanelSub = (ControlPanelSubsystem) subsystem;
+            // }
+            // if (subsystem.getClass() == FeederSubsystem.class) {
+            // feederSub = (FeederSubsystem) subsystem;
+            // }
+            // if (subsystem.getClass() == IntakeSubsystem.class) {
+            // intakeSub = (IntakeSubsystem) subsystem;
+            // }
+            // if (subsystem.getClass() == ShooterSubsystem.class) {
+            // shooterSub = (ShooterSubsystem) subsystem;
+            // }
+            // if (subsystem.getClass() == StorageSubsystem.class) {
+            // storageSub = (StorageSubsystem) subsystem;
+            // }
+            // if (subsystem.getClass() == TogglableLimelightSubsystem.class) {
+            // visionSub = (TogglableLimelightSubsystem) subsystem;
+            // }
+            // if (subsystem.getClass() == TurretSubsystem.class) {
+            // turretSub = (TurretSubsystem) subsystem;
+            // }
+            // if (subsystem.getClass() == FalconTrajectoryDriveSubsystem.class) {
+            // driveSub = (FalconTrajectoryDriveSubsystem) subsystem;
+            // }
         }
     }
 

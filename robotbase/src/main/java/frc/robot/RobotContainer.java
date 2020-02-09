@@ -17,6 +17,7 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
+import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.controls.ControlsFactory;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
@@ -41,15 +42,15 @@ import java.util.ArrayList;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final FalconTrajectoryDriveSubsystem m_driveSub;
-  private final ClimbSubsystem m_climbSub;
-  private final ControlPanelSubsystem m_controlPanelSub;
-  private final FeederSubsystem m_feederSub;
+  // private final FalconTrajectoryDriveSubsystem m_driveSub;
+  // private final ClimbSubsystem m_climbSub;
+  // private final ControlPanelSubsystem m_controlPanelSub;
+  // private final FeederSubsystem m_feederSub;
   private final IntakeSubsystem m_intakeSub;
-  private final ShooterSubsystem m_shooterSub;
-  private final StorageSubsystem m_storageSub;
-  private final TogglableLimelightSubsystem m_visionSub;
-  private final TurretSubsystem m_turretSub;
+  // private final ShooterSubsystem m_shooterSub;
+  // private final StorageSubsystem m_storageSub;
+  // private final TogglableLimelightSubsystem m_visionSub;
+  // private final TurretSubsystem m_turretSub;
 
   // Might want to remove, currently all handled by ControlsFactory
   private InvertDriveControls m_driverControls;
@@ -62,15 +63,15 @@ public class RobotContainer {
    */
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
-    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    m_climbSub = subsystemFactory.CreateClimbSubsystem();
-    m_controlPanelSub = subsystemFactory.CreateControlPanelSubsystem();
-    m_feederSub = subsystemFactory.CreateFeederSubsystem();
+    // m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    // m_climbSub = subsystemFactory.CreateClimbSubsystem();
+    // m_controlPanelSub = subsystemFactory.CreateControlPanelSubsystem();
+    // m_feederSub = subsystemFactory.CreateFeederSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
-    m_shooterSub = subsystemFactory.CreateShooterSubsystem();
-    m_storageSub = subsystemFactory.CreateStorageSubsystem();
-    m_visionSub = subsystemFactory.CreateLimelightSubsystem();
-    m_turretSub = subsystemFactory.CreateTurretSubsystem();
+    // m_shooterSub = subsystemFactory.CreateShooterSubsystem();
+    // m_storageSub = subsystemFactory.CreateStorageSubsystem();
+    // m_visionSub = subsystemFactory.CreateLimelightSubsystem();
+    // m_turretSub = subsystemFactory.CreateTurretSubsystem();
 
     // Configure the button bindings
     configureButtonBindings();
@@ -86,14 +87,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     ControlsFactory factory = new ControlsFactory(
       new ClosedLoopSubsystem[] { 
-        m_driveSub,
+        // m_driveSub,
         // m_climbSub,
         // m_controlPanelSub,
         // m_feederSub,
         m_intakeSub,
         // m_shooterSub,
         // m_storageSub,
-        m_visionSub,
+        // m_visionSub,
         // m_turretSub,
       }
     );
@@ -112,7 +113,7 @@ public class RobotContainer {
     LoggerTab loggerTab = new LoggerTab();
     ArrayList<ClosedLoopSubsystem> subsystems = new ArrayList<>();
     // subsystems.add(m_shootSub);
-    subsystems.add(m_intakeSub);
+    // subsystems.add(m_intakeSub);
     // subsystems.add(m_storageSub);
     // subsystems.add(m_driveSub);
     FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
@@ -123,7 +124,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return new AutoTemporaryCommand(m_driveSub).getRamsete();
-  }
+  // public Command getAutonomousCommand() {
+  //   return new AutoTemporaryCommand(m_driveSub).getRamsete();
+  // }
 }

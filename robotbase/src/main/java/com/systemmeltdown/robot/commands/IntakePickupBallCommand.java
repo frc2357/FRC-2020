@@ -16,6 +16,7 @@ public class IntakePickupBallCommand extends CommandBase {
     public IntakePickupBallCommand(IntakeSubsystem intakeSub, GunnerControls gunnerControls) {
         m_intakeSub = intakeSub;
         m_gunnerControls = gunnerControls;
+
         addRequirements(m_intakeSub);
     }
     
