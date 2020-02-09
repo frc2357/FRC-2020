@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     Shuffleboard.update();
 
-    System.out.println(m_robotContainer.m_sensor.getCount());
+    System.out.println(m_robotContainer.m_intakeSub.getCount());
 
    /* try { 
      m_robotContainer.m_sensor.getInt("currentNumOfCells");

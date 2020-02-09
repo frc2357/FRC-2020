@@ -46,12 +46,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private FalconTrajectoryDriveSubsystem m_driveSub;
   // private final ShooterSubsystem m_shootSub;
-  private final IntakeSubsystem m_intakeSub;
+  public final IntakeSubsystem m_intakeSub;
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
 
   //public final VL53LOXSensorOutput m_sensor = new VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
-  public final VL53LOXSensorOutputSubsystem m_sensor = new VL53LOXSensorOutputSubsystem(Constants.ARDUINO_DEVICE_NAME);
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
