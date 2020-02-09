@@ -59,21 +59,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     Shuffleboard.update();
-
     System.out.println(m_robotContainer.m_intakeSub.getCount());
-
-   /* try { 
-     m_robotContainer.m_sensor.getInt("currentNumOfCells");
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } */
   }
 
   /**

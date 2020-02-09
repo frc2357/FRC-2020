@@ -161,8 +161,10 @@ public final class Constants {
   public static final int BAUD_RATE = 115200;
 
   /**
-   * Arduino device name
+   * Arduino device Constants
    */
 
   public static final String ARDUINO_DEVICE_NAME = "ttyACM0";
+  public static final int TOF_LOW_RANGE = 130;
+  public static final int TOF_HIGH_RANGE = 225;
 }

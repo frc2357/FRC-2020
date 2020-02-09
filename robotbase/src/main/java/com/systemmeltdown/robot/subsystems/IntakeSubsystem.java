@@ -21,7 +21,9 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
 
         m_arduinoUSB = new ArduinoUSBController(Constants.ARDUINO_DEVICE_NAME);
 
-		m_arduinoUSB.start();
+        m_arduinoUSB.start();
+        
+        setTOFRange(Constants.TOF_LOW_RANGE, Constants.TOF_HIGH_RANGE);
     }
 
     /**
@@ -59,5 +61,20 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
 			return -1;
 		}
 		return m_arduinoUSB.getDeviceFieldInt("intakeCounter", "cells");
-	}
+    }
+
+    /**
+     * Sets the middle range of the TOF sensors
+     * @param lowRange Sets the low end of the middle range
+     * @param highRange Sets the high end of the middle range
+     */
+    public void setTOFRange(int lowRange, int highRange) {
+        // Check if the arduino is connected before getting values.
+		if (!m_arduinoUSB.isConnected()) {
+			return;
+        }
+        
+        m_arduinoUSB.setDeviceField("intakeCounter", "lowRange", lowRange);
+        m_arduinoUSB.setDeviceField("intakeCounter", "highRange", highRange);
+    }
 }
