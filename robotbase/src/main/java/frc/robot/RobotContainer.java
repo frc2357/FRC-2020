@@ -51,8 +51,9 @@ public class RobotContainer {
   private final TogglableLimelightSubsystem m_visionSub;
   private final TurretSubsystem m_turretSub;
 
-  private InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
-  private GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
+  // Might want to remove, currently all handled by ControlsFactory
+  private InvertDriveControls m_driverControls;
+  private GunnerControls m_gunnerControls;
 
   private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
 
@@ -96,8 +97,8 @@ public class RobotContainer {
         // m_turretSub,
       }
     );
-    m_driverControls = factory.buildDriveControls(m_driverControls);
-    m_gunnerControls = factory.buildGunnerControls(m_gunnerControls);
+    m_driverControls = factory.buildDriveControls(new InvertDriveControls(new XboxController(0), .1));
+    m_gunnerControls = factory.buildGunnerControls(new GunnerControls(new XboxController(1)));
   }
 
   private void configureShuffleboard() {
