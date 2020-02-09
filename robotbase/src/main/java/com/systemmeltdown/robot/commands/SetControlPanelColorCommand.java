@@ -1,6 +1,6 @@
 package com.systemmeltdown.robot.commands;
 
-import com.systemmeltdown.robot.subsystems.ControlPanelSub;
+import com.systemmeltdown.robot.subsystems.ControlPanelSubsystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * @category Control Panel
  */
 public class SetControlPanelColorCommand extends CommandBase {
-    private ControlPanelSub m_controlPanelSub;
+    private ControlPanelSubsystem m_controlPanelSub;
 
     /**
-     * @param controlPanelSub The {@link ControlPanelSub}.
+     * @param controlPanelSub The {@link ControlPanelSubsystem}.
      */
-    public SetControlPanelColorCommand(ControlPanelSub controlPanelSub) {
+    public SetControlPanelColorCommand(ControlPanelSubsystem controlPanelSub) {
         m_controlPanelSub = controlPanelSub;
         addRequirements(m_controlPanelSub);
     }
