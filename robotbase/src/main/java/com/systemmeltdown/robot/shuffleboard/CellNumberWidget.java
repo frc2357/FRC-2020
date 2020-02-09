@@ -7,16 +7,19 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 /**
-* A Shuffleboard widget that displays the amount of power cells in the robot
-* 
-* @param tabTitle Title of the tab you want to add the widget to
-*/
+ * A Shuffleboard widget that displays the amount of power cells in the robot.
+ * 
+ * @category Shuffleboard
+ */
 public class CellNumberWidget {
     private final StorageSubsystem m_storageSub;
     private static String m_tabTitle;
     private static NetworkTableEntry m_cellNumWidget;
 
-    
+    /**
+     * @param tabTitle
+     * @param storageSub
+     */
     public CellNumberWidget(String tabTitle, StorageSubsystem storageSub) {
         m_storageSub = storageSub;
         NetworkTableEntry cellNumWidget = Shuffleboard.getTab(tabTitle)
@@ -28,9 +31,9 @@ public class CellNumberWidget {
         m_tabTitle = tabTitle;
     }
 
-  /**
-   * Adds one to the power cell count.
-   */
+    /**
+     * Adds one to the power cell count.
+     */
     public void addBall() {
         int numOfCells = m_storageSub.getNumbOfCells();
         m_storageSub.setNumOfCells(++numOfCells);
