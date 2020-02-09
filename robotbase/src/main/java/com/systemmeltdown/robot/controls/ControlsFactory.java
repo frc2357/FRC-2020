@@ -20,9 +20,6 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 
 public class ControlsFactory {
-    private InvertDriveControls m_driverControls;
-    private GunnerControls m_gunnerControls;
-
     private ClimbSubsystem climbSub = null;
     private ControlPanelSubsystem controlPanelSub = null;
     private FeederSubsystem feederSub = null;
@@ -33,10 +30,7 @@ public class ControlsFactory {
     private TurretSubsystem turretSub = null;
     private FalconTrajectoryDriveSubsystem driveSub = null;
 
-
-    public ControlsFactory(InvertDriveControls driverControls, GunnerControls gunnerControls, ClosedLoopSubsystem[] subsystems) {
-        m_driverControls = driverControls;
-        m_gunnerControls = gunnerControls;
+    public ControlsFactory(ClosedLoopSubsystem[] subsystems) {
         for (ClosedLoopSubsystem subsystem : subsystems) {
             if (subsystem.getClass() == ClimbSubsystem.class) {
                 climbSub = (ClimbSubsystem) subsystem;
@@ -68,7 +62,7 @@ public class ControlsFactory {
         }
     }
 
-    public InvertDriveControls buildDriveControls() {
+    public InvertDriveControls buildDriveControls(InvertDriveControls driverControls) {
         if (climbSub != null) {
 
         }
@@ -76,10 +70,9 @@ public class ControlsFactory {
 
         }
         if (driveSub != null) {
-            driveSub.setDefaultCommand(new DriveProportionalCommand(driveSub, m_driverControls));
+            driveSub.setDefaultCommand(new DriveProportionalCommand(driveSub, driverControls));
             if (visionSub != null) {
-                this.m_driverControls.m_invertButton
-                        .whenPressed(new InvertDriveCommand(visionSub, this.m_driverControls));
+                driverControls.m_invertButton.whenPressed(new InvertDriveCommand(visionSub, driverControls));
             }
         }
         if (feederSub != null) {
@@ -98,13 +91,12 @@ public class ControlsFactory {
 
         }
         if (visionSub != null) {
-            this.m_driverControls.m_changePipelineButton
-                    .whileHeld(new VisionChangePipelineCommand(visionSub));
+            driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(visionSub));
         }
-        return this.m_driverControls;
+        return driverControls;
     }
 
-    public GunnerControls buildGunnerControls() {
+    public GunnerControls buildGunnerControls(GunnerControls gunnerControls) {
         if (climbSub != null) {
 
         }
@@ -118,13 +110,11 @@ public class ControlsFactory {
 
         }
         if (intakeSub != null) {
-            this.m_gunnerControls.m_leftTrigger
-                    .whileActiveContinuous(new IntakePickupBallCommand(intakeSub, this.m_gunnerControls));
-            this.m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(intakeSub));
+            gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(intakeSub, gunnerControls));
+            gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(intakeSub));
         }
         if (shooterSub != null) {
-            this.m_gunnerControls.m_rightTrigger
-                    .whileActiveContinuous(new ShootCommand(shooterSub, this.m_gunnerControls));
+            gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(shooterSub, gunnerControls));
         }
         if (storageSub != null) {
 
@@ -134,6 +124,6 @@ public class ControlsFactory {
         }
         if (visionSub != null) {
         }
-        return this.m_gunnerControls;
+        return gunnerControls;
     }
 }

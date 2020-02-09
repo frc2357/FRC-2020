@@ -83,20 +83,21 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    ControlsFactory factory = new ControlsFactory(m_driverControls, m_gunnerControls,
-        new ClosedLoopSubsystem[] { 
-            m_driveSub,
-            // m_climbSub,
-            // m_controlPanelSub,
-            // m_feederSub,
-            m_intakeSub,
-            // m_shooterSub,
-            // m_storageSub,
-            m_visionSub,
-            // m_turretSub,
-        });
-    m_driverControls = factory.buildDriveControls();
-    m_gunnerControls = factory.buildGunnerControls();
+    ControlsFactory factory = new ControlsFactory(
+      new ClosedLoopSubsystem[] { 
+        m_driveSub,
+        // m_climbSub,
+        // m_controlPanelSub,
+        // m_feederSub,
+        m_intakeSub,
+        // m_shooterSub,
+        // m_storageSub,
+        m_visionSub,
+        // m_turretSub,
+      }
+    );
+    m_driverControls = factory.buildDriveControls(m_driverControls);
+    m_gunnerControls = factory.buildGunnerControls(m_gunnerControls);
   }
 
   private void configureShuffleboard() {
