@@ -1,13 +1,13 @@
 package com.systemmeltdown.robot.commands;
 
-import com.systemmeltdown.robot.subsystems.ControlPanelSub;
+import com.systemmeltdown.robot.subsystems.ControlPanelSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RotateControlPanelCommand extends CommandBase {
-    private ControlPanelSub m_controlPanelSub;
+    private ControlPanelSubsystem m_controlPanelSub;
 
-    public RotateControlPanelCommand(ControlPanelSub controlPanelSub) {
+    public RotateControlPanelCommand(ControlPanelSubsystem controlPanelSub) {
         m_controlPanelSub = controlPanelSub;
         addRequirements(m_controlPanelSub);
     }

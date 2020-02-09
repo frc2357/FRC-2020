@@ -8,7 +8,7 @@
 package frc.robot;
 
 //import com.systemmeltdown.robot.commands.ShootCommand;
-import com.systemmeltdown.robot.subsystems.IntakeSub;
+import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 //import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 //import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
@@ -46,7 +46,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private FalconTrajectoryDriveSubsystem m_driveSub;
   // private final ShooterSubsystem m_shootSub;
-  private final IntakeSub m_intakeSub;
+  private final IntakeSubsystem m_intakeSub;
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
 
