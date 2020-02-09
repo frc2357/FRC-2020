@@ -30,7 +30,7 @@ public class GunnerControls {
         return m_controller.getTriggerAxis(hand);
     }
 
-    public class GunnerControlsBuilder {
+    public static class GunnerControlsBuilder {
         private XboxController m_controller = null;
         private IntakeSub m_intakeSub = null;
         private ShooterSubsystem m_shooterSub = null;
