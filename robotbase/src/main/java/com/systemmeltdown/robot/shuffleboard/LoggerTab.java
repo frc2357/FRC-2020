@@ -1,7 +1,7 @@
 package com.systemmeltdown.robot.shuffleboard;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /**
  * NOTE: This is still functional, but should be removed when something gets put on it. This is because
@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
  * @category Shuffleboard
  */
 public class LoggerTab {
-    private ShuffleboardTab m_loggerTab;
+    // private ShuffleboardTab m_loggerTab; Unused for now.
 
     public LoggerTab() {
-        ShuffleboardTab m_loggerTab = Shuffleboard.getTab("Logger");
+        // ShuffleboardTab m_loggerTab = Shuffleboard.getTab("Logger"); Unused for now.
     }
 }

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * This command will rotate the storage carousel continuously to shoot all cells
  * 
  * @category Turret
+ * @category Storage
  */
 public class RotateStorageContinuous extends CommandBase {
     private StorageSubsystem m_storageSubsystem;

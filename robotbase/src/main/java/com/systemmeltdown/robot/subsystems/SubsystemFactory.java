@@ -16,6 +16,8 @@ import frc.robot.Constants;
 
 /**
  * This class is a factory that creates subsystems.
+ * 
+ * @category Subsystems
  */
 public class SubsystemFactory {
     /**

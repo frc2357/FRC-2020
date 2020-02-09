@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.controller.PIDController;
  * This subsystem is responsible for the components used in climbing.
  * 
  * This assumes that the winch motors have a ramp set.
+ * 
+ * @category Climb
+ * @category Subsystems
  */
 public class ClimbSubsystem extends ClosedLoopSubsystem {
     private enum ClimbDirection {
@@ -51,6 +54,13 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
 
     private Configuration m_config;
 
+    /**
+     * @param solenoidLeft The left scissor solenoid.
+     * @param solenoidRight The right scissor solenoid.
+     * @param gyro The gyro sensor.
+     * @param leftWinchMotor The left winch motor responsible for pulling the robot up.
+     * @param rightWinchMotor The right winch motor responsible for pulling the robot up.
+     */
     public ClimbSubsystem(Solenoid solenoidLeft, Solenoid solenoidRight, PigeonIMU gyro, WPI_TalonSRX leftWinchMotor,
             WPI_TalonSRX rightWinchMotor) {
         m_scissorExtendSolenoidLeft = solenoidLeft;
@@ -108,20 +118,32 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     //     SCISSOR
     //===================
 
+    /**
+     * Extends the scissor lift.
+     */
     public void extendScissor() {
         m_scissorExtendSolenoidLeft.set(true);
         m_scissorExtendSolenoidRight.set(true);
     }
 
+    /**
+     * Deactivates the scissor solenoids.
+     */
     public void releaseScissor() {
         m_scissorExtendSolenoidLeft.set(false);
         m_scissorExtendSolenoidRight.set(false);
     }
 
+    /**
+     * @return True if the left scissor solenoid is active, false if not.
+     */
     public boolean isLeftScissorExtending() {
         return m_scissorExtendSolenoidLeft.get();
     }
 
+    /**
+     * @return True if the right scissor solenoid is active, false if not.
+     */
     public boolean isRightScissorExtending() {
         return m_scissorExtendSolenoidRight.get();
     }
@@ -150,12 +172,18 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     //     GETTERS
     //===================
 
+    /**
+     * @return The roll value from the gyro.
+     */
     public double getRoll() {
         double[] ypr = new double[3];
         m_gyro.getYawPitchRoll(ypr);
         return ypr[2];
     }
 
+    /**
+     * @return The value of m_keepLevel.
+     */
     public boolean getKeepLevel() {
         return m_keepLevel;
     }
