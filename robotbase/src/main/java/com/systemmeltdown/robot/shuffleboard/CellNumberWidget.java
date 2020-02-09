@@ -17,8 +17,10 @@ public class CellNumberWidget {
     private static NetworkTableEntry m_cellNumWidget;
 
     /**
-     * @param tabTitle
-     * @param storageSub
+     * @param tabTitle The title of the tab the widget will be added to.
+     *                 If it does not exist, it will be created automatically.
+     * 
+     * @param storageSub The {@link StorageSubsystem}.
      */
     public CellNumberWidget(String tabTitle, StorageSubsystem storageSub) {
         m_storageSub = storageSub;
@@ -53,6 +55,5 @@ public class CellNumberWidget {
         Shuffleboard.selectTab(m_tabTitle);
     }
 
-    public void periodic() {
-    }
+    public void periodic() {}
 }
