@@ -40,7 +40,7 @@ public class TrackTargetCommand extends CommandBase {
     private double m_targetLockTolerance = Constants.TURRET_AIM_TOLERANCE;
 
     /**
-     * This command uses the limelight to track targets. Uses constants from {@link Constants} to find the target.
+     * This command uses the limelight to track targets. Uses {@link Constants} to find the target.
      * 
      * @param turretSubsystem The {@link TurretSubsystem}.
      * @param limelightSubsystem The {@link LimelightSubsystem}.
