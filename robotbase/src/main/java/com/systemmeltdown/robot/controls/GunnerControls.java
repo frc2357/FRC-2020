@@ -3,7 +3,7 @@ package com.systemmeltdown.robot.controls;
 import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.ShootCommand;
-import com.systemmeltdown.robot.subsystems.IntakeSub;
+import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robotlib.triggers.AxisThresholdTrigger;
 import com.systemmeltdown.robotlib.util.XboxRaw;
@@ -47,14 +47,14 @@ public class GunnerControls {
 
     public static class GunnerControlsBuilder {
         private XboxController m_controller = null;
-        private IntakeSub m_intakeSub = null;
+        private IntakeSubsystem m_intakeSub = null;
         private ShooterSubsystem m_shooterSub = null;
 
         public GunnerControlsBuilder(XboxController controller) {
             this.m_controller = controller;
         }
 
-        public GunnerControlsBuilder withIntakeSub(IntakeSub intakeSub) {
+        public GunnerControlsBuilder withIntakeSub(IntakeSubsystem intakeSub) {
             this.m_intakeSub = intakeSub;
             return this;
         }

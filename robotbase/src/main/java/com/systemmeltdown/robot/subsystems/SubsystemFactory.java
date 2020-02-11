@@ -95,7 +95,7 @@ public class SubsystemFactory {
          */
     }
 
-    public IntakeSubsystem CreateIntakeSub() {
+    public IntakeSubsystem CreateIntakeSubsystem() {
         IntakeSubsystem subsystem = new IntakeSubsystem(
             Constants.INTAKE_MOTOR_ID,
             Constants.INTAKE_SOLENOID_CHANNEL_FORWARD,
