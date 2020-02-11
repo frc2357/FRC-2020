@@ -102,8 +102,9 @@ public class SubsystemFactory {
     }
     
     public StorageSubsystem CreateStorageSubsystem() {
-        DigitalInput feedSensor = new DigitalInput(Constants.STORAGE_FEED_SENSOR_CHANNEL);
-        StorageSubsystem subsystem = new StorageSubsystem(feedSensor);
+        DigitalInput alignmentSensor = new DigitalInput(Constants.STORAGE_ALIGNMENT_SENSOR_CHANNEL);
+        WPI_TalonSRX rotationMotor = new WPI_TalonSRX(Constants.STORAGE_CAROUSEL_MOTOR);
+        StorageSubsystem subsystem = new StorageSubsystem(alignmentSensor, rotationMotor);
         return subsystem;
     }
 
