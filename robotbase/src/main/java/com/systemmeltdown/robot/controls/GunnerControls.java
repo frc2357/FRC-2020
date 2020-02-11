@@ -1,5 +1,10 @@
 package com.systemmeltdown.robot.controls;
 
+import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
+import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
+import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
+import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robotlib.triggers.AxisThresholdTrigger;
 import com.systemmeltdown.robotlib.util.XboxRaw;
 
@@ -20,13 +25,13 @@ public class GunnerControls {
     public JoystickButton m_yButton;
 
     /**
-     * @param controller The gunner's {@link XboxController}.
+     * @param builder The GunnerControlsBuilder object
      */
-    public GunnerControls(XboxController controller) {
-        m_controller = controller;
-        m_rightTrigger = new AxisThresholdTrigger(controller, Hand.kRight, .1);
-        m_leftTrigger = new AxisThresholdTrigger(controller, Hand.kLeft, .1);
-        m_yButton = new JoystickButton(controller, XboxRaw.Y.value);
+    public GunnerControls(GunnerControlsBuilder builder) {
+        m_controller = builder.m_controller;
+        m_rightTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kRight, .1);
+        m_leftTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kLeft, .1);
+        m_yButton = new JoystickButton(builder.m_controller, XboxRaw.Y.value);
     }
 
     /**
@@ -38,5 +43,43 @@ public class GunnerControls {
      */
     public double getTriggerValue(Hand hand) {
         return m_controller.getTriggerAxis(hand);
+    }
+
+    /**
+     * Class for building GunnerControls
+     */
+    public static class GunnerControlsBuilder {
+        private XboxController m_controller = null;
+        private IntakeSubsystem m_intakeSub = null;
+        private ShooterSubsystem m_shooterSub = null;
+
+        /**
+         * @param controller the controller of the gunner controls
+         */
+        public GunnerControlsBuilder(XboxController controller) {
+            this.m_controller = controller;
+        }
+
+        public GunnerControlsBuilder withIntakeSub(IntakeSubsystem intakeSub) {
+            this.m_intakeSub = intakeSub;
+            return this;
+        }
+
+        public GunnerControlsBuilder withShooterSubsystem(ShooterSubsystem shooterSub) {
+            this.m_shooterSub = shooterSub;
+            return this;
+        }
+
+        public GunnerControls build() {
+            GunnerControls m_gunnerControls = new GunnerControls(this);
+            if (m_intakeSub != null) {
+                m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
+                m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
+            }
+            if (m_shooterSub != null){
+                m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shooterSub, m_gunnerControls));
+            }
+            return m_gunnerControls;
+        }
     }
 }
