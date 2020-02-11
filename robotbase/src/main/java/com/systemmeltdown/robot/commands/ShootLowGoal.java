@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * Auto command that shoots power cells into the low goal. Will continue t0 shoot until the button that
+ * Auto command that shoots power cells into the low goal. Will continue to shoot until the button that
  * calls this command is let go of. NOTE: This command is incomplete, as there is no code telling the
  * hood to move to the low goal.
  * 
