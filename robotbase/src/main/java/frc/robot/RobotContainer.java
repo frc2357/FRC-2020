@@ -14,13 +14,6 @@ import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
-import com.systemmeltdown.robot.commands.ClimbLevelCommand;
-import com.systemmeltdown.robot.commands.ClimbRaiseScissorCommand;
-import com.systemmeltdown.robot.commands.ClimbReelWinchCommand;
-import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
-import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
-import com.systemmeltdown.robot.commands.InvertDriveCommand;
-import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
@@ -33,9 +26,6 @@ import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import java.util.ArrayList;
 
@@ -72,6 +62,7 @@ public class RobotContainer {
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
     m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
 
+    // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
                       .withDriveSub(m_driveSub)
                       .withVisionSub(m_visionSub)
@@ -81,20 +72,9 @@ public class RobotContainer {
                       .withIntakeSub(m_intakeSub)
                       .withShooterSubsystem(m_shootSub)
                       .build();
-    // Configure the button bindings
-    configureDriveSub();
-    configureButtonBindings();
-    configureShuffleboard();
-  }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    //Buttons are configured in the GunnerControls and InvertDriveControls classes
+    configureDriveSub();
+    configureShuffleboard();
   }
 
   private void configureShuffleboard() {
