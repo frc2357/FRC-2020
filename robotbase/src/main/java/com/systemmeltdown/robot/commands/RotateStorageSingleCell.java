@@ -3,7 +3,7 @@ import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /*
- * This command will rotate the carousel one cell for single cell shooting
+ * This command will rotate the carousel by one cell
  * 
  * @category Storage
  */
