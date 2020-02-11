@@ -5,9 +5,18 @@ import com.systemmeltdown.robot.subsystems.ControlPanelSubsystem;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * Calls on a wheel/motor/whatever we decide on to rotate the control panel to the color given by FMS.
+ * If a color has not been given, then this command will simply print a line to the console.
+ * 
+ * @category Control Panel
+ */
 public class SetControlPanelColorCommand extends CommandBase {
     private ControlPanelSubsystem m_controlPanelSub;
 
+    /**
+     * @param controlPanelSub The {@link ControlPanelSubsystem}.
+     */
     public SetControlPanelColorCommand(ControlPanelSubsystem controlPanelSub) {
         m_controlPanelSub = controlPanelSub;
         addRequirements(m_controlPanelSub);

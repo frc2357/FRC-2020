@@ -7,12 +7,16 @@
 
 package frc.robot;
 
+import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 //import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 //import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 //import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
+import com.systemmeltdown.robot.commands.ClimbLevelCommand;
+import com.systemmeltdown.robot.commands.ClimbRaiseScissorCommand;
+import com.systemmeltdown.robot.commands.ClimbReelWinchCommand;
 import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
@@ -32,6 +36,9 @@ import com.systemmeltdown.robotlib.subsystems.VL53LOXSensorOutputSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import java.util.ArrayList;
 
@@ -49,6 +56,7 @@ public class RobotContainer {
   public final IntakeSubsystem m_intakeSub;
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
+  private final ClimbSubsystem m_climbSub;
 
   //public final VL53LOXSensorOutput m_sensor = new VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
 
@@ -67,6 +75,7 @@ public class RobotContainer {
     m_intakeSub = subsystemFactory.CreateIntakeSub();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
+    m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
 
 
     // Configure the button bindings

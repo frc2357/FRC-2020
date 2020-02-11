@@ -7,11 +7,15 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * This subsystem is responsible for the components used in climbing.
  * 
  * This assumes that the winch motors have a ramp set.
+ * 
+ * @category Climb
+ * @category Subsystems
  */
 public class ClimbSubsystem extends ClosedLoopSubsystem {
     private enum ClimbDirection {
@@ -51,6 +55,13 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
 
     private Configuration m_config;
 
+    /**
+     * @param solenoidLeft The left scissor solenoid.
+     * @param solenoidRight The right scissor solenoid.
+     * @param gyro The gyro sensor.
+     * @param leftWinchMotor The left winch motor responsible for pulling the robot up.
+     * @param rightWinchMotor The right winch motor responsible for pulling the robot up.
+     */
     public ClimbSubsystem(Solenoid solenoidLeft, Solenoid solenoidRight, PigeonIMU gyro, WPI_TalonSRX leftWinchMotor,
             WPI_TalonSRX rightWinchMotor) {
         m_scissorExtendSolenoidLeft = solenoidLeft;
@@ -67,6 +78,14 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
 
         setConfiguration(new Configuration());
     }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+
+        builder.addDoubleProperty("leftWinchCurrent", this::getLeftWinchCurrent, null);
+        builder.addDoubleProperty("rightWinchCurrent", this::getRightWinchCurrent, null);
+    }  
 
     @Override
     public void periodic() {
@@ -88,7 +107,7 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
             break;
         }
 
-        if (m_keepLevel) {
+        if (m_keepLevel && isClosedLoopEnabled()) {
             double roll = getRoll();
             double rollDelta = m_rollController.calculate(roll);
             rollDelta += m_config.m_F;
@@ -108,20 +127,32 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     //     SCISSOR
     //===================
 
+    /**
+     * Extends the scissor lift.
+     */
     public void extendScissor() {
         m_scissorExtendSolenoidLeft.set(true);
         m_scissorExtendSolenoidRight.set(true);
     }
 
+    /**
+     * Deactivates the scissor solenoids.
+     */
     public void releaseScissor() {
         m_scissorExtendSolenoidLeft.set(false);
         m_scissorExtendSolenoidRight.set(false);
     }
 
+    /**
+     * @return True if the left scissor solenoid is active, false if not.
+     */
     public boolean isLeftScissorExtending() {
         return m_scissorExtendSolenoidLeft.get();
     }
 
+    /**
+     * @return True if the right scissor solenoid is active, false if not.
+     */
     public boolean isRightScissorExtending() {
         return m_scissorExtendSolenoidRight.get();
     }
@@ -150,14 +181,34 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     //     GETTERS
     //===================
 
+    /**
+     * @return The roll value from the gyro.
+     */
     public double getRoll() {
         double[] ypr = new double[3];
         m_gyro.getYawPitchRoll(ypr);
         return ypr[2];
     }
 
+    /**
+     * @return The value of m_keepLevel.
+     */
     public boolean getKeepLevel() {
         return m_keepLevel;
+    }
+
+    /**
+     * @return current draw of the left winch motor in amps
+     */
+    public double getLeftWinchCurrent() {
+        return m_leftWinchMotor.getStatorCurrent();
+    }
+
+    /**
+     * @return current draw of the right winch motor in amps
+     */
+    public double getRightWinchCurrent() {
+        return m_rightWinchMotor.getStatorCurrent();
     }
 
     //===================
