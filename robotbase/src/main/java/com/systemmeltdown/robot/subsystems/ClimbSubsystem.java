@@ -7,6 +7,7 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * This subsystem is responsible for the components used in climbing.
@@ -69,6 +70,14 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     }
 
     @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+
+        builder.addDoubleProperty("leftWinchCurrent", this::getLeftWinchCurrent, null);
+        builder.addDoubleProperty("rightWinchCurrent", this::getRightWinchCurrent, null);
+    }  
+
+    @Override
     public void periodic() {
         double leftOutput = 0;
         double rightOutput = 0;
@@ -88,7 +97,7 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
             break;
         }
 
-        if (m_keepLevel) {
+        if (m_keepLevel && isClosedLoopEnabled()) {
             double roll = getRoll();
             double rollDelta = m_rollController.calculate(roll);
             rollDelta += m_config.m_F;
@@ -158,6 +167,20 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
 
     public boolean getKeepLevel() {
         return m_keepLevel;
+    }
+
+    /**
+     * @return current draw of the left winch motor in amps
+     */
+    public double getLeftWinchCurrent() {
+        return m_leftWinchMotor.getStatorCurrent();
+    }
+
+    /**
+     * @return current draw of the right winch motor in amps
+     */
+    public double getRightWinchCurrent() {
+        return m_rightWinchMotor.getStatorCurrent();
     }
 
     //===================
