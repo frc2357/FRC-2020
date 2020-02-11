@@ -1,9 +1,19 @@
 package com.systemmeltdown.robot.subsystems;
 
+import com.systemmeltdown.robot.commands.InvertDriveCommand; //Imported for javadoc
+
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 
+/**
+ * The subsystem for the limelight. This version is toggleable, so that when the robot switches sides,
+ * (Because of the {@link InvertDriveCommand}) the camera stream is able to switch cameras. It is also
+ * for switching to different views (vision target tracking, Human view, etc.).
+ * 
+ * @category Camera
+ * @category Subsystem
+ */
 public class TogglableLimelightSubsystem extends LimelightSubsystem {
     public enum PipelineIndex {
         UNKNOWN(-1),
@@ -16,6 +26,12 @@ public class TogglableLimelightSubsystem extends LimelightSubsystem {
             this.index = index;
         }
 
+        /**
+         * @param index The index of the pipeline you want returned.
+         * 
+         * @return The value of the pipeline with the index you passed in. Will return -1 (AKA UNKNOWN) if not
+         *         found.
+         */
         public static PipelineIndex getPipelineByIndex(int index) {
             for (PipelineIndex i : PipelineIndex.values()) {
               if (i.index == index) {
@@ -29,6 +45,11 @@ public class TogglableLimelightSubsystem extends LimelightSubsystem {
     private NetworkTableEntry m_stream = super.m_Table.getEntry("stream");
     private NetworkTableEntry m_pipeline = super.m_Table.getEntry("pipeline");
     
+    /**
+     * Sets the camera stream.
+     * 
+     * @param isLimelightPrimary True if the limelight is primary, false if not.
+     */
     public TogglableLimelightSubsystem(boolean isLimelightPrimary) {
         setStream(isLimelightPrimary);
     }

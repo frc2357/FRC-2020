@@ -1,6 +1,8 @@
 package com.systemmeltdown.robot.controls;
 
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
+import com.systemmeltdown.robot.commands.InvertDriveCommand; //This import is used for the javadoc, sorry
+
 import com.systemmeltdown.robotlib.controllers.DriverControls;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 
@@ -11,6 +13,12 @@ import com.systemmeltdown.robotlib.util.XboxRaw;
 import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 
+/**
+ * These extend {@link DriverControls} so these are the Driver's controls, adapted to support the
+ * {@link InvertDriveCommand}.
+ * 
+ * @category Drive
+ */
 public class InvertDriveControls extends DriverControls {
     public final JoystickButton m_invertButton;
     public final JoystickButton m_changePipelineButton;
@@ -41,6 +49,7 @@ public class InvertDriveControls extends DriverControls {
         return -inputCurve(super.getTurn(), 3);
     }
 
+    //I would put a javadoc here, but I really don't understand it. If you do, please delete this and put a javadoc here.
     public double inputCurve(double input, int curveFactor) {
         return Math.signum(input) * Math.abs(Math.pow(input, curveFactor));
     }
@@ -51,6 +60,10 @@ public class InvertDriveControls extends DriverControls {
         private FalconTrajectoryDriveSubsystem m_driveSubsystem = null;
         private TogglableLimelightSubsystem m_visionSubsystem = null;
 
+        /**
+         * @param controller The driver's {@link XboxController}.
+         * @param deadband The deadband for the driver's controller.
+         */
         public InvertDriveControlsBuilder(XboxController controller, double deadband) {
             this.m_controller = controller;
             this.m_deadband = deadband;

@@ -9,9 +9,18 @@ package frc.robot;
 
 import com.systemmeltdown.robot.subsystems.IntakeSub;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
-//import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
+import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
+import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
+import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
+import com.systemmeltdown.robot.commands.ClimbLevelCommand;
+import com.systemmeltdown.robot.commands.ClimbRaiseScissorCommand;
+import com.systemmeltdown.robot.commands.ClimbReelWinchCommand;
+import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
+import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
+import com.systemmeltdown.robot.commands.InvertDriveCommand;
+import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
@@ -24,6 +33,9 @@ import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import java.util.ArrayList;
 
@@ -41,6 +53,7 @@ public class RobotContainer {
   private final IntakeSub m_intakeSub;
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
+  private final ClimbSubsystem m_climbSub;
 
   private final InvertDriveControls m_driverControls;
   private final GunnerControls m_gunnerControls;
@@ -57,6 +70,7 @@ public class RobotContainer {
     m_intakeSub = subsystemFactory.CreateIntakeSub();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
+    m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
 
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
                       .withDriveSub(m_driveSub)
