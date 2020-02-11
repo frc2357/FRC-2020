@@ -1,40 +1,61 @@
 package com.systemmeltdown.robot.commands;
 
+import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 
 /**
- * Recounts how many cells are in the robot. Used when widget on shuffleboard is incorrect.
+ * This command turns the storage carousel one revolution and counts the cells.
+ * This will set the cell count in the storage system when it's finished.
  * 
  * @category Shuffleboard
  */
-public class RecountCellsCommand extends CommandBase {
-    private final StorageSubsystem m_storageSub;
+public class RecountCellsCommand extends SequentialCommandGroup {
+    private int m_cellCount;
+    private StorageSubsystem m_storageSubsystem;
 
     /**
      * @param storageSub The {@link StorageSubsystem}.
      */
-    public RecountCellsCommand(StorageSubsystem storageSub) {
-        m_storageSub = storageSub;
-        addRequirements(storageSub);
-    }
+    public RecountCellsCommand(StorageSubsystem storageSubsystem, FeederSubsystem feederSubsystem) {
+        m_storageSubsystem = storageSubsystem;
 
-    @Override
-    public void execute() {
-        int countOfCells = 0;
-        for (int i = 0; i < 5; i++) {
-            if (m_storageSub.isFeedSensorBlocked()) {
-                countOfCells++;
-            }
-            new RotateStorageSingleCell(m_storageSub);
-            i++;
+        Command nextCell = new RotateStorageSingleCell(m_storageSubsystem);
+        Command countCell = new ConditionalCommand(
+            new InstantCommand(() -> ++m_cellCount),
+            new InstantCommand(() -> {}),
+            feederSubsystem::isFeedSensorBlocked);
+
+        // NOTE: The command group might throw an error because we're reusing these commands
+        // If that happens just move the command creation into the loop.
+        for(int ii = 0; ii < Constants.STORAGE_CAROUSEL_SEGMENTS; ++ii) {
+            addCommands(nextCell, countCell);
         }
-        m_storageSub.setNumOfCells(countOfCells);
     }
 
     @Override
-    public boolean isFinished() {
-        return true;
+    public void initialize() {
+        super.initialize();
+        m_cellCount = 0;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        m_storageSubsystem.setNumOfCells(m_cellCount);
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+
+        builder.addDoubleProperty("cellCount", () -> m_cellCount, null);
     }
 }
