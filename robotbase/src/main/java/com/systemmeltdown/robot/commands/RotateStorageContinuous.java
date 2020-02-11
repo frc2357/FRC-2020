@@ -4,12 +4,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 
 /*
-* This command will rotate the storage carousel continuously to shoot all cells
-*/
-
+ * This command will rotate the storage carousel continuously
+ * 
+ * @category Storage
+ */
 public class RotateStorageContinuous extends CommandBase {
     private StorageSubsystem m_storageSubsystem;
 
+    /**
+     * @param storageSubsystem The {@link StorageSubsystem}.
+     */
     public RotateStorageContinuous(StorageSubsystem storageSubsystem) {
         m_storageSubsystem = storageSubsystem;
         addRequirements(m_storageSubsystem);

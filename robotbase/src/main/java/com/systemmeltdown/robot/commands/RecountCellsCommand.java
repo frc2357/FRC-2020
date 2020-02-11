@@ -14,11 +14,16 @@ import frc.robot.Constants;
 /**
  * This command turns the storage carousel one revolution and counts the cells.
  * This will set the cell count in the storage system when it's finished.
+ * 
+ * @category Shuffleboard
  */
 public class RecountCellsCommand extends SequentialCommandGroup {
     private int m_cellCount;
     private StorageSubsystem m_storageSubsystem;
 
+    /**
+     * @param storageSub The {@link StorageSubsystem}.
+     */
     public RecountCellsCommand(StorageSubsystem storageSubsystem, FeederSubsystem feederSubsystem) {
         m_storageSubsystem = storageSubsystem;
 
