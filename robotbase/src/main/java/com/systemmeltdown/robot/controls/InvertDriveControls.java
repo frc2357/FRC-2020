@@ -54,6 +54,9 @@ public class InvertDriveControls extends DriverControls {
         return Math.signum(input) * Math.abs(Math.pow(input, curveFactor));
     }
 
+    /**
+     * The builder for the InvertDriveControls
+     */
     public static class InvertDriveControlsBuilder {
         private XboxController m_controller = null;
         private double m_deadband = 0.0;
@@ -85,9 +88,6 @@ public class InvertDriveControls extends DriverControls {
                 m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSubsystem, m_driverControls));
                 m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSubsystem));
             }
-
-            
-            
             return m_driverControls;
         }
     }

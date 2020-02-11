@@ -45,11 +45,17 @@ public class GunnerControls {
         return m_controller.getTriggerAxis(hand);
     }
 
+    /**
+     * Class for building GunnerControls
+     */
     public static class GunnerControlsBuilder {
         private XboxController m_controller = null;
         private IntakeSubsystem m_intakeSub = null;
         private ShooterSubsystem m_shooterSub = null;
 
+        /**
+         * @param controller the controller of the gunner controls
+         */
         public GunnerControlsBuilder(XboxController controller) {
             this.m_controller = controller;
         }
