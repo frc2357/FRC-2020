@@ -3,7 +3,7 @@ import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /*
- * This command will rotate the storage carousel continuously to shoot all cells
+ * This command will rotate the storage carousel continuously
  * 
  * @category Storage
  */
