@@ -30,8 +30,11 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
+import com.systemmeltdown.robotlib.sensors.VL53LOXSensorOutput;
+import com.systemmeltdown.robotlib.subsystems.VL53LOXSensorOutputSubsystem;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -48,12 +51,14 @@ import java.util.ArrayList;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private FalconTrajectoryDriveSubsystem m_driveSub;
+  //private FalconTrajectoryDriveSubsystem m_driveSub;
   // private final ShooterSubsystem m_shootSub;
-  private final IntakeSubsystem m_intakeSub;
+  public final IntakeSubsystem m_intakeSub;
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
   private final ClimbSubsystem m_climbSub;
+
+  //public final VL53LOXSensorOutput m_sensor = new VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -65,12 +70,13 @@ public class RobotContainer {
    */
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
-    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    //m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
     // m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSub();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
     m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
+
 
     // Configure the button bindings
     configureDriveSub();
@@ -105,12 +111,12 @@ public class RobotContainer {
     // subsystems.add(m_shootSub);
     // subsystems.add(m_intakeSub);
     // subsystems.add(m_storageSub);
-    subsystems.add(m_driveSub);
+    //subsystems.add(m_driveSub);
     FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
   }
 
   private void configureDriveSub() {
-    m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
+    //m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
 
   /**
@@ -118,7 +124,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return new AutoTemporaryCommand(m_driveSub).getRamsete();
-  }
+  //public Command getAutonomousCommand() {
+  //  return new AutoTemporaryCommand(m_driveSub).getRamsete();
+  //}
 }
