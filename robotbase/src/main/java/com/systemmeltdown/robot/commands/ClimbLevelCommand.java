@@ -13,7 +13,7 @@ public class ClimbLevelCommand extends CommandBase {
     private ClimbSubsystem m_climbSubsystem;
 
     /**
-     * @param climbSubsystem
+     * @param climbSubsystem The {@link ClimbSubsystem}.
      */
     public ClimbLevelCommand(ClimbSubsystem climbSubsystem) {
         m_climbSubsystem = climbSubsystem;
