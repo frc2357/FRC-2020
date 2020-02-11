@@ -62,7 +62,7 @@ public final class Constants {
 
   public static final int SHOOT_MOTOR_1 = 20;
   public static final int SHOOT_MOTOR_2 = 21;
-  public static final int GYRO_ID = 22;
+  public static final int GYRO_ID = 20;
   public static final int SCISSOR_SOLENOID = -1;
   public static final int WINCH_MOTOR_LEFT = -1;
   public static final int WINCH_MOTOR_RIGHT = -1;
@@ -164,6 +164,19 @@ public final class Constants {
   public static final double TURRET_SEEK_SPEED = 0.2;
   public static final double TURRET_AIM_TOLERANCE = 2;
 
+  /**
+   * Sensor Contants
+   */
+  public static final int BAUD_RATE = 115200;
+
+  /**
+   * Arduino device Constants
+   */
+
+  public static final String ARDUINO_DEVICE_NAME = "ttyACM0";
+  public static final int TOF_LOW_RANGE = 130;
+  public static final int TOF_HIGH_RANGE = 225;
+  
   /**
    * Current spike threshold for detecting that we have clamped the bar
    * at the start of climb. A/s
