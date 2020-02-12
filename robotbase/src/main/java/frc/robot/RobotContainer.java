@@ -28,10 +28,9 @@ import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
+import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
-import com.systemmeltdown.robotlib.sensors.VL53LOXSensorOutput;
-import com.systemmeltdown.robotlib.subsystems.VL53LOXSensorOutputSubsystem;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.SerialPort.Port;
@@ -107,12 +106,16 @@ public class RobotContainer {
     // }
 
     LoggerTab loggerTab = new LoggerTab();
-    ArrayList<ClosedLoopSubsystem> subsystems = new ArrayList<>();
+    ArrayList<ClosedLoopSubsystem> subsystems = new ArrayList<>(); //Array of subsystems for the failsafe button
     // subsystems.add(m_shootSub);
     // subsystems.add(m_intakeSub);
     // subsystems.add(m_storageSub);
-    //subsystems.add(m_driveSub);
+    // subsystems.add(m_driveSub);
+
     FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
+
+    //CellNumberWidget cellNumberWidget   = new CellNumberWidget("Robot", m_storageSub, m_intakeSub);
+    // /\ this class needs the storage sub to work, so that needs to work before this can be created.
   }
 
   private void configureDriveSub() {
