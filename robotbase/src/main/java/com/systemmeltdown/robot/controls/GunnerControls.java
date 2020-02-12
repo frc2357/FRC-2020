@@ -2,6 +2,7 @@ package com.systemmeltdown.robot.controls;
 
 import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
+import com.systemmeltdown.robot.commands.PivotIntakeCommand;
 import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
@@ -23,6 +24,7 @@ public class GunnerControls {
     public AxisThresholdTrigger m_rightTrigger;
     public AxisThresholdTrigger m_leftTrigger;
     public JoystickButton m_yButton;
+    public JoystickButton m_xButton;
 
     /**
      * @param builder The GunnerControlsBuilder object
@@ -32,6 +34,7 @@ public class GunnerControls {
         m_rightTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kRight, .1);
         m_leftTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kLeft, .1);
         m_yButton = new JoystickButton(builder.m_controller, XboxRaw.Y.value);
+        m_xButton = new JoystickButton(builder.m_controller, XboxRaw.X.value);
     }
 
     /**
@@ -75,6 +78,7 @@ public class GunnerControls {
             if (m_intakeSub != null) {
                 m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
                 m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
+                m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             }
             if (m_shooterSub != null){
                 m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shooterSub, m_gunnerControls));
