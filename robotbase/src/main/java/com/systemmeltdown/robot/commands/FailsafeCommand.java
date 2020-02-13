@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * The failsafe: Kill all commands. For Safety ;D
+ * 
+ * @category Failsafe
  */
 public class FailsafeCommand extends CommandBase {
     private boolean m_failsafeActive;

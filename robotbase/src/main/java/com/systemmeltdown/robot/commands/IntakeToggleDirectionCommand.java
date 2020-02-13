@@ -1,13 +1,22 @@
 package com.systemmeltdown.robot.commands;
 
-import com.systemmeltdown.robot.subsystems.IntakeSub;
+import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * When the {@link InvertDriveCommand} is called, this command should be called. When it is,
+ * this command will call {@link IntakeSub.toggleRollDirection()} on the intake subsystem.
+ * 
+ * @category Intake
+ */
 public class IntakeToggleDirectionCommand extends CommandBase {
-    private IntakeSub m_intakeSub;
+    private IntakeSubsystem m_intakeSub;
 
-    public IntakeToggleDirectionCommand(IntakeSub intakeSub) {
+    /**
+     * @param intakeSub The {@link IntakeSubsystem}.
+     */
+    public IntakeToggleDirectionCommand(IntakeSubsystem intakeSub) {
         m_intakeSub = intakeSub;
         addRequirements(intakeSub);
     }

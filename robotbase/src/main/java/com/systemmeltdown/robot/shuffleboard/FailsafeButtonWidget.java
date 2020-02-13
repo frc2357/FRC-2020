@@ -9,14 +9,18 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
+/**
+ * A failsafe button.
+ * 
+ * @category Failsafe
+ * @category Shuffleboard
+ */
 public class FailsafeButtonWidget {
     private final String m_tabTitle;
     private final NetworkTableEntry m_failsafeButton;
     private ToggleTrigger failsafeTrigger;
 
     /**
-     * A failsafe button.
-     * 
      * @param tabTitle   Title of the tab you want to add this widget to. Tab will
      *                   be created if it does not exist already.
      * 

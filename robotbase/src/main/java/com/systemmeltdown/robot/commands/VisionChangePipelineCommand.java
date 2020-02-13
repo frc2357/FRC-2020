@@ -5,9 +5,17 @@ import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineI
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**
+ * Changes the camera pipeline (Which camera stream is being shown).
+ * 
+ * @category Camera
+ */
 public class VisionChangePipelineCommand extends CommandBase {
     private TogglableLimelightSubsystem m_visionSub;
 
+    /**
+     * @param visionSub The {@link TogglableLimelightSubsystem}.
+     */
     public VisionChangePipelineCommand(TogglableLimelightSubsystem visionSub) {
         m_visionSub = visionSub;
         addRequirements(visionSub);

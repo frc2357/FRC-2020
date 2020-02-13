@@ -10,7 +10,13 @@ import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorSensorV3;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
-public class ControlPanelSub extends ClosedLoopSubsystem {
+/**
+ * The subsystem responsible for dealing with the Control Panel.
+ * 
+ * @category Control Panel
+ * @category Subsystems
+ */
+public class ControlPanelSubsystem extends ClosedLoopSubsystem {
     // color sensor
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
     private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
@@ -20,7 +26,11 @@ public class ControlPanelSub extends ClosedLoopSubsystem {
     Solenoid m_extenderSolenoid;
     boolean m_extenderPosition = false;
     
-    public ControlPanelSub(int channel, int rotationTalonID) {
+    /**
+     * @param channel The channel on the PCM for the extender solenoid.
+     * @param rotationTalonID
+     */
+    public ControlPanelSubsystem(int channel, int rotationTalonID) {
         m_rotationTalon = new WPI_TalonSRX(rotationTalonID);
         m_extenderSolenoid = new Solenoid(channel);
     }
@@ -30,7 +40,9 @@ public class ControlPanelSub extends ClosedLoopSubsystem {
         // nothing
     }
 
-    // carbon copy of IntakeSubs changeArmPosition.
+    /**
+     * Carbon copy of IntakeSubsystem's changeArmPosition.
+     */
     public void changeExtenderPosition() {
         if (m_extenderPosition) {
             m_extenderSolenoid.set(false);
@@ -41,10 +53,21 @@ public class ControlPanelSub extends ClosedLoopSubsystem {
         }
     }
 
+    /**
+     * Rotates the control panel.
+     * 
+     * @param fullRotationsToDo The amount of times the control panel should be rotated.
+     */
     public void rotateControlPanel(double fullRotationsToDo) {
         m_rotationTalon.set(ControlMode.Position, m_clicksPerRotation * fullRotationsToDo);
     }
 
+    /**
+     * Rotates to whatever color is given by FMS.
+     * 
+     * @param color The color given by FMS. Should be a String containing one of these letters:
+     * "R", "G", "B", or "Y".
+     */
     public void rotateToColor(String color) {
         Color translatedColor = null;
 
