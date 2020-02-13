@@ -20,13 +20,8 @@ import frc.robot.Constants;
  * @category Subsystems
  */
 public class SubsystemFactory {
-    /**
-     * Constructor
-     */
-    public SubsystemFactory() {
-    }
 
-    public SingleSpeedTalonDriveSubsystem CreateSingleSpeedTalonDriveSubsystem() {
+    public static SingleSpeedTalonDriveSubsystem CreateSingleSpeedTalonDriveSubsystem() {
         SingleSpeedTalonDriveSubsystem.Configuration config = new SingleSpeedTalonDriveSubsystem.Configuration();
         config.m_isRightInverted = true;
 
@@ -40,7 +35,7 @@ public class SubsystemFactory {
         return subsystem;
     }
 
-    public SingleSpeedFalconDriveSubsystem CreateSingleSpeedFalconDriveSubsystem() {
+    public static SingleSpeedFalconDriveSubsystem CreateSingleSpeedFalconDriveSubsystem() {
         SingleSpeedFalconDriveSubsystem.Configuration config = new SingleSpeedFalconDriveSubsystem.Configuration();
         config.m_isRightInverted = true;
 
@@ -54,7 +49,7 @@ public class SubsystemFactory {
         return subsystem;
     }
 
-    public FalconTrajectoryDriveSubsystem CreateFalconTrajectoryDriveSubsystem() {
+    public static FalconTrajectoryDriveSubsystem CreateFalconTrajectoryDriveSubsystem() {
         FalconTrajectoryDriveSubsystem.Configuration config = new FalconTrajectoryDriveSubsystem.Configuration();
         config.m_isRightInverted = true;
 
@@ -69,7 +64,7 @@ public class SubsystemFactory {
         return subsystem;
     }
 
-    public ClimbSubsystem CreateClimbSubsystem() {
+    public static ClimbSubsystem CreateClimbSubsystem() {
         // Need device IDs
         throw new UnsupportedOperationException();
         
@@ -87,7 +82,7 @@ public class SubsystemFactory {
         */
     }
 
-    public ControlPanelSubsystem CreateControlPanelSub() {
+    public static ControlPanelSubsystem CreateControlPanelSub() {
         // Need device IDs
         throw new UnsupportedOperationException();
         /*
@@ -95,7 +90,7 @@ public class SubsystemFactory {
          */
     }
 
-    public IntakeSubsystem CreateIntakeSubsystem() {
+    public static IntakeSubsystem CreateIntakeSubsystem() {
         IntakeSubsystem subsystem = new IntakeSubsystem(
             Constants.INTAKE_MOTOR_ID,
             Constants.INTAKE_SOLENOID_CHANNEL_FORWARD,
@@ -103,20 +98,20 @@ public class SubsystemFactory {
         return subsystem;
     }
     
-    public StorageSubsystem CreateStorageSubsystem() {
+    public static StorageSubsystem CreateStorageSubsystem() {
         DigitalInput alignmentSensor = new DigitalInput(Constants.STORAGE_ALIGNMENT_SENSOR_CHANNEL);
         WPI_TalonSRX rotationMotor = new WPI_TalonSRX(Constants.STORAGE_CAROUSEL_MOTOR);
         StorageSubsystem subsystem = new StorageSubsystem(alignmentSensor, rotationMotor);
         return subsystem;
     }
 
-    public ShooterSubsystem CreateShooterSubsystem() {
+    public static ShooterSubsystem CreateShooterSubsystem() {
         ShooterSubsystem subsystem = new ShooterSubsystem(Constants.SHOOT_MOTOR_1, Constants.SHOOT_MOTOR_2);
         // TODO: add more config if needed
         return subsystem;
     }
 
-    public TurretSubsystem CreateTurretSubsystem() {
+    public static TurretSubsystem CreateTurretSubsystem() {
         WPI_TalonSRX rotateMotor = new WPI_TalonSRX(Constants.TURRET_ROTATE_MOTOR);
         Servo hoodMotor = new Servo(Constants.TURRET_HOOD_MOTOR);
         TurretSubsystem subsystem = new TurretSubsystem(rotateMotor, hoodMotor);
@@ -128,7 +123,7 @@ public class SubsystemFactory {
         return subsystem;
     }
 
-    public TogglableLimelightSubsystem CreateLimelightSubsystem() {
+    public static TogglableLimelightSubsystem CreateLimelightSubsystem() {
         TogglableLimelightSubsystem subsystem = new TogglableLimelightSubsystem(false);
         subsystem.setPipeline(PipelineIndex.HUMAN_VIEW);
         subsystem.setStream(false);

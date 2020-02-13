@@ -29,7 +29,7 @@ public class FailsafeButtonWidget {
      *                   IMPORTANT: TO PUT SUBSYSTEMS INTO THE PARAMETER, YOU MUST
      *                   PUT IT INTO AN ARRAYLIST, NOT AN ARRAY.
      */
-    public FailsafeButtonWidget(String tabTitle, ArrayList<ClosedLoopSubsystem> subsystems) {
+    public FailsafeButtonWidget(String tabTitle, ClosedLoopSubsystem[] subsystems) {
         m_failsafeButton = Shuffleboard.getTab(tabTitle)
             .add("FAILSAFE", false)
             .withWidget(BuiltInWidgets.kToggleButton)
