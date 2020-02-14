@@ -33,8 +33,6 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
         m_arduinoUSB = new ArduinoUSBController(Constants.ARDUINO_DEVICE_NAME);
 
         m_arduinoUSB.start();
-        
-        setTOFRange(Constants.TOF_LOW_RANGE, Constants.TOF_HIGH_RANGE);
     }
 
     /**
@@ -93,5 +91,13 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
         
         m_arduinoUSB.setDeviceField("intakeCounter", "lowRange", lowRange);
         m_arduinoUSB.setDeviceField("intakeCounter", "highRange", highRange);
+    }
+
+    /**
+     * Resets arduino by sending a boolean to tell it to rerun it's setup method.
+     * Required to be called after redeploy.
+     */
+    public void resetArduino() {
+        m_arduinoUSB.setDeviceField("intakeCounter", "needsReset", true);
     }
 }

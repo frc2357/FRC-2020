@@ -51,7 +51,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private FalconTrajectoryDriveSubsystem m_driveSub;
   // private final ShooterSubsystem m_shootSub;
-  public final IntakeSubsystem m_intakeSub;
+  public static IntakeSubsystem m_intakeSub;
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
   private final ClimbSubsystem m_climbSub;
@@ -75,11 +75,12 @@ public class RobotContainer {
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
     m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
 
-
     // Configure the button bindings
     configureDriveSub();
     configureButtonBindings();
     configureShuffleboard();
+
+    m_intakeSub.resetArduino();
   }
 
   /**

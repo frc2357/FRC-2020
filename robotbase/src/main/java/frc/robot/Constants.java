@@ -174,8 +174,10 @@ public final class Constants {
    */
 
   public static final String ARDUINO_DEVICE_NAME = "ttyACM0";
-  public static final int TOF_LOW_RANGE = 130;
-  public static final int TOF_HIGH_RANGE = 225;
+
+  //Default mid-range values for intake TOFs.
+  public static final int TOF_LOW_RANGE = 0;
+  public static final int TOF_HIGH_RANGE = 0;
   
   /**
    * Current spike threshold for detecting that we have clamped the bar

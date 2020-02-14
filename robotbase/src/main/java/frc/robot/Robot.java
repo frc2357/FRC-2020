@@ -108,6 +108,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    RobotContainer.m_intakeSub.setTOFRange(Constants.TOF_LOW_RANGE, Constants.TOF_HIGH_RANGE);
   }
 
   /**
