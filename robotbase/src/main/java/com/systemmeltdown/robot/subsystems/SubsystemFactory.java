@@ -74,7 +74,8 @@ public class SubsystemFactory {
         throw new UnsupportedOperationException();
         
         /* SET CAN IDS BEFORE UNCOMMENTING
-        Solenoid solenoid = new Solenoid(Constants.SCISSOR_SOLENOID);
+        Solenoid leftSolenoid = new Solenoid(Constants.SCISSOR_SOLENOID_LEFT);
+        Solenoid rightSolenoid = newSolenoid(Constants.SCISSOR_SOLENOID_RIGHT);
         PigeonIMU gyro = new PigeonIMU(Constants.GYRO_ID);
         WPI_TalonSRX leftWinch = new WPI_TalonSRX(Constants.WINCH_MOTOR_LEFT);
         WPI_TalonSRX rightWinch = new WPI_TalonSRX(Constants.WINCH_MOTOR_RIGHT);
