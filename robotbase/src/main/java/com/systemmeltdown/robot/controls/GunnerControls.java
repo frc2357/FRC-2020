@@ -1,17 +1,24 @@
 package com.systemmeltdown.robot.controls;
 
+import com.systemmeltdown.robot.commands.ClimbCommandSequence;
+import com.systemmeltdown.robot.commands.ClimbLeftCommand;
+import com.systemmeltdown.robot.commands.ClimbRaiseScissorCommand;
+import com.systemmeltdown.robot.commands.ClimbRightCommand;
 import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
 import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.PivotIntakeCommand;
 import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robotlib.triggers.AxisThresholdTrigger;
 import com.systemmeltdown.robotlib.util.XboxRaw;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * These are the controls for the gunner.
@@ -25,6 +32,10 @@ public class GunnerControls {
     public AxisThresholdTrigger m_leftTrigger;
     public JoystickButton m_yButton;
     public JoystickButton m_xButton;
+    public JoystickButton m_aButton;
+    public JoystickButton m_leftBumper;
+    public JoystickButton m_rightBumper;
+    public Trigger m_bumperChord;
 
     /**
      * @param builder The GunnerControlsBuilder object
@@ -35,6 +46,12 @@ public class GunnerControls {
         m_leftTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kLeft, .1);
         m_yButton = new JoystickButton(builder.m_controller, XboxRaw.Y.value);
         m_xButton = new JoystickButton(builder.m_controller, XboxRaw.X.value);
+        m_aButton = new JoystickButton(builder.m_controller, XboxRaw.A.value);
+        m_leftBumper = new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value);
+        m_rightBumper = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value);
+
+        m_bumperChord = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value)
+                                            .and(new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value));
     }
 
     /**
@@ -55,6 +72,7 @@ public class GunnerControls {
         private XboxController m_controller = null;
         private IntakeSubsystem m_intakeSub = null;
         private ShooterSubsystem m_shooterSub = null;
+        private ClimbSubsystem m_climbSub = null;
 
         /**
          * @param controller the controller of the gunner controls
@@ -73,6 +91,11 @@ public class GunnerControls {
             return this;
         }
 
+        public GunnerControlsBuilder withClimbSubsystem(ClimbSubsystem climbSub) {
+            this.m_climbSub = climbSub;
+            return this;
+        }
+
         public GunnerControls build() {
             GunnerControls m_gunnerControls = new GunnerControls(this);
             if (m_intakeSub != null) {
@@ -82,6 +105,12 @@ public class GunnerControls {
             }
             if (m_shooterSub != null){
                 m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shooterSub, m_gunnerControls));
+            }
+            if(m_climbSub != null) {
+                m_gunnerControls.m_bumperChord.whenActive(new ClimbCommandSequence(m_climbSub));
+                m_gunnerControls.m_leftBumper.whileHeld(new ClimbLeftCommand(m_climbSub));
+                m_gunnerControls.m_rightBumper.whileHeld(new ClimbRightCommand(m_climbSub));
+                m_gunnerControls.m_aButton.whenPressed(new ClimbRaiseScissorCommand(m_climbSub));
             }
             return m_gunnerControls;
         }

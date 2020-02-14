@@ -42,7 +42,7 @@ import java.util.ArrayList;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private FalconTrajectoryDriveSubsystem m_driveSub;
-  private final ShooterSubsystem m_shootSub = null;
+  private final ShooterSubsystem m_shootSub;
   private final IntakeSubsystem m_intakeSub;
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
@@ -61,7 +61,7 @@ public class RobotContainer {
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    //m_shootSub = subsystemFactory.CreateShooterSubsystem();
+    m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
@@ -77,6 +77,7 @@ public class RobotContainer {
     m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1))
                       .withIntakeSub(m_intakeSub)
                       .withShooterSubsystem(m_shootSub)
+                      .withClimbSubsystem(m_climbSub)
                       .build();
 
     configureDriveSub();
