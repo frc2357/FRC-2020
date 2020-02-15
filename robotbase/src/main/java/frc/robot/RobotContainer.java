@@ -77,6 +77,7 @@ public class RobotContainer {
     m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1))
                       .withIntakeSub(m_intakeSub)
                       .withShooterSubsystem(m_shootSub)
+                      .withClimbSubsystem(m_climbSub)
                       .build();
 
     configureDriveSub();
