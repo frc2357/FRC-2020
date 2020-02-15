@@ -24,6 +24,21 @@ public final class Constants {
   public static final double UPDATE_PERIOD = Robot.kDefaultPeriod;
 
   /**
+   * When setting values on components, wait this long for a response before
+   * failing. milliseconds
+   */
+  public static final int TIMEOUT_MS = 30;
+
+  /**
+   * The PID code built into the Talon controllers uses 1023 to represent
+   * full motor output
+   */
+  public static final int TALON_PID_FULL = 1023;
+
+  /** 1min/100ms */
+  public static final int MINUTES_TO_100_MS = 600;
+
+  /**
    * CAN IDS 1-10 Core Components of the Robot
    */
   public static final int PDP = 1;
@@ -56,6 +71,9 @@ public final class Constants {
 
   public static final double WHEEL_DIAMETER_IN_METERS = 0.1524;
   public static final int ENCODER_CPR = 1024;
+
+  /** Clicks per rotation for the internal encoder in the Falcon 500 */
+  public static final int FALCON_ENCODER_CPR = 2048;
 
   public static final double ENCODER_DISTANCE_PER_PULSE = 
     (WHEEL_DIAMETER_IN_METERS * Math.PI) / (double) ENCODER_CPR;
@@ -177,6 +195,30 @@ public final class Constants {
   public static final int TOF_LOW_RANGE = 130;
   public static final int TOF_HIGH_RANGE = 225;
   
+  /**
+   * Current limit for shooter motor. Set this to limit the
+   * wheels to a safe speed (<= 4kRPM)
+   */
+  public static final double SHOOTER_MOTOR_PEAK_OUTPUT = 0.6;
+
+  /**
+   * Run the motor at peak output and measure the encoder velocity in
+   * ticks per 100ms (this is reported by getSelectedSensorVelocity)
+   */
+  public static final int SHOOTER_ENCODER_VELOCITY_AT_PEAK_OUTPUT = 1;
+
+  /** Maximum safe speed for the shooter wheels */
+  public static final int SHOOTER_MAX_SPEED_RPM = 4000;
+
+  /** Speed for shooting in the low goal SET THIS */
+  public static final int SHOOTER_LOW_GOAL_SPEED_RPM = 1000;
+
+  /** Shooter PIDF values */
+  public static final double SHOOTER_P = 0;
+  public static final double SHOOTER_I = 0;
+  public static final double SHOOTER_D = 0;
+  public static final double SHOOTER_F = SHOOTER_MOTOR_PEAK_OUTPUT * TALON_PID_FULL / SHOOTER_ENCODER_VELOCITY_AT_PEAK_OUTPUT;
+
   /**
    * Current spike threshold for detecting that we have clamped the bar
    * at the start of climb. A/s

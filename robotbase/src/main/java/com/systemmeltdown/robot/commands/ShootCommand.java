@@ -5,10 +5,13 @@ import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 
 /**
  * Tells the turret to shoot by calling runMotor() on the {@link ShooterSubsystem}.
- * 
+ *
+ * This command uses a constant shooting velocity and needs to be
+ * paired with an aiming hood.
  * @category Turret
  */
 public class ShootCommand extends CommandBase {
@@ -28,11 +31,11 @@ public class ShootCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_shootSub.runMotor(m_gunnerControls.getTriggerValue(Hand.kRight));
+        m_shootSub.setMotorSpeed(Constants.SHOOTER_MAX_SPEED_RPM);
     }
 
     @Override
     public void end(boolean interupted) {
-        m_shootSub.runMotor(0.0);
+        m_shootSub.runMotorOpenLoop(0.0);
     }
 }
