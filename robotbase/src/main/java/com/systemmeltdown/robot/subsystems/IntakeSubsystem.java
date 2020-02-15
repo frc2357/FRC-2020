@@ -5,8 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.arduino.ArduinoUSBController;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
-// import edu.wpi.first.wpilibj.DoubleSolenoid;
-// import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.Constants;
 
 /**
@@ -16,7 +16,7 @@ import frc.robot.Constants;
  * @category Subsystems
  */
 public class IntakeSubsystem extends ClosedLoopSubsystem {
-    // private DoubleSolenoid m_intakeSolenoid;
+    private DoubleSolenoid m_intakeSolenoid;
     private WPI_TalonSRX m_intakeTalon;
     private ArduinoUSBController m_arduinoUSB;
     private boolean m_rollIntoBot = true;
@@ -27,7 +27,7 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
      * @param reverseChannel The reverse channel number on the PCM on the Double Solenoid.
      */
     public IntakeSubsystem(int intakeTalonID, int forwardChannel, int reverseChannel) {
-        // m_intakeSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
+        m_intakeSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
         m_intakeTalon = new WPI_TalonSRX(intakeTalonID);
 
         m_arduinoUSB = new ArduinoUSBController(Constants.ARDUINO_DEVICE_NAME);
@@ -58,15 +58,19 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
      * Changes the arm position.
      */
     public void changeArmPosition() {
-    //     switch (m_intakeSolenoid.get()) {
-    //         case kForward: {
-    //             m_intakeSolenoid.set(Value.kReverse);
-    //             break;
-    //         } 
-    //         default: {
-    //             m_intakeSolenoid.set(Value.kForward);
-    //         }
-    //     }
+        switch (m_intakeSolenoid.get()) {
+            case kForward: {
+                m_intakeSolenoid.set(Value.kReverse);
+                break;
+            } 
+            case kReverse: {
+                m_intakeSolenoid.set(Value.kForward);
+                break;
+            }
+            default: {
+                m_intakeSolenoid.set(Value.kForward);
+            }
+        }
     }
 
     /**
