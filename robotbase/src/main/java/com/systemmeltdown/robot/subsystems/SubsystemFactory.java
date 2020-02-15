@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
+import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 //import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -128,16 +129,16 @@ public class SubsystemFactory {
         return subsystem;
     }
 
-    // public TogglableLimelightSubsystem CreateLimelightSubsystem() {
-    //     TogglableLimelightSubsystem subsystem = new TogglableLimelightSubsystem(false);
-    //     subsystem.setPipeline(PipelineIndex.HUMAN_VIEW);
-    //     subsystem.setStream(false);
-    //     LimelightSubsystem.Configuration config = new LimelightSubsystem.Configuration();
-    //     config.m_LimelightMountingAngle = Constants.LIMELIGHT_MOUNTING_ANGLE;
-    //     config.m_LimelightMountingHeightInches = Constants.LIMELIGHT_MOUNTING_HEIGHT;
-    //     config.m_TargetWidth = Constants.VISION_TARGET_WIDTH;
-    //     config.m_TargetHeight = Constants.VISION_TARGET_HEIGHT;
-    //     subsystem.setConfiguration(config);
-    //     return subsystem;
-    // }
+    public TogglableLimelightSubsystem CreateLimelightSubsystem() {
+        TogglableLimelightSubsystem subsystem = new TogglableLimelightSubsystem(false);
+        subsystem.setPipeline(PipelineIndex.HUMAN_VIEW);
+        subsystem.setStream(false);
+        LimelightSubsystem.Configuration config = new LimelightSubsystem.Configuration();
+        config.m_LimelightMountingAngle = Constants.LIMELIGHT_MOUNTING_ANGLE;
+        config.m_LimelightMountingHeightInches = Constants.LIMELIGHT_MOUNTING_HEIGHT;
+        config.m_TargetWidth = Constants.VISION_TARGET_WIDTH;
+        config.m_TargetHeight = Constants.VISION_TARGET_HEIGHT;
+        subsystem.setConfiguration(config);
+        return subsystem;
+    }
 }
