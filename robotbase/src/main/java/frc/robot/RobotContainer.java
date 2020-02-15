@@ -41,7 +41,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private FalconTrajectoryDriveSubsystem m_driveSub;
   private final ShooterSubsystem m_shootSub;
-  public static IntakeSubsystem m_intakeSub;
+  private final IntakeSubsystem m_intakeSub;
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
   //private final ClimbSubsystem m_climbSub;
@@ -58,7 +58,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
-    //m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
     m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
@@ -88,12 +88,9 @@ public class RobotContainer {
     // }
 
     LoggerTab loggerTab = new LoggerTab();
-    ArrayList<ClosedLoopSubsystem> subsystems = new ArrayList<>();
-    // subsystems.add(m_shootSub);
-    // subsystems.add(m_intakeSub);
-    // subsystems.add(m_storageSub);
-    //subsystems.add(m_driveSub);
-    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
+    
+    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot",
+     new ClosedLoopSubsystem[] {m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub});
   }
 
   private void configureDriveSub() {
