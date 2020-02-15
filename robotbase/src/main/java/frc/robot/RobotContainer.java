@@ -92,12 +92,9 @@ public class RobotContainer {
     // }
 
     LoggerTab loggerTab = new LoggerTab();
-    ArrayList<ClosedLoopSubsystem> subsystems = new ArrayList<>();
-    // subsystems.add(m_shootSub);
-    // subsystems.add(m_intakeSub);
-    // subsystems.add(m_storageSub);
-    //subsystems.add(m_driveSub);
-    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
+    
+    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot",
+     new ClosedLoopSubsystem[] {m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub});
   }
 
   private void configureDriveSub() {

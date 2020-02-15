@@ -65,7 +65,8 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     Shuffleboard.update();
-    //System.out.println(m_robotContainer.m_intakeSub.getCount());
+    // System.out.println(m_robotContainer.m_intakeSub.getCount()); This line gives an error, because
+    // m_intakeSub is private.
   }
 
   /**

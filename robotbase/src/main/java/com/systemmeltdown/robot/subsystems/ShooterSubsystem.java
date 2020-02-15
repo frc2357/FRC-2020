@@ -1,6 +1,7 @@
 package com.systemmeltdown.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 /**
