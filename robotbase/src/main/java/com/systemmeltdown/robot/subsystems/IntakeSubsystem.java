@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 // import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class IntakeSubsystem extends ClosedLoopSubsystem {
-    // private DoubleSolenoid m_intakeSolenoid;
+    private DoubleSolenoid m_intakeSolenoid;
     private WPI_TalonSRX m_intakeTalon;
     private boolean m_rollIntoBot = true;
 
     public IntakeSubsystem(int intakeTalonID, int forwardChannel, int reverseChannel) {
-        // m_intakeSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
+        m_intakeSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
         m_intakeTalon = new WPI_TalonSRX(intakeTalonID);
     }
 

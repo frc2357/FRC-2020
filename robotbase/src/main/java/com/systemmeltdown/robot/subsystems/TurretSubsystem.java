@@ -14,9 +14,6 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
     private double m_horzAimMeasurement;
     private boolean m_horzAimControllerActive;
 
-    // TODO replace with the specific class for the motor
-    private Servo m_hoodServo;
-
     private Configuration m_configuration;
 
     static public class Configuration
@@ -26,10 +23,9 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
         public double m_turretAimD = 0;      
     }
 
-    public TurretSubsystem(WPI_TalonSRX rotateMotor, Servo hoodServo) {
+    public TurretSubsystem(WPI_TalonSRX rotateMotor) {
         m_configuration = new Configuration();
         m_rotateMotor = rotateMotor;
-        m_hoodServo = hoodServo;
         m_horzAimController = new PIDController(0, 0, 0);
         m_horzAimControllerActive = false;
         m_horzAimMeasurement = 0;
@@ -38,7 +34,6 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
 
         // add dashboard controls for children
         addChild("rotateMotor", m_rotateMotor);
-        addChild("hoodServo", m_hoodServo);
         addChild("horzAimPID", m_horzAimController);
     }
 
@@ -60,10 +55,6 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
      */
     public void setTurretMotor(double percentOutput) {
         m_rotateMotor.set(ControlMode.PercentOutput, percentOutput);
-    }
-
-    public void setHoodAngle(double degrees) {
-        m_hoodServo.setAngle(degrees);
     }
 
     /**

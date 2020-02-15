@@ -27,6 +27,7 @@ import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -41,11 +42,12 @@ import java.util.ArrayList;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private FalconTrajectoryDriveSubsystem m_driveSub;
+  // private FalconTrajectoryDriveSubsystem m_driveSub;
   // private final ShooterSubsystem m_shootSub;
   private final IntakeSubsystem m_intakeSub;
   // private final StorageSubsystem m_storageSub;
-  private final TogglableLimelightSubsystem m_visionSub;
+  // private final TogglableLimelightSubsystem m_visionSub;
+  private final Compressor m_compressor;
 
   private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
   private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
@@ -57,11 +59,13 @@ public class RobotContainer {
    */
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
-    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    // m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
     // m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSub();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
-    m_visionSub = subsystemFactory.CreateLimelightSubsystem();
+    // m_visionSub = subsystemFactory.CreateLimelightSubsystem();
+    m_compressor = new Compressor();
+    m_compressor.setClosedLoopControl(true);
 
     // Configure the button bindings
     configureDriveSub();
@@ -77,8 +81,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // m_gunnerControls.m_shootButton.whenPressed(command)
-    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSub, m_driverControls));
-    m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSub));
+    // m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSub, m_driverControls));
+    // m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSub));
     // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
     m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
     m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
@@ -96,12 +100,12 @@ public class RobotContainer {
     // subsystems.add(m_shootSub);
     // subsystems.add(m_intakeSub);
     // subsystems.add(m_storageSub);
-    subsystems.add(m_driveSub);
+    // subsystems.add(m_driveSub);
     FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
   }
 
   private void configureDriveSub() {
-    m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
+    // m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
 
   /**
@@ -109,7 +113,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return new AutoTemporaryCommand(m_driveSub).getRamsete();
-  }
+  // public Command getAutonomousCommand() {
+  //   return new AutoTemporaryCommand(m_driveSub).getRamsete();
+  // }
 }

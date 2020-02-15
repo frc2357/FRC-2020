@@ -108,15 +108,15 @@ public class SubsystemFactory {
     }
 
     public ShooterSubsystem CreateShooterSubsystem() {
-        ShooterSubsystem subsystem = new ShooterSubsystem(Constants.SHOOT_MOTOR_1, Constants.SHOOT_MOTOR_2);
+        Servo hoodMotor = new Servo(Constants.TURRET_HOOD_MOTOR);
+        ShooterSubsystem subsystem = new ShooterSubsystem(Constants.SHOOT_MOTOR_1, Constants.SHOOT_MOTOR_2, hoodMotor);
         // TODO: add more config if needed
         return subsystem;
     }
 
     public TurretSubsystem CreateTurretSubsystem() {
         WPI_TalonSRX rotateMotor = new WPI_TalonSRX(Constants.TURRET_ROTATE_MOTOR);
-        Servo hoodMotor = new Servo(Constants.TURRET_HOOD_MOTOR);
-        TurretSubsystem subsystem = new TurretSubsystem(rotateMotor, hoodMotor);
+        TurretSubsystem subsystem = new TurretSubsystem(rotateMotor);
         TurretSubsystem.Configuration config = new TurretSubsystem.Configuration();
         config.m_turretAimP = Constants.TURRET_AIM_P;
         config.m_turretAimI = Constants.TURRET_AIM_I;
