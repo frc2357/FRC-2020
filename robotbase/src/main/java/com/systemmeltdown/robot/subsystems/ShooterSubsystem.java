@@ -1,14 +1,7 @@
 package com.systemmeltdown.robot.subsystems;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 3326337ec10f467db157c894afef0191e6e9b7c0
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-=======
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;;
->>>>>>> Added temp button bindings for climber
+
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 /**
