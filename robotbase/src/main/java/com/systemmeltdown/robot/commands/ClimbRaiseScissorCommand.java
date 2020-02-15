@@ -9,10 +9,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * 
  * This will start the scissor extension when initialized, then
  * stop the extension when the command ends.
+ * 
+ * @category Climb
  */
 public class ClimbRaiseScissorCommand extends CommandBase {
     private ClimbSubsystem m_climbSubsystem;
 
+    /**
+     * @param climbSubsystem The {@link ClimbSubsystem}.
+     */
     public ClimbRaiseScissorCommand(ClimbSubsystem climbSubsystem) {
         m_climbSubsystem = climbSubsystem;
         addRequirements(m_climbSubsystem);

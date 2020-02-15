@@ -16,6 +16,8 @@ import frc.robot.Constants;
 
 /**
  * This class is a factory that creates subsystems.
+ * 
+ * @category Subsystems
  */
 public class SubsystemFactory {
     /**
@@ -93,7 +95,7 @@ public class SubsystemFactory {
          */
     }
 
-    public IntakeSubsystem CreateIntakeSub() {
+    public IntakeSubsystem CreateIntakeSubsystem() {
         IntakeSubsystem subsystem = new IntakeSubsystem(
             Constants.INTAKE_MOTOR_ID,
             Constants.INTAKE_SOLENOID_CHANNEL_FORWARD,
@@ -102,8 +104,9 @@ public class SubsystemFactory {
     }
     
     public StorageSubsystem CreateStorageSubsystem() {
-        DigitalInput feedSensor = new DigitalInput(Constants.STORAGE_FEED_SENSOR_CHANNEL);
-        StorageSubsystem subsystem = new StorageSubsystem(feedSensor);
+        DigitalInput alignmentSensor = new DigitalInput(Constants.STORAGE_ALIGNMENT_SENSOR_CHANNEL);
+        WPI_TalonSRX rotationMotor = new WPI_TalonSRX(Constants.STORAGE_CAROUSEL_MOTOR);
+        StorageSubsystem subsystem = new StorageSubsystem(alignmentSensor, rotationMotor);
         return subsystem;
     }
 

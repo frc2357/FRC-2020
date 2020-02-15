@@ -8,6 +8,12 @@ import com.systemmeltdown.robotlib.util.Utility;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
+/**
+ * Subsystem for the turret.
+ * 
+ * @category Turret
+ * @category Subsystems
+ */
 public class TurretSubsystem extends ClosedLoopSubsystem {
     private WPI_TalonSRX m_rotateMotor;
     private PIDController m_horzAimController;
@@ -23,6 +29,9 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
         public double m_turretAimD = 0;      
     }
 
+    /**
+     * @param rotateMotor Motor that rotates the turret.
+     */
     public TurretSubsystem(WPI_TalonSRX rotateMotor) {
         m_configuration = new Configuration();
         m_rotateMotor = rotateMotor;
