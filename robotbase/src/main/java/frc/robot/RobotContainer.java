@@ -7,20 +7,13 @@
 
 package frc.robot;
 
-import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
-//import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
-//import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
-//import com.systemmeltdown.robot.subsystems.StorageSubsystem;
+import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
-import com.systemmeltdown.robot.commands.ClimbLevelCommand;
-import com.systemmeltdown.robot.commands.ClimbRaiseScissorCommand;
-import com.systemmeltdown.robot.commands.ClimbReelWinchCommand;
-import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
-import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
-import com.systemmeltdown.robot.commands.InvertDriveCommand;
-import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
+import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
+import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
+import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
@@ -34,9 +27,6 @@ import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import java.util.ArrayList;
 
@@ -56,10 +46,10 @@ public class RobotContainer {
   private final TogglableLimelightSubsystem m_visionSub;
   private final ClimbSubsystem m_climbSub;
 
-  //public final VL53LOXSensorOutput m_sensor = new VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
 
-  private final InvertDriveControls m_driverControls = new InvertDriveControls(new XboxController(0), .1);
-  private final GunnerControls m_gunnerControls = new GunnerControls(new XboxController(1));
+  private final InvertDriveControls m_driverControls;
+  private final GunnerControls m_gunnerControls;
+  //public final VL53LOXSensorOutput m_sensor = new VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
 
   private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
 
@@ -68,34 +58,28 @@ public class RobotContainer {
    */
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
-    //m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    // m_shootSub = subsystemFactory.CreateShooterSubsystem();
-    m_intakeSub = subsystemFactory.CreateIntakeSub();
+    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    //m_shootSub = subsystemFactory.CreateShooterSubsystem();
+    m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
     m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
 
     // Configure the button bindings
+    m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
+                      .withDriveSub(m_driveSub)
+                      .withVisionSub(m_visionSub)
+                      .build();
+
+    m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1))
+                      .withIntakeSub(m_intakeSub)
+                      .withShooterSubsystem(m_shootSub)
+                      .build();
+
     configureDriveSub();
-    configureButtonBindings();
     configureShuffleboard();
 
     m_intakeSub.resetArduino();
-  }
-
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    // m_gunnerControls.m_shootButton.whenPressed(command)
-    m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSub, m_driverControls));
-    m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSub));
-    // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shootSub, m_gunnerControls));
-    m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
-    m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
   }
 
   private void configureShuffleboard() {
