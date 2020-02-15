@@ -34,7 +34,7 @@ public class FeederSubsystem extends ClosedLoopSubsystem {
      * @param speed Speed to run the feeder motor at.
      */
     public void runFeederMotor(double speed) {
-        m_feederMotor.set(ControlMode.Position, speed);
+        m_feederMotor.set(ControlMode.PercentOutput, speed);
     }
 
     public boolean isFeedSensorBlocked() {
