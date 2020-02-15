@@ -1,6 +1,5 @@
 package com.systemmeltdown.robot.shuffleboard;
 
-import java.util.ArrayList;
 import com.systemmeltdown.robot.commands.FailsafeCommand;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robotlib.triggers.ToggleTrigger;

@@ -37,7 +37,7 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private FalconTrajectoryDriveSubsystem m_driveSub;
+  private final FalconTrajectoryDriveSubsystem m_driveSub;
   private final ClimbSubsystem m_climbSub;
   private final ControlPanelSubsystem m_controlPanelSub;
   private final FeederSubsystem m_feederSub;
