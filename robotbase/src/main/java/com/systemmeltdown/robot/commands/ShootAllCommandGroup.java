@@ -27,12 +27,12 @@ class ShootAllCommandGroup extends ParallelCommandGroup {
                                 FeederSubsystem  feederSub, ShooterSubsystem shootSub,
                                 GunnerControls gunnerControls) {
 
-        while (storageSub.getNumOfCells() != 0 && intakeSub.getCount() != 0) {
+        while (storageSub.getNumOfCells() != 0 && intakeSub.getNumOfPowerCells() != 0) {
             addCommands(
 
                 new RotateStorageSingleCell(storageSub),
 
-                new InputToShooterCommand(feederSub),
+                new FeedToShooterCommand(feederSub),
 
                 new ShootCommand(shootSub, gunnerControls)
 
