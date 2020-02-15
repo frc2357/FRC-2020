@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * This command brings a ball into the intake from the ground.
+ * This command brings a cell into the intake from the ground.
  * 
  * @category Intake
  */

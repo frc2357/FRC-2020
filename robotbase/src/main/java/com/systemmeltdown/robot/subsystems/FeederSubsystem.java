@@ -6,7 +6,7 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
- * The subsystem that contains the motor that feeds balls to the turret.
+ * The subsystem that contains the motor that feeds cells to the turret.
  * 
  * @category Turret
  * @category Subsystems
@@ -19,7 +19,7 @@ public class FeederSubsystem extends ClosedLoopSubsystem {
     
     /**
      * @param feederMotorID The ID of the feeder motor.
-     * @param feederSensorID The ID of the infrared sensor that detects if there is a ball in the cell before the feeder
+     * @param feederSensorID The ID of the infrared sensor that detects if there is a cell in the slot before the feeder
      */
     public FeederSubsystem(int feederMotorID, int feedSensorID) {
         m_feederMotor = new WPI_TalonSRX(feederMotorID);
