@@ -27,8 +27,8 @@ public class FailsafeCommand extends CommandBase {
     public void initialize() {
 
         //Set all subsystems in array to the value of m_failsafeActive
-        for (int i = 0; i < m_subsystems.length; i++) {
-            m_subsystems[i].setClosedLoopEnabled(m_failsafeActive);
+        for (ClosedLoopSubsystem subsystem : m_subsystems) {
+            subsystem.setClosedLoopEnabled(m_failsafeActive);
         }
 
         //Kill them. Kill them all.
