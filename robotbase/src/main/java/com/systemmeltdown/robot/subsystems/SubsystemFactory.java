@@ -7,7 +7,7 @@ import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsyst
 //import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Servo;
 
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
@@ -16,6 +16,8 @@ import frc.robot.Constants;
 
 /**
  * This class is a factory that creates subsystems.
+ * 
+ * @category Subsystems
  */
 public class SubsystemFactory {
     /**
@@ -85,7 +87,7 @@ public class SubsystemFactory {
         */
     }
 
-    public ControlPanelSub CreateControlPanelSub() {
+    public ControlPanelSubsystem CreateControlPanelSub() {
         // Need device IDs
         throw new UnsupportedOperationException();
         /*
@@ -93,15 +95,18 @@ public class SubsystemFactory {
          */
     }
 
-    public IntakeSub CreateIntakeSub() {
-        IntakeSub subsystem = new IntakeSub(Constants.INTAKE_SOLENOID_CHANNEL,
-            Constants.INTAKE_MOTOR_ID);
+    public IntakeSubsystem CreateIntakeSubsystem() {
+        IntakeSubsystem subsystem = new IntakeSubsystem(
+            Constants.INTAKE_MOTOR_ID,
+            Constants.INTAKE_SOLENOID_CHANNEL_FORWARD,
+            Constants.INTAKE_SOLENOID_CHANNEL_REVERSE);
         return subsystem;
     }
     
     public StorageSubsystem CreateStorageSubsystem() {
-        DigitalInput feedSensor = new DigitalInput(Constants.STORAGE_FEED_SENSOR_CHANNEL);
-        StorageSubsystem subsystem = new StorageSubsystem(feedSensor);
+        DigitalInput alignmentSensor = new DigitalInput(Constants.STORAGE_ALIGNMENT_SENSOR_CHANNEL);
+        WPI_TalonSRX rotationMotor = new WPI_TalonSRX(Constants.STORAGE_CAROUSEL_MOTOR);
+        StorageSubsystem subsystem = new StorageSubsystem(alignmentSensor, rotationMotor);
         return subsystem;
     }
 
@@ -112,11 +117,15 @@ public class SubsystemFactory {
     }
 
     public TurretSubsystem CreateTurretSubsystem() {
-        // Need device IDs
-        throw new UnsupportedOperationException();
-        /*
-         * TurretSubsystem subsystem = new TurretSubsystem(-1); return subsystem;
-         */
+        WPI_TalonSRX rotateMotor = new WPI_TalonSRX(Constants.TURRET_ROTATE_MOTOR);
+        Servo hoodMotor = new Servo(Constants.TURRET_HOOD_MOTOR);
+        TurretSubsystem subsystem = new TurretSubsystem(rotateMotor, hoodMotor);
+        TurretSubsystem.Configuration config = new TurretSubsystem.Configuration();
+        config.m_turretAimP = Constants.TURRET_AIM_P;
+        config.m_turretAimI = Constants.TURRET_AIM_I;
+        config.m_turretAimD = Constants.TURRET_AIM_D;
+        subsystem.setConfiguration(config);
+        return subsystem;
     }
 
     // public TogglableLimelightSubsystem CreateLimelightSubsystem() {

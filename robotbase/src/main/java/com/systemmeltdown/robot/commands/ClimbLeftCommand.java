@@ -6,10 +6,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * This command climbs toward the left side of the robot.
+ * 
+ * @category Climb
  */
 public class ClimbLeftCommand extends CommandBase {
     private ClimbSubsystem m_climbSubsystem;
 
+    /**
+     * @param climbSubsystem The {@link ClimbSubsystem}.
+     */
     public ClimbLeftCommand(ClimbSubsystem climbSubsystem) {
         m_climbSubsystem = climbSubsystem;
         addRequirements(m_climbSubsystem);

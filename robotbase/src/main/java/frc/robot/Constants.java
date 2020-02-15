@@ -20,6 +20,9 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  /** Time between robot updates in seconds */
+  public static final double UPDATE_PERIOD = Robot.kDefaultPeriod;
+
   /**
    * General purpose
    */
@@ -65,19 +68,28 @@ public final class Constants {
 
   public static final int SHOOT_MOTOR_1 = 20;
   public static final int SHOOT_MOTOR_2 = 21;
-  public static final int GYRO_ID = 22;
+  public static final int GYRO_ID = 20;
   public static final int SCISSOR_SOLENOID = -1;
   public static final int WINCH_MOTOR_LEFT = -1;
   public static final int WINCH_MOTOR_RIGHT = -1;
+  public static final int STORAGE_CAROUSEL_MOTOR = -1;
+  public static final int TURRET_ROTATE_MOTOR = -1;
+  public static final int TURRET_HOOD_MOTOR = -1;
 
   /** Intake motor */
-  public static final int INTAKE_MOTOR_ID = -1;
+  public static final int INTAKE_MOTOR_ID = 23;
 
   /** Solenoid to extend intake assembly */
-  public static final int INTAKE_SOLENOID_CHANNEL = -1;
+  public static final int INTAKE_SOLENOID_CHANNEL_FORWARD = 0;
+  public static final int INTAKE_SOLENOID_CHANNEL_REVERSE = 1;
 
   /** IR sensor before feed wheel */
-  public static final int STORAGE_FEED_SENSOR_CHANNEL = -1;
+  public static final int FEED_SENSOR_CHANNEL = -1;
+
+  /** Hall effect sensor on storage system for carousel alignment */
+  public static final int STORAGE_ALIGNMENT_SENSOR_CHANNEL = -1;
+  public static final double STORAGE_CAROUSEL_ROTATION_SPEED = 0.25;
+  public static final int STORAGE_CAROUSEL_SEGMENTS = 6;
 
   /**
    * Characterization Constants Zeroes are currently placeholder values
@@ -173,4 +185,31 @@ public final class Constants {
   public static final int DRIVER_ENCODER_MAX_DIFF = -1;
   public static final boolean LEFT_ENCODER_REVERSED = false;
   public static final boolean RIGHT_ENCODER_REVERSED = true;
+  /**
+   * Sensor Contants
+   */
+  public static final int BAUD_RATE = 115200;
+
+  /**
+   * Arduino device Constants
+   */
+
+  public static final String ARDUINO_DEVICE_NAME = "ttyACM0";
+  public static final int TOF_LOW_RANGE = 130;
+  public static final int TOF_HIGH_RANGE = 225;
+  
+  /**
+   * Current spike threshold for detecting that we have clamped the bar
+   * at the start of climb. A/s
+   * 
+   * TODO measure this during climb to come up with a reasonable value
+   */
+  public static final double WINCH_CURRENT_SPIKE_THRESHOLD = 5;
+
+  /**
+   * This is a delay between when the scissor lift starts extending and
+   * when the winch starts pulling in the slack at the start of the
+   * climb. seconds
+   */
+  public static final double CLIMB_WAIT_FOR_WINCH = 0;
 }
