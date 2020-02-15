@@ -34,17 +34,10 @@ public class GunnerControls {
     public JoystickButton m_DpadUp;
     public JoystickButton m_yButton;
     public JoystickButton m_xButton;
-<<<<<<< HEAD
     public Trigger m_aButtonandDPadUp;
     public Trigger m_leftBumperandDPadUp;
     public Trigger m_rightBumperandDPadUp;
     public Trigger m_bumperAndDPadUpChord;
-=======
-    public Trigger m_aButton;
-    public Trigger m_leftBumper;
-    public Trigger m_rightBumper;
-    public Trigger m_bumperChord;
->>>>>>> 3326337ec10f467db157c894afef0191e6e9b7c0
 
     /**
      * @param builder The GunnerControlsBuilder object
@@ -55,7 +48,6 @@ public class GunnerControls {
         m_leftTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kLeft, .1);
         m_yButton = new JoystickButton(builder.m_controller, XboxRaw.Y.value);
         m_xButton = new JoystickButton(builder.m_controller, XboxRaw.X.value);
-<<<<<<< HEAD
         m_aButtonandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.A.value)
                                         .and(new POVButton(builder.m_controller, 0));
         m_leftBumperandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value)
@@ -64,16 +56,6 @@ public class GunnerControls {
                                             .and(new POVButton(builder.m_controller, 0));
 
         m_bumperAndDPadUpChord = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value)
-=======
-        m_aButton = new JoystickButton(builder.m_controller, XboxRaw.A.value)
-                                        .and(new POVButton(builder.m_controller, 0));
-        m_leftBumper = new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value)
-                                            .and(new POVButton(builder.m_controller, 0));
-        m_rightBumper = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value)
-                                            .and(new POVButton(builder.m_controller, 0));
-
-        m_bumperChord = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value)
->>>>>>> 3326337ec10f467db157c894afef0191e6e9b7c0
                                             .and(new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value))
                                             .and(new POVButton(builder.m_controller, 0));
     }
@@ -131,17 +113,11 @@ public class GunnerControls {
                 m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shooterSub, m_gunnerControls));
             }
             if(m_climbSub != null) {
-<<<<<<< HEAD
                 m_gunnerControls.m_bumperAndDPadUpChord.whenActive(new ClimbCommandSequence(m_climbSub));
                 m_gunnerControls.m_leftBumperandDPadUp.whenActive(new ClimbLeftCommand(m_climbSub));
                 m_gunnerControls.m_rightBumperandDPadUp.whenActive(new ClimbRightCommand(m_climbSub));
                 m_gunnerControls.m_aButtonandDPadUp.whenActive(new ClimbRaiseScissorCommand(m_climbSub));
-=======
-                m_gunnerControls.m_bumperChord.whenActive(new ClimbCommandSequence(m_climbSub));
-                m_gunnerControls.m_leftBumper.whenActive(new ClimbLeftCommand(m_climbSub));
-                m_gunnerControls.m_rightBumper.whenActive(new ClimbRightCommand(m_climbSub));
-                m_gunnerControls.m_aButton.whenActive(new ClimbRaiseScissorCommand(m_climbSub));
->>>>>>> 3326337ec10f467db157c894afef0191e6e9b7c0
+
             }
             return m_gunnerControls;
         }
