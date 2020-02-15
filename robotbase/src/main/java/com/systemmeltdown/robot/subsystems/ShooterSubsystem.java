@@ -1,7 +1,6 @@
 package com.systemmeltdown.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 /**
@@ -11,16 +10,16 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
  * @category Subsystems
  */
 public class ShooterSubsystem extends ClosedLoopSubsystem {
-  private CANSparkMax m_shooterMotor1;
-  private CANSparkMax m_shooterMotor2;
+  private WPI_TalonFX m_shooterMotor1;
+  private WPI_TalonFX m_shooterMotor2;
 
   /**
    * @param shooterMotorID1 The first motor controlling the turret.
    * @param shooterMotorID2 The second motor controlling the turret.
    */
   public ShooterSubsystem(int shooterMotorID1, int shooterMotorID2) {
-    m_shooterMotor1 = new CANSparkMax(shooterMotorID1,  MotorType.kBrushless);
-    m_shooterMotor2 = new CANSparkMax(shooterMotorID2,  MotorType.kBrushless);
+    m_shooterMotor1 = new WPI_TalonFX(shooterMotorID1);
+    m_shooterMotor2 = new WPI_TalonFX(shooterMotorID2);
     m_shooterMotor2.setInverted(true);
   }
 
