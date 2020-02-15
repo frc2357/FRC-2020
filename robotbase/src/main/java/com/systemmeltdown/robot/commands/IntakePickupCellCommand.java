@@ -11,15 +11,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * 
  * @category Intake
  */
-public class IntakePickupBallCommand extends CommandBase {
+public class IntakePickupCellCommand extends CommandBase {
     private IntakeSubsystem m_intakeSub;
     private GunnerControls m_gunnerControls;
 
     /**
-     * @param intakeSub The {@link IntakeSubsystem}.
+     * @param intakeSub      The {@link IntakeSubsystem}.
      * @param gunnerControls The {@link GunnerControls}.
      */
-    public IntakePickupBallCommand(IntakeSubsystem intakeSub, GunnerControls gunnerControls) {
+    public IntakePickupCellCommand(IntakeSubsystem intakeSub, GunnerControls gunnerControls) {
         m_intakeSub = intakeSub;
         m_gunnerControls = gunnerControls;
         addRequirements(m_intakeSub);

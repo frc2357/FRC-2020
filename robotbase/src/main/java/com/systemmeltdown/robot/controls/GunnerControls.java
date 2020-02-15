@@ -1,6 +1,6 @@
 package com.systemmeltdown.robot.controls;
 
-import com.systemmeltdown.robot.commands.IntakePickupBallCommand;
+import com.systemmeltdown.robot.commands.IntakePickupCellCommand;
 import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.PivotIntakeCommand;
 import com.systemmeltdown.robot.commands.ShootCommand;
@@ -76,7 +76,8 @@ public class GunnerControls {
         public GunnerControls build() {
             GunnerControls m_gunnerControls = new GunnerControls(this);
             if (m_intakeSub != null) {
-                m_gunnerControls.m_leftTrigger.whileActiveContinuous(new IntakePickupBallCommand(m_intakeSub, m_gunnerControls));
+                m_gunnerControls.m_leftTrigger
+                        .whileActiveContinuous(new IntakePickupCellCommand(m_intakeSub, m_gunnerControls));
                 m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
                 m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             }
