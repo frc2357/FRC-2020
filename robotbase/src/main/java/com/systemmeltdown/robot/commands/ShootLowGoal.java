@@ -4,6 +4,7 @@ import com.systemmeltdown.robot.controls.GunnerControls;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 
 /**
  * Auto command that shoots power cells into the low goal. Will continue to shoot until the button that
@@ -31,11 +32,11 @@ public class ShootLowGoal extends CommandBase {
         //Add the code to move the hood to the low goal shooting position.
         //There is no reflective tape on the low goal for the camera to see so we will need
         //to set the hood.
-        m_shooterSubsystem.runMotor(m_gunnerControls.getTriggerValue(Hand.kRight));
+        m_shooterSubsystem.setMotorSpeed(Constants.SHOOTER_LOW_GOAL_SPEED_RPM);
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_shooterSubsystem.runMotor(0.0);
+        m_shooterSubsystem.runMotorOpenLoop(0);
     }
 }
