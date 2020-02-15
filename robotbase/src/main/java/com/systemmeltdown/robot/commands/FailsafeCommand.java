@@ -25,9 +25,12 @@ public class FailsafeCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        //Set all subsystems in array to the value of m_failsafeActive
         for (ClosedLoopSubsystem subsystem : m_subsystems) {
             subsystem.setClosedLoopEnabled(m_failsafeActive);
         }
+
+        //Kill them. Kill them all.
         CommandScheduler.getInstance().cancelAll();
     }
   

@@ -22,7 +22,7 @@ public class InputToShooterCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_feederSubsystem.runFeederMotor(0.0);
+        m_feederSubsystem.runFeederMotor(1.0);
     }
 
     @Override

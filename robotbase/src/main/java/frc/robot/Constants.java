@@ -74,8 +74,8 @@ public final class Constants {
   public static final int INTAKE_MOTOR_ID = 23;
 
   /** Solenoid to extend intake assembly */
-  public static final int INTAKE_SOLENOID_CHANNEL_FORWARD = -1;
-  public static final int INTAKE_SOLENOID_CHANNEL_REVERSE = -1;
+  public static final int INTAKE_SOLENOID_CHANNEL_FORWARD = 0;
+  public static final int INTAKE_SOLENOID_CHANNEL_REVERSE = 1;
 
   /** IR sensor before feed wheel */
   public static final int FEED_SENSOR_CHANNEL = -1;

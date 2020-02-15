@@ -25,8 +25,6 @@ public class FailsafeButtonWidget {
      * 
      * @param subsystems All of the subsystems. Needs these so the button can call
      *                   the {@link FailsafeCommand} on all of the subsystems.
-     *                   IMPORTANT: TO PUT SUBSYSTEMS INTO THE PARAMETER, YOU MUST
-     *                   PUT IT INTO AN ARRAYLIST, NOT AN ARRAY.
      */
     public FailsafeButtonWidget(String tabTitle, ClosedLoopSubsystem[] subsystems) {
         m_failsafeButton = Shuffleboard.getTab(tabTitle)
