@@ -10,8 +10,6 @@ package frc.robot;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-//import org.json.simple.parser.ParseException;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -65,8 +63,6 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     Shuffleboard.update();
-    // System.out.println(m_robotContainer.m_intakeSub.getCount()); This line gives an error, because
-    // m_intakeSub is private.
   }
 
   /**
@@ -81,12 +77,12 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
+   * This autonomous runs the autonomous command selected by your
+   * {@link RobotContainer} class.
    */
   @Override
   public void autonomousInit() {
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

@@ -23,8 +23,6 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
-//import com.systemmeltdown.robotlib.sensors.VL53LOXSensorOutput;
-//import com.systemmeltdown.robotlib.subsystems.VL53LOXSensorOutputSubsystem;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.SerialPort.Port;
@@ -46,7 +44,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSub;
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
-  private final ClimbSubsystem m_climbSub;
+  //private final ClimbSubsystem m_climbSub;
 
 
   private final InvertDriveControls m_driverControls;
@@ -65,8 +63,7 @@ public class RobotContainer {
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
-    m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
-
+    //m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
