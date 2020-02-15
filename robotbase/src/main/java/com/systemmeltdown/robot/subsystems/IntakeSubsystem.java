@@ -76,7 +76,7 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
     /**
 	 * Get the count number of powercells in the intake.
 	 */
-	public int getCount() {
+	public int getNumOfPowerCells() {
 		// Check if the arduino is connected before getting values.
 		if (!m_arduinoUSB.isConnected()) {
 			return -1;

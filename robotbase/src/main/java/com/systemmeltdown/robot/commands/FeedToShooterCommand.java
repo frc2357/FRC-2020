@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * 
  * @category Intake
  */
-public class InputToShooterCommand extends CommandBase {
+public class FeedToShooterCommand extends CommandBase {
     private FeederSubsystem m_feederSubsystem;
 
     /**
      * @param feederSubsystem The {@link FeederSubsystem}.
      */
-    public InputToShooterCommand(FeederSubsystem feederSubsystem) {
+    public FeedToShooterCommand(FeederSubsystem feederSubsystem) {
         m_feederSubsystem = feederSubsystem;
         addRequirements(m_feederSubsystem);
     }
