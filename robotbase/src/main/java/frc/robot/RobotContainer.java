@@ -9,6 +9,7 @@ package frc.robot;
 
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
+import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
@@ -42,9 +43,9 @@ public class RobotContainer {
   private FalconTrajectoryDriveSubsystem m_driveSub;
   private final ShooterSubsystem m_shootSub;
   private final IntakeSubsystem m_intakeSub;
-  // private final StorageSubsystem m_storageSub;
+  private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
-  //private final ClimbSubsystem m_climbSub;
+  private final ClimbSubsystem m_climbSub;
 
 
   private final InvertDriveControls m_driverControls;
@@ -61,9 +62,9 @@ public class RobotContainer {
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
     m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
-    // m_storageSub = subsystemFactory.CreateStorageSubsystem();
+    m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
-    //m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
+    m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
@@ -74,7 +75,7 @@ public class RobotContainer {
     m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1))
                       .withIntakeSub(m_intakeSub)
                       .withShooterSubsystem(m_shootSub)
-                      .withClimbSubsystem(m_climbSub)
+                      // .withClimbSubsystem(m_climbSub)
                       .build();
 
     configureDriveSub();
@@ -91,7 +92,13 @@ public class RobotContainer {
     LoggerTab loggerTab = new LoggerTab();
     
     FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot",
-     new ClosedLoopSubsystem[] {m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub});
+     new ClosedLoopSubsystem[] {
+       m_intakeSub,
+       m_shootSub, 
+      //  m_climbSub, 
+       m_driveSub, 
+       m_visionSub
+      });
   }
 
   private void configureDriveSub() {
