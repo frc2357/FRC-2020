@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 
 /*
- * This command will rotate the storage carousel continuously
+ * This command will rotate the storage carousel continuously (until interrupted).
  * 
  * @category Storage
  */
