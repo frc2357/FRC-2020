@@ -23,6 +23,8 @@ public final class Constants {
   /** Time between robot updates in seconds */
   public static final double UPDATE_PERIOD = Robot.kDefaultPeriod;
 
+  /** Earth gravity in m/s^2 */
+  public static final double GRAVITY = 9.8;
   /**
    * When setting values on components, wait this long for a response before
    * failing. milliseconds
@@ -173,6 +175,12 @@ public final class Constants {
 
   /** Horizontal distance in inches between the target and the hole we're aiming at */
   public static final double VISION_DISTANCE_TO_HOLE = 1;
+
+  /** Height of the high target from the floor, meters */
+  public static final double HIGH_TARGET_HEIGHT = 2.49;
+
+  /** Height of the shooter from the floor, meters >> SET THIS << */
+  public static final double SHOOTER_HEIGHT = 0.6;
 
   /**
    * Turret settings
