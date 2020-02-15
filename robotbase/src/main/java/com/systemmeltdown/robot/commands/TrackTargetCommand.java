@@ -1,6 +1,7 @@
 package com.systemmeltdown.robot.commands;
 
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
+import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.TurretSubsystem;
 
 //import edu.wpi.first.wpilibj.controller.PIDController;
@@ -24,6 +25,7 @@ public class TrackTargetCommand extends CommandBase {
     }
 
     private TurretSubsystem m_turretSubsystem;
+    private ShooterSubsystem m_shooterSubsystem;
     private LimelightSubsystem m_limelightSubsystem;
     private Mode m_currentMode;
 
@@ -45,10 +47,11 @@ public class TrackTargetCommand extends CommandBase {
      * @param turretSubsystem The {@link TurretSubsystem}.
      * @param limelightSubsystem The {@link LimelightSubsystem}.
      */
-    public TrackTargetCommand(TurretSubsystem turretSubsystem, LimelightSubsystem limelightSubsystem) {
+    public TrackTargetCommand(TurretSubsystem turretSubsystem, ShooterSubsystem shooterSubsystem, LimelightSubsystem limelightSubsystem) {
         m_turretSubsystem = turretSubsystem;
+        m_shooterSubsystem = shooterSubsystem;
         m_limelightSubsystem = limelightSubsystem;
-        addRequirements(m_turretSubsystem, m_limelightSubsystem);
+        addRequirements(m_turretSubsystem, m_shooterSubsystem, m_limelightSubsystem);
 
         m_currentMode = Mode.Seeking;
     }
@@ -100,7 +103,7 @@ public class TrackTargetCommand extends CommandBase {
             double verticalAngle = getVerticalTargetAngle(target);
             double horizontalAngle = getDesiredTargetAngle(target);
             m_turretSubsystem.setHorizontalAimClosedLoop(horizontalAngle, target.getX());
-            m_turretSubsystem.setHoodAngle(verticalAngle);
+            m_shooterSubsystem.setHoodAngle(verticalAngle);
             break;
         case Locked:
             // hold still if locked. change this if minor adjustments are needed
