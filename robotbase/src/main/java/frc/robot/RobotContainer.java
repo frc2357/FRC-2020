@@ -39,12 +39,12 @@ import java.util.ArrayList;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  //private FalconTrajectoryDriveSubsystem m_driveSub;
-  // private final ShooterSubsystem m_shootSub;
+  private FalconTrajectoryDriveSubsystem m_driveSub;
+  private final ShooterSubsystem m_shootSub;
   public static IntakeSubsystem m_intakeSub;
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
-  private final ClimbSubsystem m_climbSub;
+  //private final ClimbSubsystem m_climbSub;
 
 
   private final InvertDriveControls m_driverControls;
@@ -58,12 +58,12 @@ public class RobotContainer {
    */
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
-    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    //m_shootSub = subsystemFactory.CreateShooterSubsystem();
+    //m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
-    m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
+    //m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
@@ -78,8 +78,6 @@ public class RobotContainer {
 
     configureDriveSub();
     configureShuffleboard();
-
-    m_intakeSub.resetArduino();
   }
 
   private void configureShuffleboard() {

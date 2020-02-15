@@ -33,6 +33,8 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
         m_arduinoUSB = new ArduinoUSBController(Constants.ARDUINO_DEVICE_NAME);
 
         m_arduinoUSB.start();
+
+        resetArduino();
     }
 
     /**
@@ -72,6 +74,11 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
     }
 
     /**
+     * Below is everything that handles the Arduino connected to the TOFs.
+     * Also, in order to work properly after a redeploy, the TOF's need to sense an update.
+     */
+
+    /**
 	 * Get the count number of powercells in the intake.
 	 */
 	public int getCount() {
@@ -92,8 +99,24 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
 		if (!m_arduinoUSB.isConnected()) {
 			return;
         }
-        
+        String[] fieldNames = { "lowRange", "highRange" };
+        int[] ranges = {lowRange, highRange};
+        m_arduinoUSB.setDeviceField("intakeCounter", fieldNames, ranges);
+    }
+
+    public void setTOFRangeLow(int lowRange) {
+        // Check if the arduino is connected before getting values.
+		if (!m_arduinoUSB.isConnected()) {
+			return;
+        }
         m_arduinoUSB.setDeviceField("intakeCounter", "lowRange", lowRange);
+    }
+
+    public void setTOFRangeHigh(int highRange) {
+        // Check if the arduino is connected before getting values.
+		if (!m_arduinoUSB.isConnected()) {
+			return;
+        }
         m_arduinoUSB.setDeviceField("intakeCounter", "highRange", highRange);
     }
 
