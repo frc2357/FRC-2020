@@ -44,7 +44,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSub;
   // private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
-  //private final ClimbSubsystem m_climbSub;
+  private final ClimbSubsystem m_climbSub;
 
 
   private final InvertDriveControls m_driverControls;
@@ -63,7 +63,7 @@ public class RobotContainer {
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
     // m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
-    //m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
+    m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)

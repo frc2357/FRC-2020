@@ -1,5 +1,8 @@
 package com.systemmeltdown.robot.subsystems;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.arduino.ArduinoUSBController;
@@ -75,7 +78,8 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
 
     /**
      * Below is everything that handles the Arduino connected to the TOFs.
-     * Also, in order to work properly after a redeploy, the TOF's need to sense an update.
+     * Also, in order to work properly after a redeploy, the TOF's need to 
+     * sense an update(Wave your hand in front of them or something).
      */
 
     /**
@@ -99,9 +103,13 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
 		if (!m_arduinoUSB.isConnected()) {
 			return;
         }
-        String[] fieldNames = { "lowRange", "highRange" };
-        int[] ranges = {lowRange, highRange};
-        m_arduinoUSB.setDeviceField("intakeCounter", fieldNames, ranges);
+        
+        Map<String, Object> rangeMap = new HashMap<String, Object>();
+
+        rangeMap.put("lowRange", lowRange);
+        rangeMap.put("highRange", highRange);
+
+        m_arduinoUSB.setDeviceField("intakeCounter", rangeMap);
     }
 
     public void setTOFRangeLow(int lowRange) {
