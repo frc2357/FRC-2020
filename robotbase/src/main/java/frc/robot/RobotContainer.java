@@ -23,9 +23,6 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
-import com.systemmeltdown.robotlib.sensors.VL53LOXSensorOutput;
-import com.systemmeltdown.robotlib.subsystems.VL53LOXSensorOutputSubsystem;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -91,11 +88,9 @@ public class RobotContainer {
     // }
 
     LoggerTab loggerTab = new LoggerTab();
-    ArrayList<ClosedLoopSubsystem> subsystems = new ArrayList<>();
-    // subsystems.add(m_shootSub);
-    // subsystems.add(m_intakeSub);
-    // subsystems.add(m_storageSub);
-    //subsystems.add(m_driveSub);
+    
+    // An array with all subsystems to be affected by failsafe. Add more as needed.
+    ClosedLoopSubsystem[] subsystems = {m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub};
     FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
   }
 
