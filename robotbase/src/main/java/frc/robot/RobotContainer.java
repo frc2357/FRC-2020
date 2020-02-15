@@ -92,9 +92,8 @@ public class RobotContainer {
 
     LoggerTab loggerTab = new LoggerTab();
     
-    // An array with all subsystems to be affected by failsafe. Add more as needed.
-    ClosedLoopSubsystem[] subsystems = {m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub};
-    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot", subsystems);
+    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot",
+     new ClosedLoopSubsystem[] {m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub});
   }
 
   private void configureDriveSub() {
