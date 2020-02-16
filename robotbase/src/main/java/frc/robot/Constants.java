@@ -32,8 +32,8 @@ public final class Constants {
   public static final int TIMEOUT_MS = 30;
 
   /**
-   * The PID code built into the Talon controllers uses 1023 to represent
-   * full motor output
+   * The PID code built into the Talon controllers uses 1023 to represent full
+   * motor output
    */
   public static final int TALON_PID_FULL = 1023;
 
@@ -68,8 +68,8 @@ public final class Constants {
    * CAN IDS 21-60 Mechanisms and other devices (robot specific)
    */
 
-  public static final int[] LEFT_ENCODER_PORTS = new int[]{11, 13};
-  public static final int[] RIGHT_ENCODER_PORTS = new int[]{12, 14};
+  public static final int[] LEFT_ENCODER_PORTS = new int[] { 11, 13 };
+  public static final int[] RIGHT_ENCODER_PORTS = new int[] { 12, 14 };
 
   public static final double WHEEL_DIAMETER_IN_METERS = 0.1524;
   public static final int ENCODER_CPR = 1024;
@@ -77,8 +77,7 @@ public final class Constants {
   /** Clicks per rotation for the internal encoder in the Falcon 500 */
   public static final int FALCON_ENCODER_CPR = 2048;
 
-  public static final double ENCODER_DISTANCE_PER_PULSE = 
-    (WHEEL_DIAMETER_IN_METERS * Math.PI) / (double) ENCODER_CPR;
+  public static final double ENCODER_DISTANCE_PER_PULSE = (WHEEL_DIAMETER_IN_METERS * Math.PI) / (double) ENCODER_CPR;
 
   public static final int SHOOT_MOTOR_1 = 20;
   public static final int SHOOT_MOTOR_2 = 21;
@@ -101,10 +100,13 @@ public final class Constants {
   /** IR sensor before feed wheel */
   public static final int FEED_SENSOR_CHANNEL = -1;
 
-  /** Hall effect sensor on storage system for carousel alignment */
-  public static final int STORAGE_ALIGNMENT_SENSOR_CHANNEL = -1;
+  /** Aboslute encoder on storage system for carousel alignment */
   public static final double STORAGE_CAROUSEL_ROTATION_SPEED = 0.25;
-  public static final int STORAGE_CAROUSEL_SEGMENTS = 6;
+  public static final int STORAGE_CAROUSEL_SEGMENTS = 5;
+  public static final int STORAGE_CAROUSEL_ENCODER_CHANNEL = -1;
+  public static final double STORAGE_CAROUSEL_CICUMFERENCE_INCHES = 65.9734;
+  public static final double STORAGE_DISTANCE_PER_ROTATION_INCHES = STORAGE_CAROUSEL_CICUMFERENCE_INCHES
+      / STORAGE_CAROUSEL_SEGMENTS;
 
   /**
    * Characterization Constants Zeroes are currently placeholder values
@@ -119,7 +121,8 @@ public final class Constants {
    */
 
   public static final double TRACK_WIDTH_METERS = 0.0;
-  public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH_METERS);
+  public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
+      TRACK_WIDTH_METERS);
 
   /**
    * Max Trajectory acceleration and velocity Zeroes as place holder values
@@ -129,8 +132,8 @@ public final class Constants {
   public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 0;
 
   /**
-   * Ramsete Parameters
-   * Reasonable baseline values for a RAMSETE follower in units of meters and seconds
+   * Ramsete Parameters Reasonable baseline values for a RAMSETE follower in units
+   * of meters and seconds
    */
 
   public static final double RAMSETE_B = 2;
@@ -150,8 +153,8 @@ public final class Constants {
   public static final boolean RIGHT_ENCODER_REVERSED = true;
 
   /**
-   * No idea, but the Ramsete command wants two PID controllers with it, 
-   * and I do as the Rasmsete command guides -- Nolan Campbell 
+   * No idea, but the Ramsete command wants two PID controllers with it, and I do
+   * as the Rasmsete command guides -- Nolan Campbell
    */
   public static final double P_DRIVE_VEL = 8.5;
 
@@ -173,7 +176,9 @@ public final class Constants {
   /** Target height from floor in inches */
   public static final double VISION_TARGET_HEIGHT_FROM_FLOOR = 1;
 
-  /** Horizontal distance in inches between the target and the hole we're aiming at */
+  /**
+   * Horizontal distance in inches between the target and the hole we're aiming at
+   */
   public static final double VISION_DISTANCE_TO_HOLE = 1;
 
   /** Height of the high target from the floor, meters */
@@ -202,19 +207,19 @@ public final class Constants {
 
   public static final String ARDUINO_DEVICE_NAME = "ttyACM0";
 
-  //Default mid-range values for intake TOFs.
+  // Default mid-range values for intake TOFs.
   public static final int TOF_LOW_RANGE = 0;
   public static final int TOF_HIGH_RANGE = 0;
-  
+
   /**
-   * Current limit for shooter motor. Set this to limit the
-   * wheels to a safe speed (<= 4kRPM)
+   * Current limit for shooter motor. Set this to limit the wheels to a safe speed
+   * (<= 4kRPM)
    */
   public static final double SHOOTER_MOTOR_PEAK_OUTPUT = 0.6;
 
   /**
-   * Run the motor at peak output and measure the encoder velocity in
-   * ticks per 100ms (this is reported by getSelectedSensorVelocity)
+   * Run the motor at peak output and measure the encoder velocity in ticks per
+   * 100ms (this is reported by getSelectedSensorVelocity)
    */
   public static final int SHOOTER_ENCODER_VELOCITY_AT_PEAK_OUTPUT = 1;
 
@@ -228,20 +233,20 @@ public final class Constants {
   public static final double SHOOTER_P = 0;
   public static final double SHOOTER_I = 0;
   public static final double SHOOTER_D = 0;
-  public static final double SHOOTER_F = SHOOTER_MOTOR_PEAK_OUTPUT * TALON_PID_FULL / SHOOTER_ENCODER_VELOCITY_AT_PEAK_OUTPUT;
+  public static final double SHOOTER_F = SHOOTER_MOTOR_PEAK_OUTPUT * TALON_PID_FULL
+      / SHOOTER_ENCODER_VELOCITY_AT_PEAK_OUTPUT;
 
   /**
-   * Current spike threshold for detecting that we have clamped the bar
-   * at the start of climb. A/s
+   * Current spike threshold for detecting that we have clamped the bar at the
+   * start of climb. A/s
    * 
    * TODO measure this during climb to come up with a reasonable value
    */
   public static final double WINCH_CURRENT_SPIKE_THRESHOLD = 5;
 
   /**
-   * This is a delay between when the scissor lift starts extending and
-   * when the winch starts pulling in the slack at the start of the
-   * climb. seconds
+   * This is a delay between when the scissor lift starts extending and when the
+   * winch starts pulling in the slack at the start of the climb. seconds
    */
   public static final double CLIMB_WAIT_FOR_WINCH = 0;
 }
