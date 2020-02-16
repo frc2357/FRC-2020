@@ -75,30 +75,30 @@ public class ControlPanelSubsystem extends ClosedLoopSubsystem {
      * "R", "G", "B", or "Y".
      */
     public void rotateToColor(String color) {
-        Color translatedColor = null;
+        String colorToFind = null;
 
         switch (color) {
             case "R": {
-                translatedColor = Color.kRed;
+                colorToFind = "RED";
                 break;
             } 
             case "G": {
-                translatedColor = Color.kGreen;
+                colorToFind = "GREEN";
                 break;
             } 
             case "B": {
-                translatedColor = Color.kBlue;
+                colorToFind = "BLUE";
                 break;
             } 
             case "Y": {
-                translatedColor = Color.kYellow;
+                colorToFind = "YELLOW";
                 break;
             }
         }
 
-        // while (m_colorSensor.getColor() != translatedColor) {
-        //     rotateControlPanel(0.125);
-        // }
+        while (getColor() != colorToFind) {
+            rotateControlPanel(0.125);
+        }
     }
 
     //===================
@@ -108,10 +108,6 @@ public class ControlPanelSubsystem extends ClosedLoopSubsystem {
     public int getRotations() {
         return m_clicksPerRotation / m_rotationTalon.getSelectedSensorPosition();
     }
-
-    // public Color getCurrentColor() {
-    //     return m_colorSensor.getColor();
-    // }
 
     public String getColor() {
         // Check if the arduino is connected before getting values.
