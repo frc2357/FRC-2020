@@ -3,7 +3,8 @@ package com.systemmeltdown.robot.util;
 import frc.robot.Constants;
 
 /**
- * A class containing some useful functions for this year, but might not be quite library worthy.
+ * A class containing some useful functions that are not subsystem specific,
+ * and might not be quite library worthy.
  */
 public class Utility {
     /**
