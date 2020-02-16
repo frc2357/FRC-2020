@@ -2,6 +2,9 @@ package com.systemmeltdown.robot.util;
 
 import frc.robot.Constants;
 
+/**
+ * A class containing some useful functions for this year, but might not be quite library worthy.
+ */
 public class Utility {
     /**
      * Calculate the shooting velocity given the distance to target and shooting angle
