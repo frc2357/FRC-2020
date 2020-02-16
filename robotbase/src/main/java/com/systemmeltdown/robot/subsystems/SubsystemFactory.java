@@ -7,6 +7,7 @@ import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsyst
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Servo;
 
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
@@ -63,8 +64,8 @@ public class SubsystemFactory {
         WPI_TalonFX rightFalconMaster = new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_1);
         WPI_TalonFX[] rightFalconSlaves = new WPI_TalonFX[] { new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_2) };
         PigeonIMU gyro = new PigeonIMU(Constants.GYRO_ID);
-        FalconTrajectoryDriveSubsystem subsystem = new FalconTrajectoryDriveSubsystem(leftFalconMaster, leftFalconSlaves, rightFalconMaster, rightFalconSlaves, 
-        gyro, Constants.ENCODER_DISTANCE_PER_PULSE);
+        FalconTrajectoryDriveSubsystem subsystem = new FalconTrajectoryDriveSubsystem(leftFalconMaster,
+                leftFalconSlaves, rightFalconMaster, rightFalconSlaves, gyro, Constants.ENCODER_DISTANCE_PER_PULSE);
         subsystem.configure(config);
         return subsystem;
     }
@@ -72,20 +73,21 @@ public class SubsystemFactory {
     public ClimbSubsystem CreateClimbSubsystem() {
         // Need device IDs
         throw new UnsupportedOperationException();
-        
-        /* SET CAN IDS BEFORE UNCOMMENTING
-        Solenoid leftSolenoid = new Solenoid(Constants.SCISSOR_SOLENOID_LEFT);
-        Solenoid rightSolenoid = newSolenoid(Constants.SCISSOR_SOLENOID_RIGHT);
-        PigeonIMU gyro = new PigeonIMU(Constants.GYRO_ID);
-        WPI_TalonSRX leftWinch = new WPI_TalonSRX(Constants.WINCH_MOTOR_LEFT);
-        WPI_TalonSRX rightWinch = new WPI_TalonSRX(Constants.WINCH_MOTOR_RIGHT);
-        ClimbSubsystem subsystem = new ClimbSubsystem(solenoid, gyro, leftWinch, rightWinch);
 
-        ClimbSubsystem.Configuration config = new ClimbSubsystem.Configuration();
-        subsystem.setConfiguration(config);
-
-        return subsystem;
-        */
+        /*
+         * SET CAN IDS BEFORE UNCOMMENTING Solenoid leftSolenoid = new
+         * Solenoid(Constants.SCISSOR_SOLENOID_LEFT); Solenoid rightSolenoid =
+         * newSolenoid(Constants.SCISSOR_SOLENOID_RIGHT); PigeonIMU gyro = new
+         * PigeonIMU(Constants.GYRO_ID); WPI_TalonSRX leftWinch = new
+         * WPI_TalonSRX(Constants.WINCH_MOTOR_LEFT); WPI_TalonSRX rightWinch = new
+         * WPI_TalonSRX(Constants.WINCH_MOTOR_RIGHT); ClimbSubsystem subsystem = new
+         * ClimbSubsystem(solenoid, gyro, leftWinch, rightWinch);
+         * 
+         * ClimbSubsystem.Configuration config = new ClimbSubsystem.Configuration();
+         * subsystem.setConfiguration(config);
+         * 
+         * return subsystem;
+         */
     }
 
     public ControlPanelSubsystem CreateControlPanelSub() {
@@ -97,17 +99,20 @@ public class SubsystemFactory {
     }
 
     public IntakeSubsystem CreateIntakeSubsystem() {
-        IntakeSubsystem subsystem = new IntakeSubsystem(
-            Constants.INTAKE_MOTOR_ID,
-            Constants.INTAKE_SOLENOID_CHANNEL_FORWARD,
-            Constants.INTAKE_SOLENOID_CHANNEL_REVERSE);
+        IntakeSubsystem subsystem = new IntakeSubsystem(Constants.INTAKE_MOTOR_ID,
+                Constants.INTAKE_SOLENOID_CHANNEL_FORWARD, Constants.INTAKE_SOLENOID_CHANNEL_REVERSE);
         return subsystem;
     }
-    
+
     public StorageSubsystem CreateStorageSubsystem() {
-        DigitalInput alignmentSensor = new DigitalInput(Constants.STORAGE_ALIGNMENT_SENSOR_CHANNEL);
+        StorageSubsystem.Configuration config = new StorageSubsystem.Configuration();
+        config.distancePerRotationInches = Constants.STORAGE_DISTANCE_PER_ROTATION_INCHES;
+
         WPI_TalonSRX rotationMotor = new WPI_TalonSRX(Constants.STORAGE_CAROUSEL_MOTOR);
-        StorageSubsystem subsystem = new StorageSubsystem(alignmentSensor, rotationMotor);
+        DutyCycleEncoder throughBoreEncoder = new DutyCycleEncoder(Constants.STORAGE_CAROUSEL_ENCODER_CHANNEL);
+        StorageSubsystem subsystem = new StorageSubsystem(rotationMotor, throughBoreEncoder);
+
+        subsystem.configure(config);
         return subsystem;
     }
 
