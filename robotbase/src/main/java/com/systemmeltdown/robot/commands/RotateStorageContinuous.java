@@ -20,6 +20,13 @@ public class RotateStorageContinuous extends CommandBase {
     }
 
     @Override
+    public void execute() {
+        if(m_storageSubsystem.isAlignedForShooting()) {
+            //Reset encoder
+        }
+    }
+
+    @Override
     public void initialize() {
         m_storageSubsystem.setRotationSpeed(Constants.STORAGE_CAROUSEL_ROTATION_SPEED);
     }

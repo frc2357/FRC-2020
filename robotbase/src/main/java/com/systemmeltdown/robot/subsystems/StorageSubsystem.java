@@ -22,6 +22,8 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
 
     private DigitalInput m_alignmentSensor;
 
+    private DigitalInput m_hallEffectSensor;
+
     private WPI_TalonSRX m_rotateMotor;
   /**
      * @param feedSensor The sensor mounted in the storage. This sensor is used to count the number of
@@ -58,7 +60,7 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
     }  
 
     public boolean isAlignedForShooting() {
-        return m_alignmentSensor.get();
+        return !m_alignmentSensor.get();
     }
 
     /** Set the rotation motor percent output */
