@@ -72,18 +72,18 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
     }
 
     public boolean isAlignedForShooting() {
-        double encoderThresholdInches = .25;
-        double encoderOffsetInches = m_throughBoreEncoder.getPositionOffset();
-        if (encoderOffsetInches > 0) {
-            return (encoderOffsetInches < encoderThresholdInches);
-        } else if (encoderOffsetInches < 0) {
-            return (encoderOffsetInches > -encoderThresholdInches);
+        double encoderThresholdDegrees = 1.25;
+        double encoderOffsetDegrees = m_throughBoreEncoder.getPositionOffset();
+        if (encoderOffsetDegrees > 0) {
+            return (encoderOffsetDegrees < encoderThresholdDegrees);
+        } else if (encoderOffsetDegrees < 0) {
+            return (encoderOffsetDegrees > -encoderThresholdDegrees);
         } else {
             return true;
         }
     }
 
-    /** Set the rotation motor percent output */
+    /** Set the rotation motor percent output */ 
     public void setRotationSpeed(double speed) {
         m_rotateMotor.set(ControlMode.PercentOutput, speed);
     }

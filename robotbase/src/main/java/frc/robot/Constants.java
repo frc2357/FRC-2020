@@ -104,8 +104,8 @@ public final class Constants {
   public static final double STORAGE_CAROUSEL_ROTATION_SPEED = 0.25;
   public static final int STORAGE_CAROUSEL_SEGMENTS = 5;
   public static final int STORAGE_CAROUSEL_ENCODER_CHANNEL = -1;
-  public static final double STORAGE_CAROUSEL_CICUMFERENCE_INCHES = 65.9734;
-  public static final double STORAGE_DISTANCE_PER_ROTATION_INCHES = STORAGE_CAROUSEL_CICUMFERENCE_INCHES
+  public static final double STORAGE_CAROUSEL_TOTAL_DEGREES = 360;
+  public static final double STORAGE_DISTANCE_PER_ROTATION_DEGREES = STORAGE_CAROUSEL_TOTAL_DEGREES
       / STORAGE_CAROUSEL_SEGMENTS;
 
   /**
