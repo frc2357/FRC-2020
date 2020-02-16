@@ -33,7 +33,7 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
      * @param feedSensor The sensor mounted in the storage. This sensor is used to
      *                   count the number of power cells in the robot and should be
      *                   the type of {@link DigitalInput}.
-     * @param
+     * @param throughBoreEncoder Please put a javadoc here.
      */
     public StorageSubsystem(WPI_TalonSRX rotateMotor, DutyCycleEncoder throughBoreEncoder) {
         m_rotateMotor = rotateMotor;
