@@ -79,14 +79,14 @@ public final class Constants {
 
   public static final double ENCODER_DISTANCE_PER_PULSE = (WHEEL_DIAMETER_IN_METERS * Math.PI) / (double) ENCODER_CPR;
 
-  public static final int SHOOT_MOTOR_1 = 20;
-  public static final int SHOOT_MOTOR_2 = 21;
   public static final int GYRO_ID = 20;
+  public static final int SHOOT_MOTOR_1 = 21;
+  public static final int SHOOT_MOTOR_2 = 22;
+  public static final int STORAGE_CAROUSEL_MOTOR = 24;
   public static final int SCISSOR_SOLENOID_LEFT = -1;
   public static final int SCISSOR_SOLENOID_RIGHT = -1;
   public static final int WINCH_MOTOR_LEFT = -1;
   public static final int WINCH_MOTOR_RIGHT = -1;
-  public static final int STORAGE_CAROUSEL_MOTOR = -1;
   public static final int TURRET_ROTATE_MOTOR = -1;
   public static final int TURRET_HOOD_MOTOR = -1;
 
@@ -101,9 +101,9 @@ public final class Constants {
   public static final int FEED_SENSOR_CHANNEL = -1;
 
   /** Aboslute encoder on storage system for carousel alignment */
-  public static final double STORAGE_CAROUSEL_ROTATION_SPEED = 0.25;
+  public static final double STORAGE_CAROUSEL_ROTATION_SPEED = 0.4;
   public static final int STORAGE_CAROUSEL_SEGMENTS = 5;
-  public static final int STORAGE_CAROUSEL_ENCODER_CHANNEL = -1;
+  public static final int STORAGE_CAROUSEL_ENCODER_CHANNEL = 0;
   public static final double STORAGE_CAROUSEL_TOTAL_DEGREES = 360;
   public static final double STORAGE_DISTANCE_PER_ROTATION_DEGREES = STORAGE_CAROUSEL_TOTAL_DEGREES
       / STORAGE_CAROUSEL_SEGMENTS;

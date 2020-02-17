@@ -109,7 +109,7 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
         rangeMap.put("lowRange", lowRange);
         rangeMap.put("highRange", highRange);
 
-        m_arduinoUSB.setDeviceField("intakeCounter", rangeMap);
+        // m_arduinoUSB.setDeviceField("intakeCounter", rangeMap);
     }
 
     public void setTOFRangeLow(int lowRange) {
