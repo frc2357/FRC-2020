@@ -11,6 +11,7 @@ import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
+import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.triggers.AxisThresholdTrigger;
 import com.systemmeltdown.robotlib.util.XboxRaw;
 
@@ -78,6 +79,7 @@ public class GunnerControls {
         private XboxController m_controller = null;
         private IntakeSubsystem m_intakeSub = null;
         private ShooterSubsystem m_shooterSub = null;
+        private StorageSubsystem m_storageSub = null;
         private ClimbSubsystem m_climbSub = null;
 
         /**
@@ -97,6 +99,11 @@ public class GunnerControls {
             return this;
         }
 
+        public GunnerControlsBuilder withStorageSubsystem(StorageSubsystem storageSub) {
+            this.m_storageSub = storageSub;
+            return this;
+        }
+
         public GunnerControlsBuilder withClimbSubsystem(ClimbSubsystem climbSub) {
             this.m_climbSub = climbSub;
             return this;
@@ -104,9 +111,9 @@ public class GunnerControls {
 
         public GunnerControls build() {
             GunnerControls m_gunnerControls = new GunnerControls(this);
-            if (m_intakeSub != null) {
+            if (m_intakeSub != null && m_storageSub != null) {
                 m_gunnerControls.m_leftTrigger
-                        .whileActiveContinuous(new IntakePickupCellCommand(m_intakeSub, m_gunnerControls));
+                        .whileActiveContinuous(new IntakePickupCellCommand(m_intakeSub, m_storageSub, m_gunnerControls));
                 m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
                 m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             }
