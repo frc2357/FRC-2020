@@ -29,6 +29,10 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
 
     private DutyCycleEncoder m_throughBoreEncoder;
 
+    private boolean rotatePositive = true;
+
+    private long lastFlipTime = System.currentTimeMillis();
+
     /**
      * @param feedSensor The sensor mounted in the storage. This sensor is used to
      *                   count the number of power cells in the robot and should be
@@ -65,31 +69,53 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
     }
 
     @Override
+    public void periodic() {
+        double encoderValue = Math.abs(m_throughBoreEncoder.get());
+        if ((encoderValue >= .19) && (encoderValue <= .21)) {
+            m_throughBoreEncoder.reset();
+        }
+
+        if (Math.abs(m_rotateMotor.getStatorCurrent()) > 6.0) {
+            if (lastFlipTime < System.currentTimeMillis() - 500) {
+                lastFlipTime = System.currentTimeMillis();
+                rotatePositive = !rotatePositive;
+            } 
+        }
+    }
+
+    @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
 
         builder.addDoubleProperty(".cellCount", this::getNumOfCells, (double value) -> setNumOfCells((int) value));
     }
 
+    public double getMotorCurrent() {
+        return m_rotateMotor.getStatorCurrent();
+    }
+
     public boolean isAlignedForShooting() {
-        double encoderThresholdInches = .25;
-        double encoderOffsetInches = m_throughBoreEncoder.getPositionOffset();
-        if (encoderOffsetInches > 0) {
-            return (encoderOffsetInches < encoderThresholdInches);
-        } else if (encoderOffsetInches < 0) {
-            return (encoderOffsetInches > -encoderThresholdInches);
+        double encoderThresholdDegrees = .02;
+        double encoderOffsetDegrees = m_throughBoreEncoder.get();
+        if (encoderOffsetDegrees > 0) {
+            return (encoderOffsetDegrees < encoderThresholdDegrees);
+        } else if (encoderOffsetDegrees < 0) {
+            return (encoderOffsetDegrees > -encoderThresholdDegrees);
         } else {
             return true;
         }
     }
 
-    /** Set the rotation motor percent output */
-    public void setRotationSpeed(double speed) {
-        m_rotateMotor.set(ControlMode.PercentOutput, speed);
+    public double getEncoderValue() {
+        return m_throughBoreEncoder.get();
     }
 
-    public double getDistanceFromClosestSlot() {
-        return m_throughBoreEncoder.getPositionOffset();
+    /** Set the rotation motor percent output */
+    public void setRotationSpeed(double speed) {
+        if (!rotatePositive) {
+            speed *= -1;
+        }
+        m_rotateMotor.set(ControlMode.PercentOutput, speed);
     }
 
     /**

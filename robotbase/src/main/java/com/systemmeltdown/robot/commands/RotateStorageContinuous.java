@@ -20,7 +20,7 @@ public class RotateStorageContinuous extends CommandBase {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         m_storageSubsystem.setRotationSpeed(Constants.STORAGE_CAROUSEL_ROTATION_SPEED);
     }
 

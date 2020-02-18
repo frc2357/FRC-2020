@@ -9,11 +9,11 @@ package frc.robot;
 
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
+import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
-import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
@@ -28,8 +28,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import java.util.ArrayList;
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very little robot logic should
@@ -42,7 +40,7 @@ public class RobotContainer {
   private FalconTrajectoryDriveSubsystem m_driveSub;
   private final ShooterSubsystem m_shootSub;
   private final IntakeSubsystem m_intakeSub;
-  // private final StorageSubsystem m_storageSub;
+  private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
   private final ClimbSubsystem m_climbSub;
 
@@ -61,9 +59,9 @@ public class RobotContainer {
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
     m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
-    // m_storageSub = subsystemFactory.CreateStorageSubsystem();
+    m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
-    m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
+    m_climbSub = subsystemFactory.CreateClimbSubsystem();
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
@@ -75,6 +73,7 @@ public class RobotContainer {
                       .withIntakeSub(m_intakeSub)
                       .withShooterSubsystem(m_shootSub)
                       .withClimbSubsystem(m_climbSub)
+                      .withStorageSubsystem(m_storageSub)
                       .build();
 
     configureDriveSub();
