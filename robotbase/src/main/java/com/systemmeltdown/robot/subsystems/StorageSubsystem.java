@@ -110,6 +110,13 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
         return m_throughBoreEncoder.get();
     }
 
+    /**
+     * Resets the Encoder distance to zero. Mostly used for the AutoCenterOnBall Command.
+     */
+    public void resetEncoderPos() {
+        m_throughBoreEncoder.reset();
+    }
+
     /** Set the rotation motor percent output */
     public void setRotationSpeed(double speed) {
         if (!rotatePositive) {
