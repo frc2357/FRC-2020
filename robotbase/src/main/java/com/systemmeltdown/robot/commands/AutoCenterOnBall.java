@@ -38,4 +38,9 @@ class AutoCenterOnBall extends CommandBase {
         m_storageSub.setRotationSpeed(0.0);
         m_storageSub.resetEncoderPos();
     }
+
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }
