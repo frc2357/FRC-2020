@@ -12,10 +12,4 @@ import edu.wpi.first.wpilibj2.command.Command;
  * 
  * @category Logging
  */
-class ClimbCommandsLogger {
-    private static StringTopic ClimbCommandsTopic = new StringTopic("Climb Commands");
-
-    public static void logCommand(Command cmnd) {
-        ClimbCommandsTopic.log(cmnd.getName());
-    }
-}
+class ClimbLogger extends SubsystemLogger{}

@@ -10,5 +10,9 @@ import com.systemmeltdown.robot.subsystems.TurretSubsystem; // Imported for java
  * @category Logging
  */
 class TurretLogger {
-    
+    private static StringTopic ClimbCommandsTopic = new StringTopic("Climb Commands");
+
+    public static void logCommand(Command cmd) {
+        ClimbCommandsTopic.log(cmd.getName());
+    }
 }
