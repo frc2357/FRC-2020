@@ -1,4 +1,4 @@
-package com.systemmeltdown.robot.commands.loggers;
+package com.systemmeltdown.robotlog.commands;
 
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem; // Imported for javadoc (for now)
 
