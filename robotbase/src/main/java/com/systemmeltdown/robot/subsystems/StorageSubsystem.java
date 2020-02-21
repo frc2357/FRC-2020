@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
+import com.systemmeltdown.robotlog.topics.BooleanTopic;
+import com.systemmeltdown.robotlog.topics.StringTopic;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -23,6 +25,12 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
         public double distancePerRotationInches;
     }
 
+    private final StringTopic errorTopic = new StringTopic("Storage Sub Error");
+    private final StringTopic infoTopic = new StringTopic("Storage Sub Info");
+    private final StringTopic debugTopic = new StringTopic("Storage Sub Debug");
+    
+    private final BooleanTopic isJammedTopic = new BooleanTopic("Is Jammed");
+
     private int m_numOfCells = 3;
 
     private WPI_TalonSRX m_rotateMotor;
@@ -37,7 +45,8 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
      * @param feedSensor The sensor mounted in the storage. This sensor is used to
      *                   count the number of power cells in the robot and should be
      *                   the type of {@link DigitalInput}.
-     * @param
+     * 
+     * @param throughBoreEncoder The encoder that go spin
      */
     public StorageSubsystem(WPI_TalonSRX rotateMotor, DutyCycleEncoder throughBoreEncoder) {
         m_rotateMotor = rotateMotor;
@@ -76,10 +85,13 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
         }
 
         if (Math.abs(m_rotateMotor.getStatorCurrent()) > 6.0) {
+            isJammedTopic.log(true);
             if (lastFlipTime < System.currentTimeMillis() - 500) {
                 lastFlipTime = System.currentTimeMillis();
                 rotatePositive = !rotatePositive;
             } 
+        } else {
+            isJammedTopic.log(false);
         }
     }
 
