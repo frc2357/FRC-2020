@@ -25,7 +25,7 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
     private ArduinoUSBController m_arduinoUSB;
     private boolean m_rollIntoBot = true;
 
-    private final DoubleTopic motorCurrent = new DoubleTopic("Motor Current", 0.25);
+    private final DoubleTopic motorCurrentTopic = new DoubleTopic("Intake Motor Current", 0.25);
 
     /**
      * @param intakeTalonID The ID for the Talon on the intake.
@@ -45,8 +45,7 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
 
     @Override
     public void periodic() {
-        // TODO Auto-generated method stub
-        super.periodic();
+        motorCurrentTopic.log(m_intakeTalon.getStatorCurrent());
     }
 
     /**

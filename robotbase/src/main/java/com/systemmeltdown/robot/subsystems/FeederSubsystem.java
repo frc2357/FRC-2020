@@ -3,6 +3,8 @@ package com.systemmeltdown.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
+import com.systemmeltdown.robotlog.topics.DoubleTopic;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
@@ -16,6 +18,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class FeederSubsystem extends ClosedLoopSubsystem {
     private WPI_TalonSRX m_feederMotor;
     private DigitalInput m_feedSensor;
+
+    private final DoubleTopic motorCurrentTopic = new DoubleTopic("Feeder Motor Current", 0.25);
     
     /**
      * @param feederMotorID The ID of the feeder motor.
@@ -27,6 +31,11 @@ public class FeederSubsystem extends ClosedLoopSubsystem {
 
         addChild("feederMotor", m_feederMotor);
         addChild("feedSensor", m_feedSensor);
+    }
+
+    @Override
+    public void periodic() {
+        motorCurrentTopic.log(m_feederMotor.getStatorCurrent());
     }
 
     /**
