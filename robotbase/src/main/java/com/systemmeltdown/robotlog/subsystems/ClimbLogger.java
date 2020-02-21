@@ -1,7 +1,7 @@
-package com.systemmeltdown.robotlog.commands;
+package com.systemmeltdown.robotlog.subsystems;
 
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem; // Imported for javadoc (for now)
-import com.systemmeltdown.robotlog.topics.BooleanTopic;
+import com.systemmeltdown.robotlog.topics.StringTopic;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.Command;
  * @category Logging
  */
 class ClimbCommandsLogger {
-    private static BooleanTopic ClimbCommandsTopic = new BooleanTopic("Climb Commands");
+    private static StringTopic ClimbCommandsTopic = new StringTopic("Climb Commands");
 
-    public static void logCommand(Command cmnd, boolean value) {
-        ClimbCommandsTopic.log(value);
+    public static void logCommand(Command cmnd) {
+        ClimbCommandsTopic.log(cmnd.getName());
     }
 }

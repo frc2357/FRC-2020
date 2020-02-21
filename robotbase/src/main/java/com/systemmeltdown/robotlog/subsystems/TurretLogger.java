@@ -1,4 +1,4 @@
-package com.systemmeltdown.robotlog.commands;
+package com.systemmeltdown.robotlog.subsystems;
 
 import com.systemmeltdown.robot.subsystems.TurretSubsystem; // Imported for javadoc (for now)
 
@@ -9,6 +9,6 @@ import com.systemmeltdown.robot.subsystems.TurretSubsystem; // Imported for java
  * 
  * @category Logging
  */
-class TurretCommandsLogger {
+class TurretLogger {
     
 }

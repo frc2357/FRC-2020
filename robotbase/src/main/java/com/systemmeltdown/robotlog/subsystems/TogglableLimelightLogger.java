@@ -1,4 +1,4 @@
-package com.systemmeltdown.robotlog.commands;
+package com.systemmeltdown.robotlog.subsystems;
 
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem; // Imported for javadoc (for now)
 
@@ -9,6 +9,6 @@ import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem; // Impor
  * 
  * @category Logging
  */
-class TogglableLimelightCommandsLogger {
+class TogglableLimelightLogger {
     
 }
