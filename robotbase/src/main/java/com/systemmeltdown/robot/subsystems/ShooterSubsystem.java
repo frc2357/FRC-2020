@@ -4,8 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
-import com.systemmeltdown.robotlog.topics.DoubleTopic;
-import com.systemmeltdown.robotlog.topics.IntegerTopic;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.Constants;
@@ -19,14 +17,6 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends ClosedLoopSubsystem {
   private WPI_TalonFX m_shooterMotor1;
   private WPI_TalonFX m_shooterMotor2;
-
-  private final DoubleTopic motor1CurrentTopic = new DoubleTopic("Shooter Motor 1 Current", 0.25);
-  private final DoubleTopic motor2CurrentTopic = new DoubleTopic("Shooter Motor 2 Current", 0.25);
-  private final DoubleTopic averageMotorCurrentTopic = new DoubleTopic("Average Motor Current", 0.25);
-
-  private final IntegerTopic motor1rpmTopic = new IntegerTopic("Shooter 1 RPM", 100);
-  private final IntegerTopic motor2rpmTopic = new IntegerTopic("Shooter 2 RPM", 100);
-  private final IntegerTopic averageRpmTopic = new IntegerTopic("Average RPM", 100);
 
   /**
    * @param shooterMotorID1 The first motor controlling the turret.
@@ -46,7 +36,9 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
     m_shooterMotor2.setInverted(true);
     m_shooterMotor2.follow(m_shooterMotor1);
 
-    m_shooterMotor1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, Constants.TIMEOUT_MS);
+    m_shooterMotor1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
+                                                 0,
+                                                 Constants.TIMEOUT_MS);
 
     // >>> Change this if positive motor output gives negative encoder feedback <<<
     m_shooterMotor1.setSensorPhase(true);
@@ -73,29 +65,24 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
 
   @Override
   public void periodic() {
-    motor1CurrentTopic.log(m_shooterMotor1.getStatorCurrent());
-    motor2CurrentTopic.log(m_shooterMotor2.getStatorCurrent());
-    averageMotorCurrentTopic.log((m_shooterMotor1.getStatorCurrent() + m_shooterMotor2.getStatorCurrent()) / 2);
-    motor1rpmTopic.log((int) getMotorSpeed(m_shooterMotor1));
-    motor2rpmTopic.log((int) getMotorSpeed(m_shooterMotor2));
-    averageRpmTopic.log((int) ((getMotorSpeed(m_shooterMotor1) + getMotorSpeed(m_shooterMotor2)) / 2));
+    // This method will be called once per scheduler run
   }
 
   /**
    * Set the motor to a percent output. This bypasses closed-loop control.
-   * 
    * @param output
    */
-  public void runMotorOpenLoop(double output) {
+  public void runMotorOpenLoop(double output)
+  {
     m_shooterMotor1.set(ControlMode.PercentOutput, output);
   }
 
   /**
    * Set the motor speed using closed-loop control
-   * 
    * @param rpm rotations per minute
    */
-  public void setMotorSpeed(double rpm) {
+  public void setMotorSpeed(double rpm)
+  {
     double nativeSpeed = rpm * Constants.FALCON_ENCODER_CPR / Constants.MINUTES_TO_100_MS;
     m_shooterMotor1.set(ControlMode.Velocity, nativeSpeed);
   }
@@ -103,14 +90,8 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
   /**
    * @return current motor velocity in rpm
    */
-  public double getMotorSpeed(WPI_TalonFX motor) {
-    return motor.getSelectedSensorPosition() * Constants.MINUTES_TO_100_MS / Constants.FALCON_ENCODER_CPR;
-  }
-
-  /**
-   * @return current motor velocity in rpm
-   */
-  public double getMotorSpeed() {
-    return m_shooterMotor1.getSelectedSensorPosition() * Constants.MINUTES_TO_100_MS / Constants.FALCON_ENCODER_CPR;
+  public double getMotorSpeed()
+  {
+    return m_shooterMotor1.getSelectedSensorPosition(0) * Constants.MINUTES_TO_100_MS / Constants.FALCON_ENCODER_CPR;
   }
 }

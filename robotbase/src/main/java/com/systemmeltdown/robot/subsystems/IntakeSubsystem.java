@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.arduino.ArduinoUSBController;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
-import com.systemmeltdown.robotlog.topics.DoubleTopic;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -25,8 +24,6 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
     private ArduinoUSBController m_arduinoUSB;
     private boolean m_rollIntoBot = true;
 
-    private final DoubleTopic motorCurrentTopic = new DoubleTopic("Intake Motor Current", 0.25);
-
     /**
      * @param intakeTalonID The ID for the Talon on the intake.
      * @param forwardChannel The forward channel number on the PCM on the Double Solenoid.
@@ -41,11 +38,6 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
         m_arduinoUSB.start();
 
         resetArduino();
-    }
-
-    @Override
-    public void periodic() {
-        motorCurrentTopic.log(m_intakeTalon.getStatorCurrent());
     }
 
     /**

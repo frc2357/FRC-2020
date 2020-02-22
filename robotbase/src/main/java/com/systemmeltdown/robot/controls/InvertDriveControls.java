@@ -1,7 +1,7 @@
 package com.systemmeltdown.robot.controls;
 
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
-import com.systemmeltdown.robot.commands.InvertDriveCommand;
+import com.systemmeltdown.robot.commands.InvertDriveCommand; //This import is used for the javadoc, sorry
 
 import com.systemmeltdown.robotlib.controllers.DriverControls;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
@@ -9,7 +9,8 @@ import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsyst
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.systemmeltdown.robotlib.util.XboxRaw;
-import com.systemmeltdown.robotlog.topics.BooleanTopic;
+
+import com.systemmeltdown.robot.commands.InvertDriveCommand;
 import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 
 /**
@@ -23,8 +24,6 @@ public class InvertDriveControls extends DriverControls {
     public final JoystickButton m_changePipelineButton;
     private boolean m_isToggled = false;
 
-    private final BooleanTopic isInvertedTopic = new BooleanTopic("Are Controls Inverted");
-
     public InvertDriveControls(InvertDriveControlsBuilder builder) {
         super(builder.m_controller, builder.m_deadband);
         m_invertButton = new JoystickButton(builder.m_controller, XboxRaw.A.value);
@@ -35,9 +34,7 @@ public class InvertDriveControls extends DriverControls {
      * Changes the value of m_isToggled from true to false or vice versa
      */
     public void invert() {
-        isInvertedTopic.log(m_isToggled);
         m_isToggled = !m_isToggled;
-        isInvertedTopic.log(m_isToggled);
     }
     
     @Override
