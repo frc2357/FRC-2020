@@ -58,10 +58,10 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     private Configuration m_config;
 
     /* RobotLog Topics */
-    // private StringTopic  m_climbSubErrorTopic       = new StringTopic ("Climb Sub Error");
+    // private final StringTopic  m_climbSubErrorTopic       = new StringTopic ("Climb Sub Error");
     // /\ Unused /\
-    private StringTopic  m_climbSubClimbing         = new StringTopic ("Climb Sub Climbing/Direction");
-    private BooleanTopic m_climbSubScissorExtending = new BooleanTopic("Climb Sub Scissor Extending");
+    private final StringTopic  m_climbSubClimbing         = new StringTopic ("Climb Sub Climbing/Direction");
+    private final BooleanTopic m_climbSubScissorExtending = new BooleanTopic("Climb Sub Scissor Extending");
 
     /**
      * @param solenoidLeft The left scissor solenoid.
