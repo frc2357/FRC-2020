@@ -29,13 +29,12 @@ public class ShootCommand extends CommandLoggerBase {
 
     @Override
     public void execute() {
-        super.execute();
         m_shootSub.setMotorSpeed(Constants.SHOOTER_MAX_SPEED_RPM);
     }
 
     @Override
-    public void end(boolean interupted) {
-        super.execute();
+    public void end(boolean interrupted) {
+        super.end(interrupted);
         m_shootSub.runMotorOpenLoop(0.0);
     }
 }

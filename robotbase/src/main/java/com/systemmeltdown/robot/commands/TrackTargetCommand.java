@@ -66,8 +66,6 @@ public class TrackTargetCommand extends CommandLoggerBase {
 
     @Override
     public void execute() {
-        super.execute();
-
         LimelightSubsystem.VisionTarget target = m_limelightSubsystem.acquireTarget(m_targetHeight);
 
         // possibly change mode based on target

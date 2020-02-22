@@ -26,11 +26,6 @@ abstract class CommandLoggerBase extends CommandBase {
     }
 
     @Override
-    public void execute() {
-        m_commandTopic.log(getClass().getSimpleName() + " executed");
-    }
-
-    @Override
     public void end(boolean interrupted) {
         if (interrupted) {
             m_commandTopic.log(getClass().getSimpleName() + " interrupted");

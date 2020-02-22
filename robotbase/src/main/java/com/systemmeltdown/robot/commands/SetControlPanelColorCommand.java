@@ -24,8 +24,6 @@ public class SetControlPanelColorCommand extends CommandLoggerBase {
     // Format can be found at https://docs.wpilib.org/en/latest/docs/software/wpilib-overview/2020-Game-Data.html
     @Override
     public void execute() {
-        super.execute();
-
         String color = DriverStation.getInstance().getGameSpecificMessage();
 
         switch (color) {

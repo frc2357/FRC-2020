@@ -22,7 +22,6 @@ public class RotateStorageContinuous extends CommandLoggerBase {
 
     @Override
     public void execute() {
-        super.execute();
         m_storageSubsystem.setRotationSpeed(Constants.STORAGE_CAROUSEL_ROTATION_SPEED);
     }
 

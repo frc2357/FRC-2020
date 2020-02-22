@@ -20,7 +20,6 @@ public class FeedToShooterCommand extends CommandLoggerBase {
 
     @Override
     public void execute() {
-        super.execute();
         m_feederSubsystem.runFeederMotor(1.0);
     }
 

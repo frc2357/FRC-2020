@@ -27,7 +27,6 @@ public class ShootLowGoal extends CommandLoggerBase {
 
     @Override
     public void execute() {
-        super.execute();
         //Add the code to move the hood to the low goal shooting position.
         //There is no reflective tape on the low goal for the camera to see so we will need
         //to set the hood.

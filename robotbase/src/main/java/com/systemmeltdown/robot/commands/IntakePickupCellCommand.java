@@ -26,7 +26,6 @@ public class IntakePickupCellCommand extends CommandLoggerBase {
     
     @Override
     public void execute() {
-        super.execute();
         m_intakeSub.triggerIntakeRoller(m_gunnerControls.getTriggerValue(Hand.kLeft));
     }
 
