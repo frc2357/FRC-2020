@@ -3,13 +3,12 @@ package com.systemmeltdown.robot.commands;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 
 /**
  * This command runs the winches and stops when the winch motors 
  */
-public class ClimbReelWinchCommand extends CommandBase {
+public class ClimbReelWinchCommand extends CommandLoggerBase {
 
     /**
      * Calculate first-order derivative of winch current. Records if the
@@ -60,12 +59,14 @@ public class ClimbReelWinchCommand extends CommandBase {
   
     @Override
     public void initialize() {
+        super.initialize();
         m_climbSubsystem.setKeepLevel(false);
         m_climbSubsystem.climbUp();
     }
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         m_climbSubsystem.stopClimb();
         m_climbSubsystem.setKeepLevel(false);
     }

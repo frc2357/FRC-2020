@@ -6,7 +6,6 @@ import com.systemmeltdown.robot.subsystems.TurretSubsystem;
 //import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 
 /**
@@ -15,7 +14,7 @@ import frc.robot.Constants;
  * @category Turret
  * @category Automode Commands
  */
-public class TrackTargetCommand extends CommandBase {
+public class TrackTargetCommand extends CommandLoggerBase {
     /** The tracking mode */
     private enum Mode {
         Seeking, /// < No target visible, looking for it
@@ -61,11 +60,14 @@ public class TrackTargetCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        super.initialize();
         m_currentMode = Mode.Seeking;
     }
 
     @Override
     public void execute() {
+        super.execute();
+
         LimelightSubsystem.VisionTarget target = m_limelightSubsystem.acquireTarget(m_targetHeight);
 
         // possibly change mode based on target

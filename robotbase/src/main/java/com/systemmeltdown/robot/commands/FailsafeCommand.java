@@ -2,7 +2,6 @@ package com.systemmeltdown.robot.commands;
 
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
@@ -10,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * 
  * @category Failsafe
  */
-public class FailsafeCommand extends CommandBase {
+public class FailsafeCommand extends CommandLoggerBase {
     private boolean m_failsafeActive;
     private ClosedLoopSubsystem[] m_subsystems;
 
@@ -25,6 +24,7 @@ public class FailsafeCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        super.initialize();
 
         //Set all subsystems in array to the value of m_failsafeActive
         for (ClosedLoopSubsystem subsystem : m_subsystems) {

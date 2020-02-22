@@ -2,8 +2,6 @@ package com.systemmeltdown.robot.commands;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.controls.GunnerControls;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 
 /**
@@ -13,7 +11,7 @@ import frc.robot.Constants;
  * 
  * @category Turret
  */
-public class ShootLowGoal extends CommandBase {
+public class ShootLowGoal extends CommandLoggerBase {
     private ShooterSubsystem m_shooterSubsystem;
     private GunnerControls m_gunnerControls;
 
@@ -29,6 +27,7 @@ public class ShootLowGoal extends CommandBase {
 
     @Override
     public void execute() {
+        super.execute();
         //Add the code to move the hood to the low goal shooting position.
         //There is no reflective tape on the low goal for the camera to see so we will need
         //to set the hood.
@@ -37,6 +36,7 @@ public class ShootLowGoal extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         m_shooterSubsystem.runMotorOpenLoop(0);
     }
 }

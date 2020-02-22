@@ -4,14 +4,13 @@ import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * This command brings a cell into the intake from the ground.
  * 
  * @category Intake
  */
-public class IntakePickupCellCommand extends CommandBase {
+public class IntakePickupCellCommand extends CommandLoggerBase {
     private IntakeSubsystem m_intakeSub;
     private GunnerControls m_gunnerControls;
 
@@ -27,11 +26,13 @@ public class IntakePickupCellCommand extends CommandBase {
     
     @Override
     public void execute() {
+        super.execute();
         m_intakeSub.triggerIntakeRoller(m_gunnerControls.getTriggerValue(Hand.kLeft));
     }
 
     @Override
-    public void end(boolean interupted) {
+    public void end(boolean interrupted) {
+        super.end(interrupted);
         m_intakeSub.triggerIntakeRoller(0.0);
     }
 }

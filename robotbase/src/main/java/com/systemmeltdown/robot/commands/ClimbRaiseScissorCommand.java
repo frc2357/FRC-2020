@@ -2,8 +2,6 @@ package com.systemmeltdown.robot.commands;
 
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
 /**
  * This command raises the scissor lift for climb.
  * 
@@ -12,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * 
  * @category Climb
  */
-public class ClimbRaiseScissorCommand extends CommandBase {
+public class ClimbRaiseScissorCommand extends CommandLoggerBase {
     private ClimbSubsystem m_climbSubsystem;
 
     /**
@@ -25,11 +23,13 @@ public class ClimbRaiseScissorCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        super.initialize();
         m_climbSubsystem.extendScissor();
     }
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         m_climbSubsystem.releaseScissor();
     }
 
