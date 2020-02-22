@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.ColorSensorV3;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
+import com.systemmeltdown.robotlog.topics.BooleanTopic;
 
 /**
  * The subsystem responsible for dealing with the Control Panel.
@@ -25,7 +26,12 @@ public class ControlPanelSubsystem extends ClosedLoopSubsystem {
     WPI_TalonSRX m_rotationTalon;
     Solenoid m_extenderSolenoid;
     boolean m_extenderPosition = false;
-    
+
+    /* RobotLog Topics */
+    //private final StringTopic m_controlPanelErrorTopic = new StringTopic("Control Panel Sub Error");
+    // /\ Unused /\
+    private final BooleanTopic m_isExtended = new BooleanTopic("Extender Extended");
+
     /**
      * @param channel The channel on the PCM for the extender solenoid.
      * @param rotationTalonID
@@ -33,6 +39,7 @@ public class ControlPanelSubsystem extends ClosedLoopSubsystem {
     public ControlPanelSubsystem(int channel, int rotationTalonID) {
         m_rotationTalon = new WPI_TalonSRX(rotationTalonID);
         m_extenderSolenoid = new Solenoid(channel);
+        m_isExtended.log(m_extenderPosition);
     }
 
     @Override
@@ -44,13 +51,9 @@ public class ControlPanelSubsystem extends ClosedLoopSubsystem {
      * Carbon copy of IntakeSubsystem's changeArmPosition.
      */
     public void changeExtenderPosition() {
-        if (m_extenderPosition) {
-            m_extenderSolenoid.set(false);
-            m_extenderPosition = false;
-        } else {
-            m_extenderSolenoid.set(true);
-            m_extenderPosition = true;
-        }
+        m_extenderPosition = !m_extenderPosition;
+        m_extenderSolenoid.set(m_extenderPosition);
+        m_isExtended.log(m_extenderPosition);
     }
 
     /**
@@ -66,7 +69,7 @@ public class ControlPanelSubsystem extends ClosedLoopSubsystem {
      * Rotates to whatever color is given by FMS.
      * 
      * @param color The color given by FMS. Should be a String containing one of these letters:
-     * "R", "G", "B", or "Y".
+     *              "R", "G", "B", or "Y".
      */
     public void rotateToColor(String color) {
         Color translatedColor = null;
