@@ -23,6 +23,7 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
   /* RobotLog Topics */
   private final DoubleTopic m_motor1CurrentTopic = new DoubleTopic("Shooter Motor 1 Current", 0.25);
   private final DoubleTopic m_motor2CurrentTopic = new DoubleTopic("Shooter Motor 2 Current", 0.25);
+  private final DoubleTopic m_averageMotorCurrentTopic = new DoubleTopic("Average Motor Current", 0.25);
 
   private final IntegerTopic m_motor1rpmTopic = new IntegerTopic("Shooter 1 RPM", 100);
   private final IntegerTopic m_motor2rpmTopic = new IntegerTopic("Shooter 2 RPM", 100);
