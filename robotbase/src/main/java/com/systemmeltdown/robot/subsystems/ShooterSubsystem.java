@@ -21,13 +21,12 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
   private WPI_TalonFX m_shooterMotor2;
 
   /* RobotLog Topics */
-  private final DoubleTopic motor1CurrentTopic = new DoubleTopic("Shooter Motor 1 Current", 0.25);
-  private final DoubleTopic motor2CurrentTopic = new DoubleTopic("Shooter Motor 2 Current", 0.25);
-  private final DoubleTopic averageMotorCurrentTopic = new DoubleTopic("Average Motor Current", 0.25);
+  private final DoubleTopic m_motor1CurrentTopic = new DoubleTopic("Shooter Motor 1 Current", 0.25);
+  private final DoubleTopic m_motor2CurrentTopic = new DoubleTopic("Shooter Motor 2 Current", 0.25);
 
-  private final IntegerTopic motor1rpmTopic = new IntegerTopic("Shooter 1 RPM", 100);
-  private final IntegerTopic motor2rpmTopic = new IntegerTopic("Shooter 2 RPM", 100);
-  private final IntegerTopic averageRpmTopic = new IntegerTopic("Average RPM", 100);
+  private final IntegerTopic m_motor1rpmTopic = new IntegerTopic("Shooter 1 RPM", 100);
+  private final IntegerTopic m_motor2rpmTopic = new IntegerTopic("Shooter 2 RPM", 100);
+  private final IntegerTopic m_averageRpmTopic = new IntegerTopic("Average RPM", 100);
 
   /**
    * @param shooterMotorID1 The first motor controlling the turret.
@@ -47,7 +46,8 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
     m_shooterMotor2.setInverted(true);
     m_shooterMotor2.follow(m_shooterMotor1);
 
-    m_shooterMotor1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, Constants.TIMEOUT_MS);
+    m_shooterMotor1
+     .configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, Constants.TIMEOUT_MS);
 
     // >>> Change this if positive motor output gives negative encoder feedback <<<
     m_shooterMotor1.setSensorPhase(true);
@@ -74,12 +74,13 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
 
   @Override
   public void periodic() {
-    motor1CurrentTopic.log(m_shooterMotor1.getStatorCurrent());
-    motor2CurrentTopic.log(m_shooterMotor2.getStatorCurrent());
-    averageMotorCurrentTopic.log((m_shooterMotor1.getStatorCurrent() + m_shooterMotor2.getStatorCurrent()) / 2);
-    motor1rpmTopic.log((int) getMotorSpeed(m_shooterMotor1));
-    motor2rpmTopic.log((int) getMotorSpeed(m_shooterMotor2));
-    averageRpmTopic.log((int) ((getMotorSpeed(m_shooterMotor1) + getMotorSpeed(m_shooterMotor2)) / 2));
+    m_motor1CurrentTopic.log(m_shooterMotor1.getStatorCurrent());
+    m_motor2CurrentTopic.log(m_shooterMotor2.getStatorCurrent());
+    m_averageMotorCurrentTopic
+     .log((m_shooterMotor1.getStatorCurrent() + m_shooterMotor2.getStatorCurrent()) / 2);
+    m_motor1rpmTopic.log((int) getMotorSpeed(m_shooterMotor1));
+    m_motor2rpmTopic.log((int) getMotorSpeed(m_shooterMotor2));
+    m_averageRpmTopic.log((int) ((getMotorSpeed(m_shooterMotor1) + getMotorSpeed(m_shooterMotor2)) / 2));
   }
 
   /**
@@ -112,6 +113,7 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
    * @return current motor velocity in rpm
    */
   public double getMotorSpeed() {
-    return m_shooterMotor1.getSelectedSensorPosition() * Constants.MINUTES_TO_100_MS / Constants.FALCON_ENCODER_CPR;
+    return m_shooterMotor1
+            .getSelectedSensorPosition() * Constants.MINUTES_TO_100_MS / Constants.FALCON_ENCODER_CPR;
   }
 }
