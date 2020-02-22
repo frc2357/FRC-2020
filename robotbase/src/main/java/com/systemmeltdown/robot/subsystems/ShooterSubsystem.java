@@ -20,6 +20,7 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
   private WPI_TalonFX m_shooterMotor1;
   private WPI_TalonFX m_shooterMotor2;
 
+  /* RobotLog Topics */
   private final DoubleTopic motor1CurrentTopic = new DoubleTopic("Shooter Motor 1 Current", 0.25);
   private final DoubleTopic motor2CurrentTopic = new DoubleTopic("Shooter Motor 2 Current", 0.25);
   private final DoubleTopic averageMotorCurrentTopic = new DoubleTopic("Average Motor Current", 0.25);
