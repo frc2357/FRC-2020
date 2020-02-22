@@ -2,14 +2,12 @@ package com.systemmeltdown.robot.commands;
 
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
 /**
  * This command climbs toward the right side of the robot.
  * 
  * @category Climb
  */
-public class ClimbRightCommand extends CommandBase {
+public class ClimbRightCommand extends CommandLoggerBase {
     private ClimbSubsystem m_climbSubsystem;
 
     /**
@@ -22,12 +20,14 @@ public class ClimbRightCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        super.initialize();
         m_climbSubsystem.setKeepLevel(true);
         m_climbSubsystem.climbRight();
     }
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         m_climbSubsystem.stopClimb();
         m_climbSubsystem.setKeepLevel(false);
     }

@@ -3,8 +3,6 @@ package com.systemmeltdown.robot.commands;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 
 /**
@@ -14,7 +12,7 @@ import frc.robot.Constants;
  * paired with an aiming hood.
  * @category Turret
  */
-public class ShootCommand extends CommandBase {
+public class ShootCommand extends CommandLoggerBase {
     private ShooterSubsystem m_shootSub;
     private GunnerControls m_gunnerControls;
 
@@ -35,7 +33,8 @@ public class ShootCommand extends CommandBase {
     }
 
     @Override
-    public void end(boolean interupted) {
+    public void end(boolean interrupted) {
+        super.end(interrupted);
         m_shootSub.runMotorOpenLoop(0.0);
     }
 }

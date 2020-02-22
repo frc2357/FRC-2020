@@ -2,14 +2,12 @@ package com.systemmeltdown.robot.commands;
 
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
 /**
  * This command runs the motor that feeds the power cell from the carousel to the shooter.
  * 
  * @category Intake
  */
-public class FeedToShooterCommand extends CommandBase {
+public class FeedToShooterCommand extends CommandLoggerBase {
     private FeederSubsystem m_feederSubsystem;
 
     /**

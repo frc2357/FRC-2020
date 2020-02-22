@@ -3,8 +3,6 @@ package com.systemmeltdown.robot.commands;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
 /**
  * This command inverts the controls. For example: when pressed, forward becomes back,
  * and left becomes right, and vice versa. This is done so that the driver does not have to turn the robot
@@ -12,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * 
  * @category Drive
  */
-public class InvertDriveCommand extends CommandBase {
+public class InvertDriveCommand extends CommandLoggerBase {
     private TogglableLimelightSubsystem m_visionSub;
     private InvertDriveControls m_controls;
 
@@ -30,6 +28,7 @@ public class InvertDriveCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        super.initialize();
         m_controls.invert();
         m_visionSub.toggleStream();
     }
