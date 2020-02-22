@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
+import com.systemmeltdown.robotlog.topics.BooleanTopic;
+import com.systemmeltdown.robotlog.topics.StringTopic;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -55,6 +57,12 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
 
     private Configuration m_config;
 
+    /* RobotLog Topics */
+    // private StringTopic  m_climbSubErrorTopic       = new StringTopic ("Climb Sub Error");
+    // /\ Unused /\
+    private StringTopic  m_climbSubClimbing         = new StringTopic ("Climb Sub Climbing/Direction");
+    private BooleanTopic m_climbSubScissorExtending = new BooleanTopic("Climb Sub Scissor Extending");
+
     /**
      * @param solenoidLeft The left scissor solenoid.
      * @param solenoidRight The right scissor solenoid.
@@ -62,8 +70,8 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
      * @param leftWinchMotor The left winch motor responsible for pulling the robot up.
      * @param rightWinchMotor The right winch motor responsible for pulling the robot up.
      */
-    public ClimbSubsystem(Solenoid solenoidLeft, Solenoid solenoidRight, PigeonIMU gyro, WPI_TalonSRX leftWinchMotor,
-            WPI_TalonSRX rightWinchMotor) {
+    public ClimbSubsystem(Solenoid solenoidLeft, Solenoid solenoidRight, PigeonIMU gyro, 
+            WPI_TalonSRX leftWinchMotor, WPI_TalonSRX rightWinchMotor) {
         m_scissorExtendSolenoidLeft = solenoidLeft;
         m_scissorExtendSolenoidRight = solenoidRight;
         m_gyro = gyro;
@@ -131,6 +139,8 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
      * Extends the scissor lift.
      */
     public void extendScissor() {
+        m_climbSubScissorExtending.log(true);
+
         m_scissorExtendSolenoidLeft.set(true);
         m_scissorExtendSolenoidRight.set(true);
     }
@@ -139,6 +149,8 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
      * Deactivates the scissor solenoids.
      */
     public void releaseScissor() {
+        m_climbSubScissorExtending.log(false);
+
         m_scissorExtendSolenoidLeft.set(false);
         m_scissorExtendSolenoidRight.set(false);
     }
@@ -162,18 +174,26 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     //===================
 
     public void climbUp() {
+        m_climbSubClimbing.log("Climbing Up");
+
         m_climbDirection = ClimbDirection.Up;
     }
 
     public void climbRight() {
+        m_climbSubClimbing.log("Climbing Right");
+
         m_climbDirection = ClimbDirection.Right;
     }
 
     public void climbLeft() {
+        m_climbSubClimbing.log("Climbing Left");
+
         m_climbDirection = ClimbDirection.Left;
     }
 
     public void stopClimb() {
+        m_climbSubClimbing.log("Not Climbing");
+        
         m_climbDirection = ClimbDirection.Stop;
     }
 
