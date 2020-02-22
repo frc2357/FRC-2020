@@ -20,17 +20,21 @@ abstract class CommandLoggerBase extends CommandBase {
         }
     }
 
+    private void logCmd(String status) {
+        m_commandTopic.log(getClass().getSimpleName() + " " + status);
+    }
+
     @Override
     public void initialize() {
-        m_commandTopic.log(getClass().getSimpleName() + " initialized");
+        logCmd("initialized");
     }
 
     @Override
     public void end(boolean interrupted) {
         if (interrupted) {
-            m_commandTopic.log(getClass().getSimpleName() + " interrupted");
+            logCmd("interrupted");
         } else {
-            m_commandTopic.log(getClass().getSimpleName() + " ended");
+            logCmd("ended");
         }
     }
 }
