@@ -12,15 +12,18 @@ import frc.robot.Constants;
  * paired with an aiming hood.
  * @category Turret
  */
-public class ShootCommand extends CommandLoggerBase {
+public class ShootVariableCommand extends CommandLoggerBase {
     private final ShooterSubsystem m_shootSub;
+    private final GunnerControls m_gunnerControls;
 
     /**
      * @param shootSub       The {@link ShooterSubsystem}.
      * 
+     * @param gunnerControls The {@link GunnerControls}.
      */
-    public ShootCommand(final ShooterSubsystem shootSub) {
+    public ShootVariableCommand(final ShooterSubsystem shootSub, final GunnerControls gunnerControls) {
         m_shootSub = shootSub;
+        m_gunnerControls = gunnerControls;
         addRequirements(shootSub);
     }
 

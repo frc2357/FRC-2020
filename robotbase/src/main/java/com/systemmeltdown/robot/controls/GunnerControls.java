@@ -9,7 +9,7 @@ import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.PivotIntakeCommand;
 import com.systemmeltdown.robot.commands.RotateStorageContinuous;
 import com.systemmeltdown.robot.commands.RotateStorageSingleCell;
-import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.commands.ShootVariableCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
@@ -123,7 +123,7 @@ public class GunnerControls {
                 m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             }
             if (m_shooterSub != null) {
-                m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shooterSub, m_gunnerControls));
+                m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootVariableCommand(m_shooterSub, m_gunnerControls));
             }
             if (m_climbSub != null) {
                 m_gunnerControls.m_bumperAndDPadUpChord.whenActive(new ClimbCommandSequence(m_climbSub));
