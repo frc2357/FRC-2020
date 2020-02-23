@@ -226,6 +226,9 @@ public final class Constants {
   /** Maximum safe speed for the shooter wheels */
   public static final int SHOOTER_MAX_SPEED_RPM = 4000;
 
+  /** Maximum speed for the falcons running the shooter motors */
+  public static final int MAX_FALCON_SPEED = 6000;
+
   /** Speed for shooting in the low goal SET THIS */
   public static final int SHOOTER_LOW_GOAL_SPEED_RPM = 1000;
 
