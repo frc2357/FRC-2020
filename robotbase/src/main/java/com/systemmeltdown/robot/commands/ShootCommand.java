@@ -29,7 +29,6 @@ public class ShootCommand extends CommandLoggerBase {
 
     @Override
     public void initialize() {
-        super.initialize();
         m_shootSub.setMotorSpeed(Constants.SHOOTER_MAX_SPEED_RPM);
     }
 
