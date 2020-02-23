@@ -53,6 +53,8 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
     m_shooterMotor1.config_kI(0, Constants.SHOOTER_I, Constants.TIMEOUT_MS);
     m_shooterMotor1.config_kD(0, Constants.SHOOTER_D, Constants.TIMEOUT_MS);
     m_shooterMotor1.config_kF(0, Constants.SHOOTER_F, Constants.TIMEOUT_MS);
+
+    setMotorSpeed(4000);
   }
 
   @Override
