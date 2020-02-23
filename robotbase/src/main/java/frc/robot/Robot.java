@@ -10,6 +10,8 @@ package frc.robot;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import com.systemmeltdown.robot.subsystems.ControlPanelSubsystem;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,6 +28,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private ControlPanelSubsystem m_controlPanelSub;
 
   public Robot() {
     super(Constants.UPDATE_PERIOD);
@@ -40,7 +43,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    //m_robotContainer = new RobotContainer();
+    m_controlPanelSub = new ControlPanelSubsystem(0, 0);
   }
 
   /**
@@ -63,6 +67,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     Shuffleboard.update();
+    System.out.println(m_controlPanelSub.getColor());
   }
 
   /**

@@ -6,8 +6,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.util.Color;
+import frc.robot.Constants;
 
-import com.revrobotics.ColorSensorV3;
+import com.systemmeltdown.robotlib.arduino.ArduinoUSBController;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 
 /**
@@ -19,8 +20,9 @@ import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 public class ControlPanelSubsystem extends ClosedLoopSubsystem {
     // color sensor
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
-    private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
     private int m_clicksPerRotation;
+
+    private ArduinoUSBController m_arduinoUSB;
 
     WPI_TalonSRX m_rotationTalon;
     Solenoid m_extenderSolenoid;
@@ -33,6 +35,10 @@ public class ControlPanelSubsystem extends ClosedLoopSubsystem {
     public ControlPanelSubsystem(int channel, int rotationTalonID) {
         m_rotationTalon = new WPI_TalonSRX(rotationTalonID);
         m_extenderSolenoid = new Solenoid(channel);
+
+        m_arduinoUSB = new ArduinoUSBController(Constants.ARDUINO_DEVICE_NAME);
+
+        m_arduinoUSB.start();
     }
 
     @Override
@@ -69,28 +75,28 @@ public class ControlPanelSubsystem extends ClosedLoopSubsystem {
      * "R", "G", "B", or "Y".
      */
     public void rotateToColor(String color) {
-        Color translatedColor = null;
+        String colorToFind = null;
 
         switch (color) {
             case "R": {
-                translatedColor = Color.kRed;
+                colorToFind = "RED";
                 break;
             } 
             case "G": {
-                translatedColor = Color.kGreen;
+                colorToFind = "GREEN";
                 break;
             } 
             case "B": {
-                translatedColor = Color.kBlue;
+                colorToFind = "BLUE";
                 break;
             } 
             case "Y": {
-                translatedColor = Color.kYellow;
+                colorToFind = "YELLOW";
                 break;
             }
         }
 
-        while (m_colorSensor.getColor() != translatedColor) {
+        while (getColor() != colorToFind) {
             rotateControlPanel(0.125);
         }
     }
@@ -103,9 +109,14 @@ public class ControlPanelSubsystem extends ClosedLoopSubsystem {
         return m_clicksPerRotation / m_rotationTalon.getSelectedSensorPosition();
     }
 
-    public Color getCurrentColor() {
-        return m_colorSensor.getColor();
+    public String getColor() {
+        // Check if the arduino is connected before getting values.
+		if (!m_arduinoUSB.isConnected()) {
+			return "Arduino not connected";
+        }
+		return m_arduinoUSB.getDeviceFieldString("colorFinder", "color");
     }
+
 
     //===================
     //     SETTERS
