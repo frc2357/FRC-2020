@@ -106,7 +106,7 @@ public class SubsystemFactory {
 
     public StorageSubsystem CreateStorageSubsystem() {
         StorageSubsystem.Configuration config = new StorageSubsystem.Configuration();
-        config.distancePerRotationInches = Constants.STORAGE_DISTANCE_PER_ROTATION_DEGREES;
+        config.m_distancePerRotationInches = Constants.STORAGE_DISTANCE_PER_ROTATION_DEGREES;
 
         WPI_TalonSRX rotationMotor = new WPI_TalonSRX(Constants.STORAGE_CAROUSEL_MOTOR);
         DutyCycleEncoder throughBoreEncoder = new DutyCycleEncoder(Constants.STORAGE_CAROUSEL_ENCODER_CHANNEL);

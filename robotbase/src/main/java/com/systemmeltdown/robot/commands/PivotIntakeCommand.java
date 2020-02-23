@@ -2,14 +2,13 @@ package com.systemmeltdown.robot.commands;
 
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * Moves the intake by calling changeArmPosition on the {@link IntakeSubsystem}.
  * 
  * @category Intake
  */
-public class PivotIntakeCommand extends CommandBase {
+public class PivotIntakeCommand extends CommandLoggerBase {
     private IntakeSubsystem m_intakeSubsystem;
 
     /**
@@ -23,6 +22,7 @@ public class PivotIntakeCommand extends CommandBase {
     
     @Override 
     public void initialize() {
+        super.initialize();
         m_intakeSubsystem.changeArmPosition();
     }
 

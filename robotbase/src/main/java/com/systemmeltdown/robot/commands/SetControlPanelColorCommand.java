@@ -3,7 +3,6 @@ package com.systemmeltdown.robot.commands;
 import com.systemmeltdown.robot.subsystems.ControlPanelSubsystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * Calls on a wheel/motor/whatever we decide on to rotate the control panel to the color given by FMS.
@@ -11,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * 
  * @category Control Panel
  */
-public class SetControlPanelColorCommand extends CommandBase {
+public class SetControlPanelColorCommand extends CommandLoggerBase {
     private ControlPanelSubsystem m_controlPanelSub;
 
     /**

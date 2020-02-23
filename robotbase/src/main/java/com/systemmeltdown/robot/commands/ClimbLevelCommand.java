@@ -2,14 +2,12 @@ package com.systemmeltdown.robot.commands;
 
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
 /**
  * This command raises the robot in the climb while maintaining current level.
  * 
  * @category Climb
  */
-public class ClimbLevelCommand extends CommandBase {
+public class ClimbLevelCommand extends CommandLoggerBase {
     private ClimbSubsystem m_climbSubsystem;
 
     /**
@@ -22,12 +20,14 @@ public class ClimbLevelCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        super.initialize();
         m_climbSubsystem.setKeepLevel(true);
         m_climbSubsystem.climbUp();
     }
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         m_climbSubsystem.stopClimb();
         m_climbSubsystem.setKeepLevel(false);
     }

@@ -7,6 +7,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.arduino.ArduinoUSBController;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
+import com.systemmeltdown.robotlog.topics.BooleanTopic;
+import com.systemmeltdown.robotlog.topics.DoubleTopic;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -24,6 +26,12 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
     private ArduinoUSBController m_arduinoUSB;
     private boolean m_rollIntoBot = true;
 
+    /* RobotLog Topics */
+    //private final StringTopic m_intakeSubErrorTopic = new StringTopic("Intake Sub Error");
+    // /\ Unused /\
+    private final DoubleTopic motorCurrentTopic = new DoubleTopic("Intake Motor Current", 0.25);
+    private final BooleanTopic m_rollIntoBotTopic = new BooleanTopic("Rolling into Bot");
+
     /**
      * @param intakeTalonID The ID for the Talon on the intake.
      * @param forwardChannel The forward channel number on the PCM on the Double Solenoid.
@@ -38,6 +46,13 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
         m_arduinoUSB.start();
 
         resetArduino();
+
+        m_rollIntoBotTopic.log(m_rollIntoBot);
+    }
+
+    @Override
+    public void periodic() {
+        motorCurrentTopic.log(m_intakeTalon.getStatorCurrent());
     }
 
     /**
@@ -55,6 +70,7 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
      */
     public void toggleRollDirection() {
         m_rollIntoBot = !m_rollIntoBot;
+        m_rollIntoBotTopic.log(m_rollIntoBot);
     }
 
     /**

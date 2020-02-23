@@ -2,14 +2,12 @@ package com.systemmeltdown.robot.commands;
 
 import com.systemmeltdown.robot.subsystems.ControlPanelSubsystem;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
 /**
  * Calls on a wheel/motor/whatever we decide on to rotate the control panel 3.5 times.
  * 
  * @category Control Panel
  */
-public class RotateControlPanelCommand extends CommandBase {
+public class RotateControlPanelCommand extends CommandLoggerBase {
     private ControlPanelSubsystem m_controlPanelSub;
 
     /**
@@ -22,6 +20,7 @@ public class RotateControlPanelCommand extends CommandBase {
 
     @Override 
     public void initialize() {
+        super.initialize();
         m_controlPanelSub.rotateControlPanel(3.5);
     }
 
