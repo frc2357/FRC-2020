@@ -22,7 +22,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  */
 public class StorageSubsystem extends ClosedLoopSubsystem {
     public static class Configuration {
-        public double distancePerRotationInches;
+        public double m_distancePerRotationInches;
+
+        /** Range in which the through bore encoder is reset */
+        public double m_throughBoreEncoderResetLow = 0.19;
+        public double m_throughBoreEncoderResetHigh = 0.21;
+
+        /** If the rotate motor current exceeds this threshold, reverse direction */
+        public double m_rotateMotorCurrentThreshold = 6;
+
+        /** Don't reverse direction again within this time period */
+        public double m_flipDeadTimeMs = 500;
+        
+        /** Zone in which the system is aligned for shooting */
+        public double m_encoderAlignZoneDegrees = 0.02;
     }
 
     private int m_numOfCells = 3;
@@ -31,9 +44,11 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
 
     private DutyCycleEncoder m_throughBoreEncoder;
 
-    private boolean rotatePositive = true;
+    private boolean m_rotatePositive = true;
 
-    private long lastFlipTime = System.currentTimeMillis();
+    private Configuration m_config = new Configuration();
+
+    private long m_lastFlipTime = System.currentTimeMillis();
 
     /* RobotLog Topics */
     //private final StringTopic errorTopic = new StringTopic("Storage Sub Error");
@@ -53,7 +68,7 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
         m_throughBoreEncoder = throughBoreEncoder;
 
         addChild("rotationMotor", m_rotateMotor);
-        addChild("throughBoreMotor", m_throughBoreEncoder);
+        addChild("throughBoreEncoder", m_throughBoreEncoder);
 
         /*
          * TODO set the rotation motor encoder to not continuous, configure PID on the
@@ -73,22 +88,23 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
     }
 
     public void configure(Configuration config) {
-        m_throughBoreEncoder.setDistancePerRotation(config.distancePerRotationInches);
+        m_config = config;
+        m_throughBoreEncoder.setDistancePerRotation(config.m_distancePerRotationInches);
         m_throughBoreEncoder.reset();
     }
 
     @Override
     public void periodic() {
         double encoderValue = Math.abs(m_throughBoreEncoder.get());
-        if ((encoderValue >= .19) && (encoderValue <= .21)) {
+        if (encoderValue >= m_config.m_throughBoreEncoderResetLow &&
+            encoderValue <= m_config.m_throughBoreEncoderResetHigh) {
             m_throughBoreEncoder.reset();
         }
 
-        if (Math.abs(m_rotateMotor.getStatorCurrent()) > 6.0) {
-            m_isJammedTopic.log(true);
-            if (lastFlipTime < System.currentTimeMillis() - 500) {
-                lastFlipTime = System.currentTimeMillis();
-                rotatePositive = !rotatePositive;
+        if (Math.abs(m_rotateMotor.getStatorCurrent()) > m_config.m_rotateMotorCurrentThreshold) {
+            if (m_lastFlipTime < System.currentTimeMillis() - m_config.m_flipDeadTimeMs) {
+                m_lastFlipTime = System.currentTimeMillis();
+                m_rotatePositive = !m_rotatePositive;
             } 
         } else {
             m_isJammedTopic.log(false);
@@ -107,12 +123,11 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
     }
 
     public boolean isAlignedForShooting() {
-        double encoderThresholdDegrees = .02;
-        double encoderOffsetDegrees = m_throughBoreEncoder.get();
+        final double encoderOffsetDegrees = m_throughBoreEncoder.get();
         if (encoderOffsetDegrees > 0) {
-            return (encoderOffsetDegrees < encoderThresholdDegrees);
+            return encoderOffsetDegrees < m_config.m_encoderAlignZoneDegrees;
         } else if (encoderOffsetDegrees < 0) {
-            return (encoderOffsetDegrees > -encoderThresholdDegrees);
+            return encoderOffsetDegrees > -m_config.m_encoderAlignZoneDegrees;
         } else {
             return true;
         }
@@ -124,7 +139,7 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
 
     /** Set the rotation motor percent output */
     public void setRotationSpeed(double speed) {
-        if (!rotatePositive) {
+        if (!m_rotatePositive) {
             speed *= -1;
         }
         m_rotateMotor.set(ControlMode.PercentOutput, speed);
