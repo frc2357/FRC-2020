@@ -11,21 +11,34 @@ import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
+
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
+import com.systemmeltdown.robot.util.LogServer;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
+import com.systemmeltdown.robotlog.topics.StringTopic;
+import com.systemmeltdown.robotlog.LogSession;
+import com.systemmeltdown.robotlog.outputs.ZipFileOutput;
+import com.systemmeltdown.robotlog.outputs.LogOutput;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 // import edu.wpi.first.wpilibj.SerialPort.Port; <- Used for VL53LOX Sensor Output
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -86,7 +99,20 @@ public class RobotContainer {
       m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
     }
 
+    /* Test logging
+    StringTopic testTopic = new StringTopic("test");
+    LogOutput logout = new ZipFileOutput("/home/lvuser/logs", "testout", new HashMap<String, Object>(), 0.01);
+    LogSession logSession = new LogSession(Map.of("testout", logout));
+    logSession.subscribeTopic("test", "testout");
+    testTopic.log("Line 1");
+    logSession.stop();
+    */
+
+    // Create log server and add controls to Shuffleboard. For this to work as written the log viewer code needs to be
+    // in /home/lvuser/logviewer and logs need to be created in /home/lvuser/logs
     LoggerTab loggerTab = new LoggerTab();
+    ShuffleboardTab tab = Shuffleboard.getTab("Server");
+    tab.add("LogServer", new LogServer("/home/lvuser/logviewer", "/home/lvuser/logs"));
     
     FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot",
      new ClosedLoopSubsystem[] {m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub});

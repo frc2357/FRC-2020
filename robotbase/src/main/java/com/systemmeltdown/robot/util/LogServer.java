@@ -3,17 +3,24 @@ package com.systemmeltdown.robot.util;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpContext;
@@ -32,6 +39,7 @@ public class LogServer implements Sendable {
     private Path m_logPath;
 
     public LogServer(String appPath, String logPath) {
+        SendableRegistry.setName(this, getClass().getSimpleName());
         m_appPath = Paths.get(appPath);
         m_logPath = Paths.get(logPath);
     }
@@ -58,7 +66,7 @@ public class LogServer implements Sendable {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType(BuiltInWidgets.kToggleButton.getWidgetName());
+        builder.setSmartDashboardType(BuiltInWidgets.kToggleSwitch.getWidgetName());
         builder.addBooleanProperty("enable",
             this::isServerActive,
             enable -> {
@@ -75,12 +83,14 @@ public class LogServer implements Sendable {
         try {
             // the server listens on all IPs and has no connection backlog
             m_server = HttpServer.create(new InetSocketAddress(m_port), 0);
-            m_server.createContext("/app/", this::serveApp);
+            m_server.createContext("/chart/", this::serveApp);
             m_server.createContext("/log/", this::serveLogs);
             m_server.createContext("/", this::listLogs);
             m_server.start();
+            System.out.println("Server started");
         } catch(IOException exc) {
             m_server = null;
+            System.out.println(exc.toString());
             // log error
         }
     }
@@ -90,76 +100,129 @@ public class LogServer implements Sendable {
         m_server = null;
     }
 
-    private void serveApp(HttpExchange exchange) throws IOException {
-        File file = getFilePath(exchange, m_appPath);
-        respondFile(exchange, file);
+    private void serveApp(HttpExchange exchange) {
+        try {
+            File file = getFilePath(exchange, m_appPath);
+            respondFile(exchange, file);
+        } catch(Exception exc) {
+            respondError(exchange, exc);
+        }
     }
 
-    private void serveLogs(HttpExchange exchange) throws IOException {
-        File file = getFilePath(exchange, m_logPath);
-        respondFile(exchange, file);
+    private void serveLogs(HttpExchange exchange) {
+        try {
+            File file = getFilePath(exchange, m_logPath);
+            respondFile(exchange, file);
+        } catch(Exception exc) {
+            respondError(exchange, exc);
+        }
     }
 
     /** Display the files in the log directory in an HTML table */
-    private void listLogs(HttpExchange exchange) throws IOException {
-        String pageHtml = "<html><body><table>";
+    private void listLogs(HttpExchange exchange) {
+        try {
+            String pageHtml = "<html><body><table>";
 
-        File logDirectory = new File(m_logPath.toString());
-        for(File file : logDirectory.listFiles()) {
-            if(file.isFile()) {
-                String relative = m_logPath.relativize(file.toPath()).toString();
+            File logDirectory = new File(m_logPath.toString());
+            for(File file : logDirectory.listFiles()) {
+                if(file.isFile()) {
+                    String relative = m_logPath.relativize(file.toPath()).toString();
 
-                // Link to open viewer
-                // >>> Change this <<<
-                String chartLink = String.format("<a href=\"/app/index.html?log=%s\">Chart</a>", relative);
+                    // Link to open viewer
+                    String chartLink = String.format("<a href=\"/chart/index.html?log=/log/%s\">Chart</a>", relative);
 
-                // Link to get raw file
-                String rawLink = String.format("<a href=\"/log/%s\">Raw</a>", relative);
+                    // Link to get raw file
+                    String rawLink = String.format("<a href=\"/log/%s\">Raw</a>", relative);
 
-                pageHtml += String.format(
-                    "<tr><td>%s</td><td>%s</td><td>%s</td></tr>",
-                    chartLink,
-                    rawLink,
-                    relative);
+                    pageHtml += String.format(
+                        "<tr><td>%s</td><td>%s</td><td>%s</td></tr>",
+                        chartLink,
+                        rawLink,
+                        relative);
+                }
             }
+
+            pageHtml += "</table></body></html>";
+
+            respondString(exchange, 200, pageHtml, "text/html");
+        } catch(Exception exc) {
+            respondError(exchange, exc);
         }
-
-        pageHtml += "</table></body></html>";
-
-        respondString(exchange, 200, pageHtml, "text/html");
     }
 
-    /** Respond with a file, or 404 if it's not found */
+    /**
+     * Respond with a file, or 404 if it's not found. If the file is a zip, serve the first
+     * entry instead.
+     */
     private void respondFile(HttpExchange exchange, File file) throws IOException {
         if(!file.canRead()) {
             respondError(exchange, 404, "Not found");
+        } else if(getExtension(file.toPath()).equals("zip")) {
+            ZipInputStream zip = new ZipInputStream(new FileInputStream(file));
+            ZipEntry zipEntry = zip.getNextEntry();
+            if(zipEntry == null) {
+                respondError(exchange, 500, "Empty zip file");
+            } else {
+                // zipEntry.getSize returns -1, so we have to read the whole entry
+                byte[] entryBytes = zip.readAllBytes();
+                Headers headers = exchange.getResponseHeaders();
+                headers.set("Content-Type", getContentType(Paths.get(zipEntry.getName())));
+                exchange.sendResponseHeaders(200, entryBytes.length);
+
+                OutputStream outStream = exchange.getResponseBody();
+                outStream.write(entryBytes);
+                outStream.close();
+                zip.closeEntry();
+            }
+            zip.close();
         } else {
             Headers headers = exchange.getResponseHeaders();
             headers.set("Content-Type", getContentType(file.toPath()));
             exchange.sendResponseHeaders(200, file.length());            
 
-            // Copy the file in chunks of READ_SIZE bytes
             OutputStream outStream = exchange.getResponseBody();
             FileInputStream inStream = new FileInputStream(file);
-            byte[] buf = new byte[READ_SIZE];
-            long remainingBytes = file.length();
-            while(remainingBytes > buf.length) {
-                inStream.read(buf);
-                outStream.write(buf);
-                remainingBytes -= buf.length;
-            }
-            if(remainingBytes > 0) {
-                inStream.read(buf, 0, (int)remainingBytes);
-                outStream.write(buf, 0, (int)remainingBytes);
-            }
+            copyStream(file.length(), outStream, inStream);
             outStream.close();
             inStream.close();
         }
     }
 
+    /**
+     * Copy inStream to outStream in READ_SIZE chunks
+     * @param fileLength
+     * @param outStream
+     * @param inStream
+     * @throws IOException
+     */
+    private void copyStream(long fileLength, OutputStream outStream, InputStream inStream) throws IOException {
+        byte[] buf = new byte[READ_SIZE];
+        long remainingBytes = fileLength;
+        while(remainingBytes > buf.length) {
+            inStream.read(buf);
+            outStream.write(buf);
+            remainingBytes -= buf.length;
+        }
+        if(remainingBytes > 0) {
+            inStream.read(buf, 0, (int)remainingBytes);
+            outStream.write(buf, 0, (int)remainingBytes);
+        }
+    }
+
     /** Respond with an error message */
-    private void respondError(HttpExchange exchange, int code, String message) throws IOException {
-        respondString(exchange, code, message, "text/plain");
+    private void respondError(HttpExchange exchange, int code, String message) {
+        try {
+            respondString(exchange, code, message, "text/plain");
+        } catch(IOException exc) {
+            System.out.println("The error handler caught an exception: " + exc.toString());
+        }
+    }
+
+    /** Respond with a server error code and stack trace */
+    private void respondError(HttpExchange exchange, Exception exc) {
+        StringWriter stringWriter = new StringWriter();
+        exc.printStackTrace(new PrintWriter(stringWriter));
+        respondError(exchange, 500, stringWriter.toString());
     }
 
     /** Respond with a string */
@@ -202,6 +265,27 @@ public class LogServer implements Sendable {
      *  Get the HTTP content type from the file extension. Default is text/plain.
      */
     private String getContentType(Path filepath) {
+        String extension = getExtension(filepath);
+
+        switch(extension) {
+        case "html":
+            return "text/html";
+        case "json":
+            return "text/json";
+        case "js":
+            return "text/javascript";
+        case "png":
+            return "image/png";
+        case "ico":
+            return "image/x-icon";
+        case "css":
+            return "text/css";
+        default:
+            return "text/plain";
+        }
+    }
+
+    private String getExtension(Path filepath) {
         String filename = filepath.getFileName().toString();
 
         // get extension
@@ -210,14 +294,6 @@ public class LogServer implements Sendable {
         if(index >= 0) {
             extension = filename.substring(index + 1).toLowerCase();
         }
-
-        switch(extension) {
-        case "html":
-            return "text/html";
-        case "json":
-            return "text/json";
-        default:
-            return "text/plain";
-        }
+        return extension;
     }
 }
