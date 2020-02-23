@@ -13,10 +13,9 @@ public class AutoShoot extends SequentialCommandGroup {
     public class RotateBetween extends CommandBase {
         StorageSubsystem m_storageSubsystem;
         public RotateBetween(StorageSubsystem storageSubsystem) {
-
             m_storageSubsystem = storageSubsystem;
-            addRequirements(storageSubsystem);
             
+            addRequirements(storageSubsystem);
         }
 
         @Override
@@ -33,13 +32,13 @@ public class AutoShoot extends SequentialCommandGroup {
             ),
             new ShootCommand(shooterSub)
         );
+        
         ParallelCommandGroup fireCommandGroup = new ParallelCommandGroup(
             new FeedToShooterCommand(feederSub),
             new ShootCommand(shooterSub),
             new RotateStorageContinuous(storageSub)
         );
 
-        addCommands(startUpCommandGroup, fireCommandGroup);
-        
+        addCommands(startUpCommandGroup, fireCommandGroup);        
     }
 }
