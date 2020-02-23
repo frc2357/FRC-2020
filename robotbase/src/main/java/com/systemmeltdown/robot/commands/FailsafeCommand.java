@@ -52,7 +52,7 @@ public class FailsafeCommand extends CommandLoggerBase {
     private void rebindControls(boolean isFailsafeActive) {
         // Failsafe is active, so rebind buttons to failsafe buttons
         if (isFailsafeActive) {
-            //Rebind X
+            //Rebind X to failsafe
             if (m_storageSubsystem != null) {
                 m_gunnerControls.m_xButton.whenHeld(new RotateStorageContinuous(m_storageSubsystem));
             } else {
@@ -64,7 +64,7 @@ public class FailsafeCommand extends CommandLoggerBase {
 
             // Failsafe is not active, so rebind buttons to default bindings
         } else {
-            //Rebind X
+            //Rebind X to default
             if (m_intakeSub != null) {
                 m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             } else {
