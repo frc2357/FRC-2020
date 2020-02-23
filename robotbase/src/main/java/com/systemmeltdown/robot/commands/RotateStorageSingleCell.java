@@ -1,6 +1,7 @@
 package com.systemmeltdown.robot.commands;
+
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Constants;
 
 /*
@@ -8,7 +9,7 @@ import frc.robot.Constants;
  * 
  * @category Storage
  */
-public class RotateStorageSingleCell extends CommandBase {
+public class RotateStorageSingleCell extends CommandLoggerBase {
     private StorageSubsystem m_storageSubsystem;
 
     /**
@@ -20,17 +21,23 @@ public class RotateStorageSingleCell extends CommandBase {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         m_storageSubsystem.setRotationSpeed(Constants.STORAGE_CAROUSEL_ROTATION_SPEED);
     }
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         m_storageSubsystem.setRotationSpeed(0);
     }
 
     @Override
     public boolean isFinished() {
+        System.out.println(m_storageSubsystem.getEncoderValue());
+        if (Math.abs(m_storageSubsystem.getEncoderValue()) < .015) {
+            System.out.println("Easy Exit");
+            return false;
+        }
         return m_storageSubsystem.isAlignedForShooting();
     }
 }

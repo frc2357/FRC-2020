@@ -1,6 +1,7 @@
 package com.systemmeltdown.robot.commands;
+
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Constants;
 
 /*
@@ -8,7 +9,7 @@ import frc.robot.Constants;
  * 
  * @category Storage
  */
-public class RotateStorageContinuous extends CommandBase {
+public class RotateStorageContinuous extends CommandLoggerBase {
     private StorageSubsystem m_storageSubsystem;
 
     /**
@@ -20,12 +21,13 @@ public class RotateStorageContinuous extends CommandBase {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         m_storageSubsystem.setRotationSpeed(Constants.STORAGE_CAROUSEL_ROTATION_SPEED);
     }
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         m_storageSubsystem.setRotationSpeed(0);
     }
 

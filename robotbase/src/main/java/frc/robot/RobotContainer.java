@@ -9,11 +9,10 @@ package frc.robot;
 
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
+import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
-import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
@@ -21,14 +20,12 @@ import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
+import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.SerialPort.Port;
-import edu.wpi.first.wpilibj2.command.Command;
-
-import java.util.ArrayList;
+// import edu.wpi.first.wpilibj.SerialPort.Port; <- Used for VL53LOX Sensor Output
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -42,7 +39,7 @@ public class RobotContainer {
   private FalconTrajectoryDriveSubsystem m_driveSub;
   private final ShooterSubsystem m_shootSub;
   private final IntakeSubsystem m_intakeSub;
-  // private final StorageSubsystem m_storageSub;
+  private final StorageSubsystem m_storageSub;
   private final TogglableLimelightSubsystem m_visionSub;
   private final ClimbSubsystem m_climbSub;
 
@@ -61,9 +58,9 @@ public class RobotContainer {
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
     m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
-    // m_storageSub = subsystemFactory.CreateStorageSubsystem();
+    m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
-    m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
+    m_climbSub = subsystemFactory.CreateClimbSubsystem();
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
@@ -75,6 +72,7 @@ public class RobotContainer {
                       .withIntakeSub(m_intakeSub)
                       .withShooterSubsystem(m_shootSub)
                       .withClimbSubsystem(m_climbSub)
+                      .withStorageSubsystem(m_storageSub)
                       .build();
 
     configureDriveSub();
@@ -82,11 +80,11 @@ public class RobotContainer {
   }
 
   private void configureShuffleboard() {
-    //CellNumberWidget cellNumberWidget = new CellNumberWidget("Robot", m_storageSub);
+    CellNumberWidget cellNumberWidget = new CellNumberWidget("Robot", m_storageSub);
     
-    // for(int i = 0; i < 4; i++) {
-    //  m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
-    // }
+    for(int i = 0; i < 4; i++) {
+      m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
+    }
 
     LoggerTab loggerTab = new LoggerTab();
     
@@ -96,7 +94,7 @@ public class RobotContainer {
   }
 
   private void configureDriveSub() {
-    //m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
+    m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
 
   /**

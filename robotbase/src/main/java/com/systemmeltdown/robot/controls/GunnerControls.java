@@ -7,10 +7,13 @@ import com.systemmeltdown.robot.commands.ClimbRightCommand;
 import com.systemmeltdown.robot.commands.IntakePickupCellCommand;
 import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.PivotIntakeCommand;
+import com.systemmeltdown.robot.commands.RotateStorageContinuous;
+import com.systemmeltdown.robot.commands.RotateStorageSingleCell;
 import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
+import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.triggers.AxisThresholdTrigger;
 import com.systemmeltdown.robotlib.util.XboxRaw;
 
@@ -33,10 +36,12 @@ public class GunnerControls {
     public JoystickButton m_DpadUp;
     public JoystickButton m_yButton;
     public JoystickButton m_xButton;
+    public JoystickButton m_bButton;
     public Trigger m_aButtonandDPadUp;
     public Trigger m_leftBumperandDPadUp;
     public Trigger m_rightBumperandDPadUp;
     public Trigger m_bumperAndDPadUpChord;
+
 
     /**
      * @param builder The GunnerControlsBuilder object
@@ -47,16 +52,17 @@ public class GunnerControls {
         m_leftTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kLeft, .1);
         m_yButton = new JoystickButton(builder.m_controller, XboxRaw.Y.value);
         m_xButton = new JoystickButton(builder.m_controller, XboxRaw.X.value);
+        m_bButton = new JoystickButton(builder.m_controller, XboxRaw.B.value);
         m_aButtonandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.A.value)
-                                        .and(new POVButton(builder.m_controller, 0));
+                .and(new POVButton(builder.m_controller, 0));
         m_leftBumperandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value)
-                                            .and(new POVButton(builder.m_controller, 0));
+                .and(new POVButton(builder.m_controller, 0));
         m_rightBumperandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value)
-                                            .and(new POVButton(builder.m_controller, 0));
+                .and(new POVButton(builder.m_controller, 0));
 
         m_bumperAndDPadUpChord = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value)
-                                            .and(new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value))
-                                            .and(new POVButton(builder.m_controller, 0));
+                .and(new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value))
+                .and(new POVButton(builder.m_controller, 0));
     }
 
     /**
@@ -75,15 +81,21 @@ public class GunnerControls {
      */
     public static class GunnerControlsBuilder {
         private XboxController m_controller = null;
+        private ClimbSubsystem m_climbSub = null;
         private IntakeSubsystem m_intakeSub = null;
         private ShooterSubsystem m_shooterSub = null;
-        private ClimbSubsystem m_climbSub = null;
+        private StorageSubsystem m_storageSubsystem = null;
 
         /**
          * @param controller the controller of the gunner controls
          */
         public GunnerControlsBuilder(XboxController controller) {
             this.m_controller = controller;
+        }
+
+        public GunnerControlsBuilder withClimbSubsystem(ClimbSubsystem climbSub) {
+            this.m_climbSub = climbSub;
+            return this;
         }
 
         public GunnerControlsBuilder withIntakeSub(IntakeSubsystem intakeSub) {
@@ -96,8 +108,8 @@ public class GunnerControls {
             return this;
         }
 
-        public GunnerControlsBuilder withClimbSubsystem(ClimbSubsystem climbSub) {
-            this.m_climbSub = climbSub;
+        public GunnerControlsBuilder withStorageSubsystem(StorageSubsystem storageSubsystem) {
+            this.m_storageSubsystem = storageSubsystem;
             return this;
         }
 
@@ -109,15 +121,18 @@ public class GunnerControls {
                 m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
                 m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             }
-            if (m_shooterSub != null){
+            if (m_shooterSub != null) {
                 m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shooterSub, m_gunnerControls));
             }
-            if(m_climbSub != null) {
+            if (m_climbSub != null) {
                 m_gunnerControls.m_bumperAndDPadUpChord.whenActive(new ClimbCommandSequence(m_climbSub));
                 m_gunnerControls.m_leftBumperandDPadUp.whenActive(new ClimbLeftCommand(m_climbSub));
                 m_gunnerControls.m_rightBumperandDPadUp.whenActive(new ClimbRightCommand(m_climbSub));
                 m_gunnerControls.m_aButtonandDPadUp.whenActive(new ClimbRaiseScissorCommand(m_climbSub));
-
+            }
+            if (m_storageSubsystem != null) {
+                // m_gunnerControls.m_bButton.whileHeld(new RotateStorageContinuous(m_storageSubsystem));
+                m_gunnerControls.m_bButton.whenPressed(new RotateStorageSingleCell(m_storageSubsystem));
             }
             return m_gunnerControls;
         }

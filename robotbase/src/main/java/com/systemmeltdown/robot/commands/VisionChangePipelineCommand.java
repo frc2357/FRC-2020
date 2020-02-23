@@ -3,14 +3,12 @@ package com.systemmeltdown.robot.commands;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
 /**
  * Changes the camera pipeline (Which camera stream is being shown).
  * 
  * @category Camera
  */
-public class VisionChangePipelineCommand extends CommandBase {
+public class VisionChangePipelineCommand extends CommandLoggerBase {
     private TogglableLimelightSubsystem m_visionSub;
 
     /**
@@ -28,6 +26,7 @@ public class VisionChangePipelineCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         m_visionSub.setPipeline(PipelineIndex.HUMAN_VIEW);
     }
 }
