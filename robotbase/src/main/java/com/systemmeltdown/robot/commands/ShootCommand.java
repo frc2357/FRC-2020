@@ -30,12 +30,12 @@ public class ShootCommand extends CommandLoggerBase {
     @Override
     public void initialize() {
         super.initialize();
-        m_shootSub.setMotorSpeed(Constants.MAX_FALCON_SPEED);
+        m_shootSub.setMotorSpeed(Constants.SHOOTER_MAX_SPEED_RPM);
     }
 
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        m_shootSub.setMotorSpeed(Constants.SHOOTER_MAX_SPEED_RPM);
+        m_shootSub.setMotorSpeed(Constants.SHOOTER_MAX_RESTING_SPEED);
     }
 }
