@@ -79,29 +79,28 @@ public final class Constants {
 
   public static final double ENCODER_DISTANCE_PER_PULSE = (WHEEL_DIAMETER_IN_METERS * Math.PI) / (double) ENCODER_CPR;
 
-  public static final int GYRO_ID = 20;
+  public static final int GYRO_ID = 5;
   public static final int SHOOT_MOTOR_1 = 21;
   public static final int SHOOT_MOTOR_2 = 22;
-  public static final int STORAGE_CAROUSEL_MOTOR = 24;
+  public static final int STORAGE_CAROUSEL_MOTOR = 23;
+  public static final int FEEDER_MOTOR = 24;
+  public static final int INTAKE_MOTOR_ID = 25;
   public static final int SCISSOR_SOLENOID_LEFT = -1;
   public static final int SCISSOR_SOLENOID_RIGHT = -1;
   public static final int WINCH_MOTOR_LEFT = -1;
   public static final int WINCH_MOTOR_RIGHT = -1;
-  public static final int TURRET_ROTATE_MOTOR = -1;
-  public static final int TURRET_HOOD_MOTOR = -1;
-
-  /** Intake motor */
-  public static final int INTAKE_MOTOR_ID = 23;
+  public static final int TURRET_ROTATE_MOTOR = 0;
+  public static final int TURRET_HOOD_MOTOR = 1;
 
   /** Solenoid to extend intake assembly */
-  public static final int INTAKE_SOLENOID_CHANNEL_FORWARD = 0;
-  public static final int INTAKE_SOLENOID_CHANNEL_REVERSE = 1;
+  public static final int INTAKE_SOLENOID_CHANNEL_FORWARD = 2;
+  public static final int INTAKE_SOLENOID_CHANNEL_REVERSE = 3;
 
   /** IR sensor before feed wheel */
-  public static final int FEED_SENSOR_CHANNEL = -1;
+  public static final int FEED_SENSOR_CHANNEL = 9;
 
   /** Aboslute encoder on storage system for carousel alignment */
-  public static final double STORAGE_CAROUSEL_ROTATION_SPEED = 0.4;
+  public static final double STORAGE_CAROUSEL_ROTATION_SPEED = 0.2;
   public static final int STORAGE_CAROUSEL_SEGMENTS = 5;
   public static final int STORAGE_CAROUSEL_ENCODER_CHANNEL = 0;
   public static final double STORAGE_CAROUSEL_TOTAL_DEGREES = 360;

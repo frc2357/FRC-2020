@@ -21,7 +21,7 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends ClosedLoopSubsystem {
     private DoubleSolenoid m_intakeSolenoid;
     private WPI_TalonSRX m_intakeTalon;
-    private ArduinoUSBController m_arduinoUSB;
+    // private ArduinoUSBController m_arduinoUSB;
     private boolean m_rollIntoBot = true;
 
     /**
@@ -31,11 +31,12 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
      */
     public IntakeSubsystem(int intakeTalonID, int forwardChannel, int reverseChannel) {
         m_intakeSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
+        m_intakeSolenoid.set(Value.kReverse);
         m_intakeTalon = new WPI_TalonSRX(intakeTalonID);
 
-        m_arduinoUSB = new ArduinoUSBController(Constants.ARDUINO_DEVICE_NAME);
+        // m_arduinoUSB = new ArduinoUSBController(Constants.ARDUINO_DEVICE_NAME);
 
-        m_arduinoUSB.start();
+        // m_arduinoUSB.start();
 
         resetArduino();
     }
@@ -87,10 +88,11 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
 	 */
 	public int getNumOfPowerCells() {
 		// Check if the arduino is connected before getting values.
-		if (!m_arduinoUSB.isConnected()) {
-			return -1;
-		}
-		return m_arduinoUSB.getDeviceFieldInt("intakeCounter", "cells");
+		// if (!m_arduinoUSB.isConnected()) {
+		// 	return -1;
+		// }
+        // return m_arduinoUSB.getDeviceFieldInt("intakeCounter", "cells");
+        return 0;
     }
 
     /**
@@ -100,9 +102,9 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
      */
     public void setTOFRange(int lowRange, int highRange) {
         // Check if the arduino is connected before getting values.
-		if (!m_arduinoUSB.isConnected()) {
-			return;
-        }
+		// if (!m_arduinoUSB.isConnected()) {
+		// 	return;
+        // }
         
         Map<String, Object> rangeMap = new HashMap<String, Object>();
 
@@ -114,18 +116,18 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
 
     public void setTOFRangeLow(int lowRange) {
         // Check if the arduino is connected before getting values.
-		if (!m_arduinoUSB.isConnected()) {
-			return;
-        }
-        m_arduinoUSB.setDeviceField("intakeCounter", "lowRange", lowRange);
+		// if (!m_arduinoUSB.isConnected()) {
+		// 	return;
+        // }
+        // m_arduinoUSB.setDeviceField("intakeCounter", "lowRange", lowRange);
     }
 
     public void setTOFRangeHigh(int highRange) {
         // Check if the arduino is connected before getting values.
-		if (!m_arduinoUSB.isConnected()) {
-			return;
-        }
-        m_arduinoUSB.setDeviceField("intakeCounter", "highRange", highRange);
+		// if (!m_arduinoUSB.isConnected()) {
+		// 	return;
+        // }
+        // m_arduinoUSB.setDeviceField("intakeCounter", "highRange", highRange);
     }
 
     /**
@@ -133,6 +135,6 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
      * Required to be called after redeploy.
      */
     public void resetArduino() {
-        m_arduinoUSB.setDeviceField("intakeCounter", "needsReset", true);
+        // m_arduinoUSB.setDeviceField("intakeCounter", "needsReset", true);
     }
 }

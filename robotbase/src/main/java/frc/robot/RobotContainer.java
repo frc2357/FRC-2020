@@ -13,10 +13,12 @@ import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
+import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.controls.InvertDriveControls;
 import com.systemmeltdown.robot.subsystems.SubsystemFactory;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
+import com.systemmeltdown.robot.subsystems.TurretSubsystem;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
@@ -24,6 +26,7 @@ import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.XboxController;
 // import edu.wpi.first.wpilibj.SerialPort.Port; <- Used for VL53LOX Sensor Output
 
@@ -37,18 +40,20 @@ import edu.wpi.first.wpilibj.XboxController;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private FalconTrajectoryDriveSubsystem m_driveSub;
-  private final ShooterSubsystem m_shootSub;
-  private final IntakeSubsystem m_intakeSub;
-  private final StorageSubsystem m_storageSub;
-  private final TogglableLimelightSubsystem m_visionSub;
   private final ClimbSubsystem m_climbSub;
-
+  private final FeederSubsystem m_feederSub;
+  private final IntakeSubsystem m_intakeSub;
+  private final ShooterSubsystem m_shootSub;
+  private final StorageSubsystem m_storageSub;
+  private final TurretSubsystem m_turretSub;
+  private final TogglableLimelightSubsystem m_visionSub;
+  private final Compressor m_compressor;
 
   private final InvertDriveControls m_driverControls;
   private final GunnerControls m_gunnerControls;
   //public final VL53LOXSensorOutput m_sensor = new VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
 
-  private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
+  // private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -56,11 +61,15 @@ public class RobotContainer {
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    m_shootSub = subsystemFactory.CreateShooterSubsystem();
+    m_climbSub = null;// subsystemFactory.CreateClimbSubsystem();
+    m_feederSub = null;// subsystemFactory.CreateFeederSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
+    m_shootSub = null;// subsystemFactory.CreateShooterSubsystem();
     m_storageSub = subsystemFactory.CreateStorageSubsystem();
+    m_turretSub = null;// subsystemFactory.CreateTurretSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
-    m_climbSub = subsystemFactory.CreateClimbSubsystem();
+    m_compressor = new Compressor();
+    // m_compressor.setClosedLoopControl(false);
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
@@ -70,9 +79,11 @@ public class RobotContainer {
 
     m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1))
                       .withIntakeSub(m_intakeSub)
+                      .withFeederSubsystem(m_feederSub)
                       .withShooterSubsystem(m_shootSub)
                       .withClimbSubsystem(m_climbSub)
                       .withStorageSubsystem(m_storageSub)
+                      .withTurretSub(m_turretSub)
                       .build();
 
     configureDriveSub();
@@ -82,9 +93,9 @@ public class RobotContainer {
   private void configureShuffleboard() {
     CellNumberWidget cellNumberWidget = new CellNumberWidget("Robot", m_storageSub);
     
-    for(int i = 0; i < 4; i++) {
-      m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
-    }
+    // for(int i = 0; i < 4; i++) {
+    //   m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
+    // }
 
     LoggerTab loggerTab = new LoggerTab();
     

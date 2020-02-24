@@ -24,7 +24,12 @@ public class FeedToShooterCommand extends CommandLoggerBase {
     }
 
     @Override
+    public void end(boolean interrupted) {
+        m_feederSubsystem.runFeederMotor(0.0);
+    }
+
+    @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 }

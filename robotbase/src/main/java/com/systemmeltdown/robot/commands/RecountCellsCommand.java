@@ -1,13 +1,11 @@
 package com.systemmeltdown.robot.commands;
 
+import com.systemmeltdown.robot.commands.RotateStorageSingleCell.StorageState;
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 
 /**
@@ -16,39 +14,61 @@ import frc.robot.Constants;
  * 
  * @category Shuffleboard
  */
-public class RecountCellsCommand extends SequentialCommandGroup {
-    private int m_cellCount;
+public class RecountCellsCommand extends CommandBase {
+    public enum StorageState {
+        onCell, betweenCells
+    }
+
     private StorageSubsystem m_storageSubsystem;
+    private FeederSubsystem m_feederSub;
+    private int m_cellCount = 0;
+    private int m_numOfPasses = 0;
+    private StorageState m_storageState;
 
     /**
      * @param storageSub The {@link StorageSubsystem}.
      */
     public RecountCellsCommand(StorageSubsystem storageSubsystem, FeederSubsystem feederSubsystem) {
         m_storageSubsystem = storageSubsystem;
-
-        Command nextCell = new RotateStorageSingleCell(m_storageSubsystem);
-        Command countCell = new ConditionalCommand(
-            new InstantCommand(() -> ++m_cellCount),
-            new InstantCommand(() -> {}),
-            feederSubsystem::isFeedSensorBlocked);
-
-        // NOTE: The command group might throw an error because we're reusing these commands
-        // If that happens just move the command creation into the loop.
-        for(int ii = 0; ii < Constants.STORAGE_CAROUSEL_SEGMENTS; ++ii) {
-            addCommands(nextCell, countCell);
-        }
+        m_feederSub = feederSubsystem;
+        addRequirements(storageSubsystem, feederSubsystem);
     }
 
     @Override
     public void initialize() {
-        super.initialize();
-        m_cellCount = 0;
+        if (m_feederSub.isFeedSensorBlocked()) {
+            m_storageState = StorageState.onCell;
+        } else {
+            m_storageState = StorageState.betweenCells;
+        }
+    }
+
+    @Override
+    public void execute() {
+        m_storageSubsystem.setRotationSpeed(Constants.STORAGE_CAROUSEL_ROTATION_SPEED);
+        if (m_feederSub.isFeedSensorBlocked()) {
+            if (m_storageState == StorageState.betweenCells) {
+                m_storageState = StorageState.onCell;
+            }
+        } else {
+            if (m_storageState == StorageState.onCell) {
+                m_storageState = StorageState.betweenCells;
+                m_cellCount++;
+            }
+        }
+        if (m_storageSubsystem.isAlignedForShooting()) {
+            m_numOfPasses++;
+        }
     }
 
     @Override
     public void end(boolean interrupted) {
-        super.end(interrupted);
         m_storageSubsystem.setNumOfCells(m_cellCount);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return (m_numOfPasses >= 5);
     }
 
     @Override

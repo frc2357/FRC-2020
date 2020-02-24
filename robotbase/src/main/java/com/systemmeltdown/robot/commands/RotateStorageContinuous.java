@@ -27,12 +27,6 @@ public class RotateStorageContinuous extends CommandLoggerBase {
 
     @Override
     public void end(boolean interrupted) {
-        super.end(interrupted);
         m_storageSubsystem.setRotationSpeed(0);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 }

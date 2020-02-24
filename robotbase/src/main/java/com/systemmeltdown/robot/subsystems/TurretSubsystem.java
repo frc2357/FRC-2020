@@ -1,10 +1,10 @@
 package com.systemmeltdown.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robotlib.util.Utility;
 
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.controller.PIDController;
 
@@ -15,7 +15,8 @@ import edu.wpi.first.wpilibj.controller.PIDController;
  * @category Subsystems
  */
 public class TurretSubsystem extends ClosedLoopSubsystem {
-    private WPI_TalonSRX m_rotateMotor;
+    // This is really a servo
+    private PWM m_rotateServo;
     private PIDController m_horzAimController;
     private double m_horzAimMeasurement;
     private boolean m_horzAimControllerActive;
@@ -33,12 +34,12 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
     }
 
     /**
-     * @param rotateMotor Motor that rotates the turret.
+     * @param rotateServo Servo that rotates the turret.
      * @param hoodServo   Servo controlling the hood.
      */
-    public TurretSubsystem(WPI_TalonSRX rotateMotor, Servo hoodServo) {
+    public TurretSubsystem(PWM rotateServo, Servo hoodServo) {
         m_configuration = new Configuration();
-        m_rotateMotor = rotateMotor;
+        m_rotateServo = rotateServo;
         m_hoodServo = hoodServo;
         m_horzAimController = new PIDController(0, 0, 0);
         m_horzAimControllerActive = false;
@@ -47,7 +48,7 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
         configurePidControllers();
 
         // add dashboard controls for children
-        addChild("rotateMotor", m_rotateMotor);
+        addChild("rotateServo", m_rotateServo);
         addChild("hoodServo", m_hoodServo);
         addChild("horzAimPID", m_horzAimController);
     }
@@ -69,7 +70,7 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
      * TODO when the turret motor is installed update the code to use the correct rotation direction
      */
     public void setTurretMotor(double percentOutput) {
-        m_rotateMotor.set(ControlMode.PercentOutput, percentOutput);
+        m_rotateServo.setSpeed(percentOutput);
     }
 
     public void setHoodAngle(double degrees) {

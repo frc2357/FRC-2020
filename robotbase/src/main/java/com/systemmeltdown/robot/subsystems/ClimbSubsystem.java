@@ -43,8 +43,7 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
         public double m_F = 0;
     }
 
-    private Solenoid m_scissorExtendSolenoidLeft;
-    private Solenoid m_scissorExtendSolenoidRight;
+    private Solenoid m_scissorExtendSolenoid;
     private PigeonIMU m_gyro;
     private WPI_TalonSRX m_leftWinchMotor;
     private WPI_TalonSRX m_rightWinchMotor;
@@ -62,10 +61,9 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
      * @param leftWinchMotor The left winch motor responsible for pulling the robot up.
      * @param rightWinchMotor The right winch motor responsible for pulling the robot up.
      */
-    public ClimbSubsystem(Solenoid solenoidLeft, Solenoid solenoidRight, PigeonIMU gyro, WPI_TalonSRX leftWinchMotor,
-            WPI_TalonSRX rightWinchMotor) {
-        m_scissorExtendSolenoidLeft = solenoidLeft;
-        m_scissorExtendSolenoidRight = solenoidRight;
+    public ClimbSubsystem(Solenoid solenoid, PigeonIMU gyro, 
+            WPI_TalonSRX leftWinchMotor, WPI_TalonSRX rightWinchMotor) {
+        m_scissorExtendSolenoid = solenoid;
         m_gyro = gyro;
         m_leftWinchMotor = leftWinchMotor;
         m_rightWinchMotor = rightWinchMotor;
@@ -131,30 +129,21 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
      * Extends the scissor lift.
      */
     public void extendScissor() {
-        m_scissorExtendSolenoidLeft.set(true);
-        m_scissorExtendSolenoidRight.set(true);
+        m_scissorExtendSolenoid.set(true);
     }
 
     /**
      * Deactivates the scissor solenoids.
      */
     public void releaseScissor() {
-        m_scissorExtendSolenoidLeft.set(false);
-        m_scissorExtendSolenoidRight.set(false);
+        m_scissorExtendSolenoid.set(false);
     }
 
     /**
-     * @return True if the left scissor solenoid is active, false if not.
+     * @return True if the scissor solenoid is active, false if not.
      */
-    public boolean isLeftScissorExtending() {
-        return m_scissorExtendSolenoidLeft.get();
-    }
-
-    /**
-     * @return True if the right scissor solenoid is active, false if not.
-     */
-    public boolean isRightScissorExtending() {
-        return m_scissorExtendSolenoidRight.get();
+    public boolean isScissorExtending() {
+        return m_scissorExtendSolenoid.get();
     }
 
     //===================

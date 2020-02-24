@@ -6,8 +6,8 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Servo;
 
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
@@ -98,6 +98,11 @@ public class SubsystemFactory {
          */
     }
 
+    public FeederSubsystem CreateFeederSubsystem() {
+        FeederSubsystem subsystem = new FeederSubsystem(Constants.FEEDER_MOTOR, Constants.FEED_SENSOR_CHANNEL);
+        return subsystem;
+    }
+
     public IntakeSubsystem CreateIntakeSubsystem() {
         IntakeSubsystem subsystem = new IntakeSubsystem(Constants.INTAKE_MOTOR_ID,
                 Constants.INTAKE_SOLENOID_CHANNEL_FORWARD, Constants.INTAKE_SOLENOID_CHANNEL_REVERSE);
@@ -123,9 +128,9 @@ public class SubsystemFactory {
     }
 
     public TurretSubsystem CreateTurretSubsystem() {
-        WPI_TalonSRX rotateMotor = new WPI_TalonSRX(Constants.TURRET_ROTATE_MOTOR);
+        PWM rotateServo = new PWM(Constants.TURRET_ROTATE_MOTOR);
         Servo hoodMotor = new Servo(Constants.TURRET_HOOD_MOTOR);
-        TurretSubsystem subsystem = new TurretSubsystem(rotateMotor, hoodMotor);
+        TurretSubsystem subsystem = new TurretSubsystem(rotateServo, hoodMotor);
         TurretSubsystem.Configuration config = new TurretSubsystem.Configuration();
         config.m_turretAimP = Constants.TURRET_AIM_P;
         config.m_turretAimI = Constants.TURRET_AIM_I;
