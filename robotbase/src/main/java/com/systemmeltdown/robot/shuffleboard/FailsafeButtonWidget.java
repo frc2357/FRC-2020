@@ -1,6 +1,7 @@
 package com.systemmeltdown.robot.shuffleboard;
 
 import com.systemmeltdown.robot.commands.FailsafeCommand;
+import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robotlib.triggers.ToggleTrigger;
 
@@ -20,21 +21,24 @@ public class FailsafeButtonWidget {
     private ToggleTrigger failsafeTrigger;
 
     /**
-     * @param tabTitle   Title of the tab you want to add this widget to. Tab will
-     *                   be created if it does not exist already.
+     * @param tabTitle       Title of the tab you want to add this widget to. Tab will
+     *                       be created if it does not exist already.
      * 
-     * @param subsystems All of the subsystems. Needs these so the button can call
-     *                   the {@link FailsafeCommand} on all of the subsystems.
+     * @param subsystems     All of the subsystems. Needs these so the button can call
+     *                       the {@link FailsafeCommand} on all of the subsystems.
+     * 
+     * @param gunnerControls The {@link GunnerControls}. Needed for the {@link FailsafeCommand}.
      */
-    public FailsafeButtonWidget(String tabTitle, ClosedLoopSubsystem[] subsystems) {
+    public FailsafeButtonWidget(String tabTitle, ClosedLoopSubsystem[] subsystems, 
+                                GunnerControls gunnerControls) {
         m_failsafeButton = Shuffleboard.getTab(tabTitle)
             .add("FAILSAFE", false)
             .withWidget(BuiltInWidgets.kToggleButton)
             .getEntry();
 
         failsafeTrigger = new ToggleTrigger(m_failsafeButton);
-        failsafeTrigger.whenActive(new FailsafeCommand(true, subsystems));
-        failsafeTrigger.whenInactive(new FailsafeCommand(false, subsystems));
+        failsafeTrigger.whenActive(new FailsafeCommand(true, subsystems, gunnerControls));
+        failsafeTrigger.whenInactive(new FailsafeCommand(false, subsystems, gunnerControls));
         m_tabTitle = tabTitle;
     }
 

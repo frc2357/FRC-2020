@@ -89,7 +89,8 @@ public class RobotContainer {
     LoggerTab loggerTab = new LoggerTab();
     
     FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot",
-     new ClosedLoopSubsystem[] {m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub});
+     new ClosedLoopSubsystem[] {m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub}, 
+     m_gunnerControls);
   }
 
   private void configureDriveSub() {
