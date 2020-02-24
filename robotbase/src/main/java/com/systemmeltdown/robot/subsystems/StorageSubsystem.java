@@ -3,13 +3,15 @@ package com.systemmeltdown.robot.subsystems;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget; //Imported for the javadoc
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
+//import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
+import com.systemmeltdown.robotlog.topics.BooleanTopic;
+import com.systemmeltdown.robotlog.topics.DoubleTopic;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.SpeedController;
+//import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
@@ -48,11 +50,18 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
 
     private long m_lastFlipTime = System.currentTimeMillis();
 
+    /* RobotLog Topics */
+    //private final StringTopic errorTopic = new StringTopic("Storage Sub Error");
+    
+    private final BooleanTopic m_isJammedTopic = new BooleanTopic("Is Jammed");
+    private final DoubleTopic  m_motorCurrentTopic = new DoubleTopic("Motor Current", 0.25);
+
     /**
      * @param feedSensor The sensor mounted in the storage. This sensor is used to
      *                   count the number of power cells in the robot and should be
      *                   the type of {@link DigitalInput}.
-     * @param
+     * 
+     * @param throughBoreEncoder The encoder that go spin
      */
     public StorageSubsystem(WPI_TalonSRX rotateMotor, DutyCycleEncoder throughBoreEncoder) {
         m_rotateMotor = rotateMotor;
@@ -97,6 +106,8 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
                 m_lastFlipTime = System.currentTimeMillis();
                 m_rotatePositive = !m_rotatePositive;
             } 
+        } else {
+            m_isJammedTopic.log(false);
         }
     }
 

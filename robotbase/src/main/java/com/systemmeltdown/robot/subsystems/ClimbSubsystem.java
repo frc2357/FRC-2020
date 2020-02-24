@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
+import com.systemmeltdown.robotlog.topics.BooleanTopic;
+import com.systemmeltdown.robotlog.topics.StringTopic;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -53,6 +55,12 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     private PIDController m_rollController;
 
     private Configuration m_config;
+
+    /* RobotLog Topics */
+    // private final StringTopic  m_climbSubErrorTopic       = new StringTopic ("Climb Sub Error");
+    // /\ Unused /\
+    private final StringTopic  m_climbSubClimbing         = new StringTopic ("Climb Sub Climbing/Direction");
+    private final BooleanTopic m_climbSubScissorExtending = new BooleanTopic("Climb Sub Scissor Extending");
 
     /**
      * @param solenoidLeft The left scissor solenoid.
@@ -130,6 +138,7 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
      */
     public void extendScissor() {
         m_scissorExtendSolenoid.set(true);
+        m_climbSubScissorExtending.log(true);
     }
 
     /**
@@ -137,6 +146,7 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
      */
     public void releaseScissor() {
         m_scissorExtendSolenoid.set(false);
+        m_climbSubScissorExtending.log(false);
     }
 
     /**
@@ -151,18 +161,26 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     //===================
 
     public void climbUp() {
+        m_climbSubClimbing.log("Climbing Up");
+
         m_climbDirection = ClimbDirection.Up;
     }
 
     public void climbRight() {
+        m_climbSubClimbing.log("Climbing Right");
+
         m_climbDirection = ClimbDirection.Right;
     }
 
     public void climbLeft() {
+        m_climbSubClimbing.log("Climbing Left");
+
         m_climbDirection = ClimbDirection.Left;
     }
 
     public void stopClimb() {
+        m_climbSubClimbing.log("Not Climbing");
+        
         m_climbDirection = ClimbDirection.Stop;
     }
 

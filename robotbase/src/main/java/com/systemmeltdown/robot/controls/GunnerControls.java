@@ -12,6 +12,7 @@ import com.systemmeltdown.robot.commands.RotateStorageContinuous;
 import com.systemmeltdown.robot.commands.RotateStorageSingleCell;
 import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.commands.TurretRotateCommand;
+import com.systemmeltdown.robot.commands.ShootVariableCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
@@ -153,7 +154,7 @@ public class GunnerControls {
                 m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             }
             if (m_shooterSub != null) {
-                m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootCommand(m_shooterSub, m_gunnerControls));
+                m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootVariableCommand(m_shooterSub, m_gunnerControls));
             }
             if (m_storageSubsystem != null) {
                 m_gunnerControls.m_bButton.whileHeld(new RotateStorageContinuous(m_storageSubsystem));
