@@ -32,6 +32,7 @@ public class FeederSubsystem extends ClosedLoopSubsystem {
      */
     public FeederSubsystem(int feederMotorID, int feedSensorID) {
         m_feederMotor = new WPI_TalonSRX(feederMotorID);
+        m_feederMotor.setInverted(true);
         m_feedSensor = new DigitalInput(feedSensorID);
 
         addChild("feederMotor", m_feederMotor);

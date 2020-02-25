@@ -21,7 +21,7 @@ import frc.robot.Constants;
  * @category Subsystems
  */
 public class IntakeSubsystem extends ClosedLoopSubsystem {
-    private DoubleSolenoid m_intakeSolenoid;
+    public DoubleSolenoid m_intakeSolenoid;
     private WPI_TalonSRX m_intakeTalon;
     // private ArduinoUSBController m_arduinoUSB;
     private boolean m_rollIntoBot = true;

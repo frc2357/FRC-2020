@@ -47,8 +47,8 @@ public class RotateStorageSingleCell extends CommandLoggerBase {
 
     @Override
     public void end(boolean interrupted) {
-        m_storageState = StorageState.onPreviousCell;
         m_storageSubsystem.setRotationSpeed(0);
+        m_storageState = StorageState.onPreviousCell;
     }
 
     @Override

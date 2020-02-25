@@ -42,7 +42,7 @@ public class RobotContainer {
   private FalconTrajectoryDriveSubsystem m_driveSub;
   private final ClimbSubsystem m_climbSub;
   private final FeederSubsystem m_feederSub;
-  private final IntakeSubsystem m_intakeSub;
+  public final IntakeSubsystem m_intakeSub;
   private final ShooterSubsystem m_shootSub;
   private final StorageSubsystem m_storageSub;
   private final TurretSubsystem m_turretSub;
@@ -51,40 +51,35 @@ public class RobotContainer {
 
   private final InvertDriveControls m_driverControls;
   private final GunnerControls m_gunnerControls;
-  //public final VL53LOXSensorOutput m_sensor = new VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
+  // public final VL53LOXSensorOutput m_sensor = new
+  // VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
 
-  // private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
+  // private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new
+  // AutoWaitTimeAndChooser[3];
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
-    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    m_driveSub = null;// subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
     m_climbSub = null;// subsystemFactory.CreateClimbSubsystem();
-    m_feederSub = null;// subsystemFactory.CreateFeederSubsystem();
+    m_feederSub = subsystemFactory.CreateFeederSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
-    m_shootSub = null;// subsystemFactory.CreateShooterSubsystem();
+    m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_storageSub = subsystemFactory.CreateStorageSubsystem();
-    m_turretSub = null;// subsystemFactory.CreateTurretSubsystem();
-    m_visionSub = subsystemFactory.CreateLimelightSubsystem();
+    m_turretSub = subsystemFactory.CreateTurretSubsystem();
+    m_visionSub = null;// subsystemFactory.CreateLimelightSubsystem();
     m_compressor = new Compressor();
     // m_compressor.setClosedLoopControl(false);
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
-                      .withDriveSub(m_driveSub)
-                      .withVisionSub(m_visionSub)
-                      .build();
+        .withDriveSub(m_driveSub).withVisionSub(m_visionSub).build();
 
-    m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1))
-                      .withIntakeSub(m_intakeSub)
-                      .withFeederSubsystem(m_feederSub)
-                      .withShooterSubsystem(m_shootSub)
-                      .withClimbSubsystem(m_climbSub)
-                      .withStorageSubsystem(m_storageSub)
-                      .withTurretSub(m_turretSub)
-                      .build();
+    m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1)).withIntakeSub(m_intakeSub)
+        .withFeederSubsystem(m_feederSub).withShooterSubsystem(m_shootSub).withClimbSubsystem(m_climbSub)
+        .withStorageSubsystem(m_storageSub).withTurretSub(m_turretSub).build();
 
     configureDriveSub();
     configureShuffleboard();
@@ -92,19 +87,19 @@ public class RobotContainer {
 
   private void configureShuffleboard() {
     CellNumberWidget cellNumberWidget = new CellNumberWidget("Robot", m_storageSub);
-    
+
     // for(int i = 0; i < 4; i++) {
-    //   m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
+    // m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
     // }
 
     LoggerTab loggerTab = new LoggerTab();
-    
+
     FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot",
-     new ClosedLoopSubsystem[] {m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub});
+        new ClosedLoopSubsystem[] { m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub });
   }
 
   private void configureDriveSub() {
-    m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
+    // m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
 
   /**
@@ -112,7 +107,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  //public Command getAutonomousCommand() {
-  //  return new AutoTemporaryCommand(m_driveSub).getRamsete();
-  //}
+  // public Command getAutonomousCommand() {
+  // return new AutoTemporaryCommand(m_driveSub).getRamsete();
+  // }
 }

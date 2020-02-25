@@ -56,9 +56,9 @@ public class RecountCellsCommand extends CommandBase {
                 m_cellCount++;
             }
         }
-        if (m_storageSubsystem.isAlignedForShooting()) {
-            m_numOfPasses++;
-        }
+        // if (m_storageSubsystem.isAlignedForShooting()) {
+        //     m_numOfPasses++;
+        // }
     }
 
     @Override
