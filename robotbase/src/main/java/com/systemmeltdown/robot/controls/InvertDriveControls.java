@@ -87,9 +87,11 @@ public class InvertDriveControls extends DriverControls {
 
         public InvertDriveControls build() {
             InvertDriveControls m_driverControls = new InvertDriveControls(this);
+            if (m_visionSubsystem != null) {
+                m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSubsystem));
+            }
             if (m_driveSubsystem != null && m_visionSubsystem != null) {
                 m_driverControls.m_invertButton.whenPressed(new InvertDriveCommand(m_visionSubsystem, m_driverControls));
-                m_driverControls.m_changePipelineButton.whileHeld(new VisionChangePipelineCommand(m_visionSubsystem));
             }
             return m_driverControls;
         }

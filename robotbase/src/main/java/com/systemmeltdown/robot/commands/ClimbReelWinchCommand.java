@@ -71,10 +71,10 @@ public class ClimbReelWinchCommand extends CommandLoggerBase {
         m_climbSubsystem.setKeepLevel(false);
     }
 
-    @Override
-    public boolean isFinished() {
-        m_leftDerivative.updateValue(m_climbSubsystem.getLeftWinchCurrent());
-        m_rightDerivative.updateValue(m_climbSubsystem.getRightWinchCurrent());
-        return m_leftDerivative.getSpiked() && m_rightDerivative.getSpiked();
-    }
+    // @Override
+    // public boolean isFinished() {
+    //     m_leftDerivative.updateValue(m_climbSubsystem.getLeftWinchCurrent());
+    //     m_rightDerivative.updateValue(m_climbSubsystem.getRightWinchCurrent());
+    //     return m_leftDerivative.getSpiked() && m_rightDerivative.getSpiked();
+    // }
 }

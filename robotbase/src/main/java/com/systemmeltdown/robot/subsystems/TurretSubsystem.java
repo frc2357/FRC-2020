@@ -21,13 +21,12 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
     private double m_horzAimMeasurement;
     private boolean m_horzAimControllerActive;
 
-    // TODO replace with the specific class for the motor
-    private Servo m_hoodServo;
+    private Servo m_hoodServo1;
+    private Servo m_hoodServo2;
 
     private Configuration m_configuration;
 
-    static public class Configuration
-    {
+    static public class Configuration {
         public double m_turretAimP = 1e-3;
         public double m_turretAimI = 0;
         public double m_turretAimD = 0;      
@@ -37,10 +36,11 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
      * @param rotateServo Servo that rotates the turret.
      * @param hoodServo   Servo controlling the hood.
      */
-    public TurretSubsystem(PWM rotateServo, Servo hoodServo) {
+    public TurretSubsystem(PWM rotateServo, Servo hoodServo1, Servo hoodServo2) {
         m_configuration = new Configuration();
         m_rotateServo = rotateServo;
-        m_hoodServo = hoodServo;
+        m_hoodServo1 = hoodServo1;
+        m_hoodServo2 = hoodServo2;
         m_horzAimController = new PIDController(0, 0, 0);
         m_horzAimControllerActive = false;
         m_horzAimMeasurement = 0;
@@ -49,7 +49,8 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
 
         // add dashboard controls for children
         addChild("rotateServo", m_rotateServo);
-        addChild("hoodServo", m_hoodServo);
+        addChild("hoodServo1", m_hoodServo1);
+        addChild("hoodServo2", m_hoodServo2);
         addChild("horzAimPID", m_horzAimController);
     }
 
@@ -57,6 +58,7 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
     public void periodic() {
         if(m_horzAimControllerActive && isClosedLoopEnabled()) {
             double cv = m_horzAimController.calculate(m_horzAimMeasurement);
+            System.out.println(cv);
             double turretRotateSpeed = Utility.clamp(cv, -1, 1);
             setTurretMotor(turretRotateSpeed);
         }
@@ -74,7 +76,8 @@ public class TurretSubsystem extends ClosedLoopSubsystem {
     }
 
     public void setHoodAngle(double degrees) {
-        m_hoodServo.setAngle(degrees);
+        m_hoodServo1.setAngle(degrees);
+        m_hoodServo2.setAngle(degrees);
     }
 
     /**

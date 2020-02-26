@@ -1,6 +1,7 @@
 package com.systemmeltdown.robot.commands;
 
-import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
+import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
+import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robot.subsystems.TurretSubsystem;
 
 //import edu.wpi.first.wpilibj.controller.PIDController;
@@ -23,14 +24,14 @@ public class TrackTargetCommand extends CommandLoggerBase {
     }
 
     private TurretSubsystem m_turretSubsystem;
-    private LimelightSubsystem m_limelightSubsystem;
+    private TogglableLimelightSubsystem m_limelightSubsystem;
     private Mode m_currentMode;
 
     /**
      * Speed at which to turn the turret while seeking, units match
      * TurretSubsystem.setTurretMotor
      */
-    private double m_seekingSpeed = Constants.TURRET_SEEK_SPEED;
+    private double m_seekingSpeed = 1;
 
     /** Target height from floor in inches */
     private double m_targetHeight = Constants.VISION_TARGET_HEIGHT_FROM_FLOOR;
@@ -44,7 +45,7 @@ public class TrackTargetCommand extends CommandLoggerBase {
      * @param turretSubsystem The {@link TurretSubsystem}.
      * @param limelightSubsystem The {@link LimelightSubsystem}.
      */
-    public TrackTargetCommand(TurretSubsystem turretSubsystem, LimelightSubsystem limelightSubsystem) {
+    public TrackTargetCommand(TurretSubsystem turretSubsystem, TogglableLimelightSubsystem limelightSubsystem) {
         m_turretSubsystem = turretSubsystem;
         m_limelightSubsystem = limelightSubsystem;
         addRequirements(m_turretSubsystem, m_limelightSubsystem);
@@ -60,13 +61,13 @@ public class TrackTargetCommand extends CommandLoggerBase {
 
     @Override
     public void initialize() {
-        super.initialize();
+        m_limelightSubsystem.setPipeline(PipelineIndex.VISION_TARGET);
         m_currentMode = Mode.Seeking;
     }
 
     @Override
     public void execute() {
-        LimelightSubsystem.VisionTarget target = m_limelightSubsystem.acquireTarget(m_targetHeight);
+        TogglableLimelightSubsystem.VisionTarget target = m_limelightSubsystem.acquireTarget(m_targetHeight);
 
         // possibly change mode based on target
         switch (m_currentMode) {
@@ -114,7 +115,7 @@ public class TrackTargetCommand extends CommandLoggerBase {
      * @return True if the robot is locked onto the target, false if not.
      */
     public boolean isTargetLocked() {
-        LimelightSubsystem.VisionTarget target = m_limelightSubsystem.getCurrentTarget();
+        TogglableLimelightSubsystem.VisionTarget target = m_limelightSubsystem.getCurrentTarget();
         if (target == null) {
             return false;
         }
@@ -142,7 +143,7 @@ public class TrackTargetCommand extends CommandLoggerBase {
      * @param target The target; Type: {@link LimelightSubsystem.VisionTarget}.
      * @return desired vision target offset in degrees
      */
-    private double getDesiredTargetAngle(LimelightSubsystem.VisionTarget target) {
+    private double getDesiredTargetAngle(TogglableLimelightSubsystem.VisionTarget target) {
         final double theta = Math.toRadians(target.getTargetRotationDegrees());
         final double targetDist = target.getInchesFromTarget();
         final double recessDist = Constants.VISION_DISTANCE_TO_HOLE;
@@ -161,7 +162,7 @@ public class TrackTargetCommand extends CommandLoggerBase {
      * 
      * @return 0, until the method is complete.
      */
-    private double getVerticalTargetAngle(LimelightSubsystem.VisionTarget target) {
+    private double getVerticalTargetAngle(TogglableLimelightSubsystem.VisionTarget target) {
         // TODO
         return 0;
     }

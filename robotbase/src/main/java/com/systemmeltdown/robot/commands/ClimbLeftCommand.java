@@ -21,6 +21,7 @@ public class ClimbLeftCommand extends CommandLoggerBase {
     @Override
     public void initialize() {
         super.initialize();
+        System.out.println("left");
         m_climbSubsystem.setKeepLevel(true);
         m_climbSubsystem.climbLeft();
     }

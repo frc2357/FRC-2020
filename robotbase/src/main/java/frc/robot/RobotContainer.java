@@ -63,23 +63,32 @@ public class RobotContainer {
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = null;// subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    m_climbSub = null;// subsystemFactory.CreateClimbSubsystem();
+    m_climbSub = subsystemFactory.CreateClimbSubsystem();
     m_feederSub = subsystemFactory.CreateFeederSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
     m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_turretSub = subsystemFactory.CreateTurretSubsystem();
-    m_visionSub = null;// subsystemFactory.CreateLimelightSubsystem();
+    m_visionSub = subsystemFactory.CreateLimelightSubsystem();
     m_compressor = new Compressor();
-    // m_compressor.setClosedLoopControl(false);
+    m_compressor.setClosedLoopControl(false);
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
-        .withDriveSub(m_driveSub).withVisionSub(m_visionSub).build();
+        .withDriveSub(m_driveSub)
+        .withVisionSub(m_visionSub)
+        .build();
 
-    m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1)).withIntakeSub(m_intakeSub)
-        .withFeederSubsystem(m_feederSub).withShooterSubsystem(m_shootSub).withClimbSubsystem(m_climbSub)
-        .withStorageSubsystem(m_storageSub).withTurretSub(m_turretSub).build();
+    m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1))
+        .withClimbSubsystem(m_climbSub)
+        .withIntakeSub(m_intakeSub)
+        .withFeederSubsystem(m_feederSub)
+        .withShooterSubsystem(m_shootSub)
+        .withClimbSubsystem(m_climbSub)
+        .withStorageSubsystem(m_storageSub)
+        .withTurretSub(m_turretSub)
+        .withVisionSub(m_visionSub)
+        .build();
 
     configureDriveSub();
     configureShuffleboard();

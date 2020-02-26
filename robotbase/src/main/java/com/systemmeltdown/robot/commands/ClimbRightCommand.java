@@ -21,6 +21,7 @@ public class ClimbRightCommand extends CommandLoggerBase {
     @Override
     public void initialize() {
         super.initialize();
+        System.out.println("right");
         m_climbSubsystem.setKeepLevel(true);
         m_climbSubsystem.climbRight();
     }
