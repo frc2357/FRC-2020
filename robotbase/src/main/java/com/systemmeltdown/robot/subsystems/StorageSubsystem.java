@@ -45,8 +45,6 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
 
     private Configuration m_config = new Configuration();
 
-    private long m_lastFlipTime = System.currentTimeMillis();
-
     /* RobotLog Topics */
     // private final StringTopic errorTopic = new StringTopic("Storage Sub Error");
 
@@ -100,20 +98,15 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
                 && encoderValue <= m_config.m_throughBoreEncoderResetHigh) {
             m_throughBoreEncoder.reset();
         }
-        
-        System.out.println("Supply Current: " + m_rotateMotor.getSupplyCurrent());
+
         if (m_rotateMotor.getSupplyCurrent() >= 1) {
-            System.out.println("Pass Stator v Supply check");
-            // if (m_lastFlipTime < System.currentTimeMillis() - m_config.m_flipDeadTimeMs) {
-                m_lastFlipTime = System.currentTimeMillis();
-                m_rotatePositive = !m_rotatePositive;
-                if (m_rotatePositive) {
-                    m_rotateMotor.set(m_rotateProportion);
-                } else {
-                    m_rotateMotor.set(-m_rotateProportion);
-                    
-                }
-            // }
+            m_rotatePositive = !m_rotatePositive;
+            if (m_rotatePositive) {
+                m_rotateMotor.set(m_rotateProportion);
+            } else {
+                m_rotateMotor.set(-m_rotateProportion);
+
+            }
         } else {
             m_isJammedTopic.log(false);
         }
