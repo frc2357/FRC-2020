@@ -66,7 +66,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
-    m_driveSub = null;// subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
+    m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
     m_climbSub = subsystemFactory.CreateClimbSubsystem();
     m_feederSub = subsystemFactory.CreateFeederSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
@@ -118,7 +118,7 @@ public class RobotContainer {
   }
 
   private void configureDriveSub() {
-    // m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
+    m_driveSub.setDefaultCommand(new DriveProportionalCommand(m_driveSub, m_driverControls));
   }
 
   /**
