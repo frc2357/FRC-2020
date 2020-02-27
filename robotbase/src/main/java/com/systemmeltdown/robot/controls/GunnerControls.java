@@ -15,6 +15,7 @@ import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.commands.TurretRotateCommand;
 import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 import com.systemmeltdown.robot.commands.ShootVariableCommand;
+import com.systemmeltdown.robot.commands.ShooterFullSystemCommand;
 import com.systemmeltdown.robot.commands.TrackTargetCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
@@ -31,6 +32,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants;
 
 /**
  * These are the controls for the gunner.
@@ -168,7 +170,7 @@ public class GunnerControls {
                 m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             }
             if (m_shooterSub != null) {
-                m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootVariableCommand(m_shooterSub, m_gunnerControls));
+                m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShooterFullSystemCommand(m_storageSubsystem, m_feederSub, m_shooterSub, m_gunnerControls, Constants.STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED));
             }
             if (m_storageSubsystem != null) {
                 m_gunnerControls.m_bButton.whileHeld(new RotateStorageContinuous(m_storageSubsystem));
