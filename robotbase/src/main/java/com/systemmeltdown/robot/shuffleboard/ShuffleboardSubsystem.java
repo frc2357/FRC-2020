@@ -6,11 +6,11 @@ public class ShuffleboardSubsystem extends SubsystemBase {
   private DriveTab driveTab = new DriveTab();
 
   public void drive() {
-    driveTab.show();
+    // driveTab.show();
   }
 
   @Override
   public void periodic() {
-    driveTab.periodic();
+    // driveTab.periodic();
   }
 }

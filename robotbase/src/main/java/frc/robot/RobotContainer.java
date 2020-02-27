@@ -11,6 +11,7 @@ import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
+import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
 import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
@@ -43,7 +44,7 @@ public class RobotContainer {
   public static final String SHUFFLEBOARD_TAB_ROBOT = "Robot";
 
   // The robot's subsystems and commands are defined here...
-  private FalconTrajectoryDriveSubsystem m_driveSub;
+  private SingleSpeedFalconDriveSubsystem m_driveSub;
   private final ClimbSubsystem m_climbSub;
   private final FeederSubsystem m_feederSub;
   public final IntakeSubsystem m_intakeSub;
@@ -58,8 +59,7 @@ public class RobotContainer {
   // public final VL53LOXSensorOutput m_sensor = new
   // VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
 
-  // private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new
-  // AutoWaitTimeAndChooser[3];
+  private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -75,7 +75,7 @@ public class RobotContainer {
     m_turretSub = subsystemFactory.CreateTurretSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
     m_compressor = new Compressor();
-    m_compressor.setClosedLoopControl(false);
+    // m_compressor.setClosedLoopControl(false);
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
@@ -110,11 +110,11 @@ public class RobotContainer {
 
     LoggerTab loggerTab = new LoggerTab();
 
-    // for(int i = 0; i < 4; i++) {
-    // m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
-    // }
+    for(int i = 0; i < 3; i++) {
+      m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
+    }
 
-    driveTab.show();
+    // driveTab.show();
   }
 
   private void configureDriveSub() {

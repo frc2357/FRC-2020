@@ -50,7 +50,9 @@ public class SubsystemFactory {
         WPI_TalonFX leftFalconMaster = new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_1);
         WPI_TalonFX[] leftFalconSlaves = new WPI_TalonFX[] { new WPI_TalonFX(Constants.DRIVE_MOTOR_LEFT_2) };
         WPI_TalonFX rightFalconMaster = new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_1);
-        WPI_TalonFX[] rightFalconSlaves = new WPI_TalonFX[] { new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_2) };
+        WPI_TalonFX rightFalconSlave1 =  new WPI_TalonFX(Constants.DRIVE_MOTOR_RIGHT_2) ;
+        rightFalconSlave1.setInverted(true);
+        WPI_TalonFX[] rightFalconSlaves = new WPI_TalonFX[] { rightFalconSlave1 };
         SingleSpeedFalconDriveSubsystem subsystem = new SingleSpeedFalconDriveSubsystem(leftFalconMaster,
                 leftFalconSlaves, rightFalconMaster, rightFalconSlaves);
         subsystem.configure(config);

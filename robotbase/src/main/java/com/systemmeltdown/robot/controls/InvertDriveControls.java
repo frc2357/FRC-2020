@@ -5,6 +5,7 @@ import com.systemmeltdown.robot.commands.InvertDriveCommand;
 
 import com.systemmeltdown.robotlib.controllers.DriverControls;
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
+import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -63,7 +64,7 @@ public class InvertDriveControls extends DriverControls {
     public static class InvertDriveControlsBuilder {
         private XboxController m_controller = null;
         private double m_deadband = 0.0;
-        private FalconTrajectoryDriveSubsystem m_driveSubsystem = null;
+        private SingleSpeedFalconDriveSubsystem m_driveSubsystem = null;
         private TogglableLimelightSubsystem m_visionSubsystem = null;
 
         /**
@@ -75,7 +76,7 @@ public class InvertDriveControls extends DriverControls {
             this.m_deadband = deadband;
         }
 
-        public InvertDriveControlsBuilder withDriveSub(FalconTrajectoryDriveSubsystem driveSubsystem){
+        public InvertDriveControlsBuilder withDriveSub(SingleSpeedFalconDriveSubsystem driveSubsystem){
             this.m_driveSubsystem = driveSubsystem;
             return this;
         }
