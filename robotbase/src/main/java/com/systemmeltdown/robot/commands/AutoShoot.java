@@ -24,10 +24,10 @@ public class AutoShoot extends SequentialCommandGroup {
         }
     }
 
-    public AutoShoot(StorageSubsystem storageSub, FeederSubsystem feederSub, ShooterSubsystem shooterSub) {
+    public AutoShoot(StorageSubsystem storageSub, FeederSubsystem feederSub, ShooterSubsystem shooterSub, double rotateSpeed) {
         ParallelCommandGroup startUpCommandGroup = new ParallelCommandGroup(
             new SequentialCommandGroup(
-                new ParallelDeadlineGroup(new RotateBetween(storageSub), new RotateStorageContinuous(storageSub)),
+                new ParallelDeadlineGroup(new RotateBetween(storageSub), new RotateStorageContinuous(storageSub, rotateSpeed)),
                 new FeedToShooterCommand(feederSub)
             ),
             new ShootCommand(shooterSub)
@@ -36,7 +36,7 @@ public class AutoShoot extends SequentialCommandGroup {
         ParallelCommandGroup fireCommandGroup = new ParallelCommandGroup(
             new FeedToShooterCommand(feederSub),
             new ShootCommand(shooterSub),
-            new RotateStorageContinuous(storageSub)
+            new RotateStorageContinuous(storageSub, rotateSpeed)
         );
 
         addCommands(startUpCommandGroup, fireCommandGroup);        
