@@ -4,6 +4,7 @@ import com.systemmeltdown.robot.commands.ClimbCommandSequence;
 import com.systemmeltdown.robot.commands.ClimbLeftCommand;
 import com.systemmeltdown.robot.commands.ClimbRaiseScissorCommand;
 import com.systemmeltdown.robot.commands.ClimbRightCommand;
+import com.systemmeltdown.robot.commands.ClimbUpCommand;
 import com.systemmeltdown.robot.commands.FeedToShooterCommand;
 import com.systemmeltdown.robot.commands.IntakePickupCellCommand;
 import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
@@ -49,6 +50,7 @@ public class GunnerControls {
     public Trigger m_aButtonandDPadUp;
     public Trigger m_leftBumperandDPadUp;
     public Trigger m_rightBumperandDPadUp;
+    public Trigger m_startAndDPadUp;
     public Trigger m_bumperAndDPadUpChord;
 
     public POVButton m_leftDPad;
@@ -71,6 +73,8 @@ public class GunnerControls {
         m_aButtonandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.A.value)
                 .and(new POVButton(builder.m_controller, 0));
         m_leftBumperandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value)
+                .and(new POVButton(builder.m_controller, 0));
+        m_startAndDPadUp = new JoystickButton(builder.m_controller, XboxRaw.Start.value)
                 .and(new POVButton(builder.m_controller, 0));
         m_rightBumperandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value)
                 .and(new POVButton(builder.m_controller, 0));
@@ -149,6 +153,7 @@ public class GunnerControls {
             GunnerControls m_gunnerControls = new GunnerControls(this);
             if (m_climbSub != null) {
                 // m_gunnerControls.m_bumperAndDPadUpChord.whenActive(new ClimbCommandSequence(m_climbSub));
+                m_gunnerControls.m_startAndDPadUp.whileActiveOnce(new ClimbUpCommand(m_climbSub));
                 m_gunnerControls.m_leftBumperandDPadUp.whenActive(new ClimbLeftCommand(m_climbSub));
                 m_gunnerControls.m_rightBumperandDPadUp.whenActive(new ClimbRightCommand(m_climbSub));
                 m_gunnerControls.m_aButtonandDPadUp.whenActive(new ClimbRaiseScissorCommand(m_climbSub));
@@ -163,7 +168,7 @@ public class GunnerControls {
                 m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             }
             if (m_shooterSub != null) {
-                // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootVariableCommand(m_shooterSub, m_gunnerControls));
+                m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootVariableCommand(m_shooterSub, m_gunnerControls));
             }
             if (m_storageSubsystem != null) {
                 m_gunnerControls.m_bButton.whileHeld(new RotateStorageContinuous(m_storageSubsystem));
