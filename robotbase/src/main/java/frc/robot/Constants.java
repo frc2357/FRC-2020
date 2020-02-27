@@ -190,11 +190,11 @@ public final class Constants {
     /**
      * Turret settings
      */
-    public static final double TURRET_AIM_P = 1;
+    public static final double TURRET_AIM_P = 0.26;
     public static final double TURRET_AIM_I = 0;
     public static final double TURRET_AIM_D = 0;
     public static final double TURRET_SEEK_SPEED = 0.2;
-    public static final double TURRET_AIM_TOLERANCE = 2;
+    public static final double TURRET_AIM_TOLERANCE = 0.5;
 
     /**
      * Sensor Contants

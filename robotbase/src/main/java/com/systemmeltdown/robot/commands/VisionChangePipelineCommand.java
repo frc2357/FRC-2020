@@ -20,7 +20,7 @@ public class VisionChangePipelineCommand extends CommandLoggerBase {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         m_visionSub.setPipeline(PipelineIndex.VISION_TARGET);
     }
 

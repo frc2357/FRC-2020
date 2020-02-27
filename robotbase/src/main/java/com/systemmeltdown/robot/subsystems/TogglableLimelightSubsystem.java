@@ -52,6 +52,7 @@ public class TogglableLimelightSubsystem extends LimelightSubsystem {
      */
     public TogglableLimelightSubsystem(boolean isLimelightPrimary) {
         setStream(isLimelightPrimary);
+        setPipeline(PipelineIndex.HUMAN_VIEW);
     }
 
     public void setPipeline(PipelineIndex p) {
