@@ -175,7 +175,7 @@ public class GunnerControls {
                 m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootVariableCommand(m_shooterSub, m_gunnerControls));
             }
             if (m_storageSubsystem != null) {
-                m_gunnerControls.m_bButton.whileHeld(new RotateStorageContinuous(m_storageSubsystem, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED),);
+                m_gunnerControls.m_bButton.whileHeld(new RotateStorageContinuous(m_storageSubsystem, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED));
                 // if (m_feederSub != null) {
                 //     m_gunnerControls.m_bButton.whenPressed(new RotateStorageSingleCell(m_storageSubsystem, m_feederSub));
                 // }
