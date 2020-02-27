@@ -100,6 +100,8 @@ public final class Constants {
     /** IR sensor before feed wheel */
     public static final int FEED_SENSOR_CHANNEL = 9;
 
+    public static final double INTAKE_ROTATION_SPEED = 1.0;
+
     /** Aboslute encoder on storage system for carousel alignment */
     public static final double STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED = 0.3;
     public static final double STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED = 0.3;
@@ -225,10 +227,16 @@ public final class Constants {
     public static final int SHOOTER_ENCODER_VELOCITY_AT_PEAK_OUTPUT = 1;
 
     /** Maximum safe speed for the shooter wheels */
-    public static final int SHOOTER_MAX_SPEED_RPM = 4000;
+    public static final int SHOOTER_MAX_SPEED_RPM = 5000;
 
     /** Speed for shooting in the low goal SET THIS */
     public static final int SHOOTER_LOW_GOAL_SPEED_RPM = 1000;
+
+    /** Amount of time to wait for shooter to spin up before running feeder */
+    public static final double FEEDER_SHOOT_DELAY = 0.5;
+
+    /** Amount of time to wait for shooter to spin up before running carousel */
+    public static final double CAROUSEL_SHOOT_DELAY = 0.5;
 
     /** Shooter PIDF values */
     public static final double SHOOTER_P = 0;

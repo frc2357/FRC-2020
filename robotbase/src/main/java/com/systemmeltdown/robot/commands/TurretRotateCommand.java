@@ -15,7 +15,7 @@ public class TurretRotateCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         m_turretSub.setTurretMotorSpeed(m_rotatePositive ? 1 : -1);
     }
 

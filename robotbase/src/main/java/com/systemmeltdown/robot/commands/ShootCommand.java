@@ -17,7 +17,6 @@ public class ShootCommand extends CommandLoggerBase {
 
     /**
      * @param shootSub       The {@link ShooterSubsystem}.
-     * 
      */
     public ShootCommand(final ShooterSubsystem shootSub) {
         m_shootSub = shootSub;
@@ -25,7 +24,8 @@ public class ShootCommand extends CommandLoggerBase {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
+        super.initialize();
         m_shootSub.setMotorSpeed(Constants.SHOOTER_MAX_SPEED_RPM);
     }
 
@@ -33,5 +33,10 @@ public class ShootCommand extends CommandLoggerBase {
     public void end(final boolean interrupted) {
         super.end(interrupted);
         m_shootSub.runMotorOpenLoop(0.0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }
