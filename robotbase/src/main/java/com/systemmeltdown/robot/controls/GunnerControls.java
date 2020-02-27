@@ -1,21 +1,14 @@
 package com.systemmeltdown.robot.controls;
 
-import com.systemmeltdown.robot.commands.ClimbCommandSequence;
-import com.systemmeltdown.robot.commands.ClimbLeftCommand;
-import com.systemmeltdown.robot.commands.ClimbRaiseScissorCommand;
-import com.systemmeltdown.robot.commands.ClimbRightCommand;
-import com.systemmeltdown.robot.commands.ClimbUpCommand;
+import com.systemmeltdown.robot.commands.AutoShootCommand;
 import com.systemmeltdown.robot.commands.FeedToShooterCommand;
-import com.systemmeltdown.robot.commands.IntakePickupCellCommand;
 import com.systemmeltdown.robot.commands.IntakePickupCellsParallelCommand;
 import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.PivotIntakeCommand;
 import com.systemmeltdown.robot.commands.RotateStorageContinuous;
-import com.systemmeltdown.robot.commands.RotateStorageSingleCell;
 import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.commands.TurretRotateCommand;
 import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
-import com.systemmeltdown.robot.commands.ShootVariableCommand;
 import com.systemmeltdown.robot.commands.TrackTargetCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
@@ -29,6 +22,9 @@ import com.systemmeltdown.robotlib.util.XboxRaw;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -44,7 +40,7 @@ public class GunnerControls {
 
     public AxisThresholdTrigger m_rightTrigger;
     public AxisThresholdTrigger m_leftTrigger;
-    public JoystickButton m_changePipelineButton;
+    public JoystickButton m_backButton;
     public JoystickButton m_yButton;
     public JoystickButton m_xButton;
     public JoystickButton m_bButton;
@@ -65,7 +61,7 @@ public class GunnerControls {
         m_controller = builder.m_controller;
         m_rightTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kRight, .1);
         m_leftTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kLeft, .1);
-        m_changePipelineButton = new JoystickButton(builder.m_controller, XboxRaw.Back.value);
+        m_backButton = new JoystickButton(builder.m_controller, XboxRaw.Back.value);
         m_yButton = new JoystickButton(builder.m_controller, XboxRaw.Y.value);
         m_xButton = new JoystickButton(builder.m_controller, XboxRaw.X.value);
         m_bButton = new JoystickButton(builder.m_controller, XboxRaw.B.value);
@@ -105,7 +101,7 @@ public class GunnerControls {
         private FeederSubsystem m_feederSub = null;
         private IntakeSubsystem m_intakeSub = null;
         private ShooterSubsystem m_shooterSub = null;
-        private StorageSubsystem m_storageSubsystem = null;
+        private StorageSubsystem m_storageSub = null;
         private TurretSubsystem m_turretSub = null;
         private TogglableLimelightSubsystem m_visionSubsystem = null;
 
@@ -137,7 +133,7 @@ public class GunnerControls {
         }
 
         public GunnerControlsBuilder withStorageSubsystem(StorageSubsystem storageSubsystem) {
-            this.m_storageSubsystem = storageSubsystem;
+            this.m_storageSub = storageSubsystem;
             return this;
         }
 
@@ -153,42 +149,55 @@ public class GunnerControls {
 
         public GunnerControls build() {
             GunnerControls m_gunnerControls = new GunnerControls(this);
-            if (m_climbSub != null) {
-                // m_gunnerControls.m_bumperAndDPadUpChord.whenActive(new ClimbCommandSequence(m_climbSub));
-                m_gunnerControls.m_startAndDPadUp.whileActiveOnce(new ClimbUpCommand(m_climbSub));
-                m_gunnerControls.m_leftBumperandDPadUp.whenActive(new ClimbLeftCommand(m_climbSub));
-                m_gunnerControls.m_rightBumperandDPadUp.whenActive(new ClimbRightCommand(m_climbSub));
-                m_gunnerControls.m_aButtonandDPadUp.whenActive(new ClimbRaiseScissorCommand(m_climbSub));
-            }
+
+            // Feeder manual movement
             if (m_feederSub != null) {
-                m_gunnerControls.m_aButton.whenHeld(new FeedToShooterCommand(m_feederSub));
+                m_gunnerControls.m_aButton.whileActiveOnce(new FeedToShooterCommand(m_feederSub));
             }
+
+            // Intake combined sequence
+            if (m_intakeSub != null && m_storageSub != null) {
+                m_gunnerControls.m_leftTrigger.whileActiveOnce(
+                    new IntakePickupCellsParallelCommand(
+                        m_intakeSub,
+                        m_storageSub,
+                        m_gunnerControls
+                    )
+                );
+            }
+
+            // Intake manual movement
             if (m_intakeSub != null) {
-                if (m_storageSubsystem != null) {
-                    m_gunnerControls.m_leftTrigger
-                    .whileActiveContinuous(new IntakePickupCellsParallelCommand(m_intakeSub,m_storageSubsystem, m_gunnerControls, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED));
-                }
                 m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
                 m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             }
-            if (m_shooterSub != null) {
-                m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootVariableCommand(m_shooterSub, m_gunnerControls));
+
+            // Shooter combined sequence
+            if (m_storageSub != null && m_feederSub != null && m_shooterSub != null) {
+                m_gunnerControls.m_rightTrigger.whileActiveOnce(new AutoShootCommand(m_storageSub, m_feederSub, m_shooterSub));
             }
-            if (m_storageSubsystem != null) {
-                m_gunnerControls.m_bButton.whileHeld(new RotateStorageContinuous(m_storageSubsystem, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED));
-                // if (m_feederSub != null) {
-                //     m_gunnerControls.m_bButton.whenPressed(new RotateStorageSingleCell(m_storageSubsystem, m_feederSub));
-                // }
+
+            // Manual Carousel movement
+            if (m_storageSub != null) {
+                m_gunnerControls.m_bButton.whileActiveOnce(
+                    new RotateStorageContinuous(m_storageSub, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED)
+                );
             }
+
+            // Manual turret movement
             if (m_turretSub != null) {
-                m_gunnerControls.m_leftDPad.whileHeld(new TurretRotateCommand(m_turretSub, true));
-                m_gunnerControls.m_rightDPad.whileHeld(new TurretRotateCommand(m_turretSub, false));
-                if (m_visionSubsystem != null) {
-                  m_gunnerControls.m_rightTrigger.whileActiveOnce(new TrackTargetCommand(m_turretSub, m_visionSubsystem));
-                }
+                m_gunnerControls.m_leftDPad.whileActiveOnce(new TurretRotateCommand(m_turretSub, true));
+                m_gunnerControls.m_rightDPad.whileActiveOnce(new TurretRotateCommand(m_turretSub, false));
             }
-            if (m_visionSubsystem != null) {
-                m_gunnerControls.m_changePipelineButton.whileActiveOnce(new VisionChangePipelineCommand(m_visionSubsystem));
+
+            // Auto turret tracking
+            if (m_turretSub != null && m_visionSubsystem != null) {
+                m_gunnerControls.m_backButton.whileActiveOnce(
+                    new ParallelCommandGroup(
+                        new VisionChangePipelineCommand(m_visionSubsystem),
+                        new TrackTargetCommand(m_turretSub, m_visionSubsystem)
+                    )
+                );
             }
 
             return m_gunnerControls;
