@@ -180,7 +180,7 @@ public class GunnerControls {
                 m_gunnerControls.m_leftDPad.whileHeld(new TurretRotateCommand(m_turretSub, true));
                 m_gunnerControls.m_rightDPad.whileHeld(new TurretRotateCommand(m_turretSub, false));
                 if (m_visionSubsystem != null) {
-                  m_gunnerControls.m_rightTrigger.whileActiveOnce(new TrackTargetCommand(m_turretSub, m_visionSubsystem));
+                  m_gunnerControls.m_rightTrigger.whileActiveOnce(new TrackTargetCommand(m_turretSub, m_visionSubsystem, false));
                 }
             }
             if (m_visionSubsystem != null) {

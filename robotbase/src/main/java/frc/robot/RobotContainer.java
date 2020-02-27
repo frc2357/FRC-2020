@@ -31,7 +31,9 @@ import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj.SerialPort.Port; <- Used for VL53LOX Sensor Output
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -79,20 +81,12 @@ public class RobotContainer {
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
-        .withDriveSub(m_driveSub)
-        .withVisionSub(m_visionSub)
-        .build();
+        .withDriveSub(m_driveSub).withVisionSub(m_visionSub).build();
 
-    m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1))
-        .withClimbSubsystem(m_climbSub)
-        .withIntakeSub(m_intakeSub)
-        .withFeederSubsystem(m_feederSub)
-        .withShooterSubsystem(m_shootSub)
-        .withClimbSubsystem(m_climbSub)
-        .withStorageSubsystem(m_storageSub)
-        .withTurretSub(m_turretSub)
-        .withVisionSub(m_visionSub)
-        .build();
+    m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1)).withClimbSubsystem(m_climbSub)
+        .withIntakeSub(m_intakeSub).withFeederSubsystem(m_feederSub).withShooterSubsystem(m_shootSub)
+        .withClimbSubsystem(m_climbSub).withStorageSubsystem(m_storageSub).withTurretSub(m_turretSub)
+        .withVisionSub(m_visionSub).build();
 
     configureDriveSub();
     configureShuffleboard();
@@ -110,8 +104,8 @@ public class RobotContainer {
 
     LoggerTab loggerTab = new LoggerTab();
 
-    for(int i = 0; i < 3; i++) {
-      m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
+    for (int i = 0; i < 3; i++) {
+      m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser(m_visionSub, m_turretSub, "AUTO", i);
     }
 
     // driveTab.show();
@@ -126,7 +120,10 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
-  // return new AutoTemporaryCommand(m_driveSub).getRamsete();
-  // }
+  public Command getAutonomousCommand() {
+    // return new AutoTemporaryCommand(m_driveSub).getRamsete();
+    return new SequentialCommandGroup(m_waitTimeAndChooser[0].getChosenCommand(),
+                                      m_waitTimeAndChooser[1].getChosenCommand(),
+                                      m_waitTimeAndChooser[2].getChosenCommand());
+  }
 }

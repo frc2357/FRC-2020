@@ -122,17 +122,6 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
         return m_rotateMotor.getStatorCurrent();
     }
 
-    // public boolean isAlignedForShooting() {
-    //     final double encoderOffsetDegrees = m_throughBoreEncoder.get();
-    //     if (encoderOffsetDegrees > 0) {
-    //         return encoderOffsetDegrees < m_config.m_encoderAlignZoneDegrees;
-    //     } else if (encoderOffsetDegrees < 0) {
-    //         return encoderOffsetDegrees > -m_config.m_encoderAlignZoneDegrees;
-    //     } else {
-    //         return true;
-    //     }
-    // }
-
     public double getEncoderValue() {
         return m_throughBoreEncoder.get();
     }

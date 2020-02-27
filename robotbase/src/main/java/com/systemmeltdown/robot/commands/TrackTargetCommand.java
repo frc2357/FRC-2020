@@ -15,6 +15,7 @@ import frc.robot.Constants;
 public class TrackTargetCommand extends CommandLoggerBase {
     private TurretSubsystem m_turretSubsystem;
     private TogglableLimelightSubsystem m_limelightSubsystem;
+    private boolean m_isFinishing;
 
     /** Target height from floor in inches */
     private double m_targetHeight = Constants.VISION_TARGET_HEIGHT_FROM_FLOOR;
@@ -25,9 +26,10 @@ public class TrackTargetCommand extends CommandLoggerBase {
      * @param turretSubsystem The {@link TurretSubsystem}.
      * @param limelightSubsystem The {@link LimelightSubsystem}.
      */
-    public TrackTargetCommand(TurretSubsystem turretSubsystem, TogglableLimelightSubsystem limelightSubsystem) {
+    public TrackTargetCommand(TurretSubsystem turretSubsystem, TogglableLimelightSubsystem limelightSubsystem, boolean isFinishing) {
         m_turretSubsystem = turretSubsystem;
         m_limelightSubsystem = limelightSubsystem;
+        m_isFinishing = isFinishing;
         addRequirements(m_turretSubsystem, m_limelightSubsystem);
     }
 
@@ -37,6 +39,9 @@ public class TrackTargetCommand extends CommandLoggerBase {
 
     @Override
     public boolean isFinished() {
+        if (m_isFinishing) {
+            return m_turretSubsystem.isTargetLocked();
+        }
         return false;
     }
 
