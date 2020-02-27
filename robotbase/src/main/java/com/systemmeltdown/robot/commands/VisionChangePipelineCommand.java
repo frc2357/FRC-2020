@@ -16,11 +16,10 @@ public class VisionChangePipelineCommand extends CommandLoggerBase {
      */
     public VisionChangePipelineCommand(TogglableLimelightSubsystem visionSub) {
         m_visionSub = visionSub;
-        addRequirements(visionSub);
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         m_visionSub.setPipeline(PipelineIndex.VISION_TARGET);
     }
 

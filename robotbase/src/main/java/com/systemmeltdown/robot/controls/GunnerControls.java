@@ -4,20 +4,27 @@ import com.systemmeltdown.robot.commands.ClimbCommandSequence;
 import com.systemmeltdown.robot.commands.ClimbLeftCommand;
 import com.systemmeltdown.robot.commands.ClimbRaiseScissorCommand;
 import com.systemmeltdown.robot.commands.ClimbRightCommand;
+import com.systemmeltdown.robot.commands.FeedToShooterCommand;
 import com.systemmeltdown.robot.commands.IntakePickupCellCommand;
 import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.PivotIntakeCommand;
 import com.systemmeltdown.robot.commands.RotateStorageContinuous;
 import com.systemmeltdown.robot.commands.RotateStorageSingleCell;
+import com.systemmeltdown.robot.commands.ShootCommand;
+import com.systemmeltdown.robot.commands.TurretRotateCommand;
+import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 import com.systemmeltdown.robot.commands.ShootVariableCommand;
+import com.systemmeltdown.robot.commands.TrackTargetCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
+import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
+import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
+import com.systemmeltdown.robot.subsystems.TurretSubsystem;
 import com.systemmeltdown.robotlib.triggers.AxisThresholdTrigger;
 import com.systemmeltdown.robotlib.util.XboxRaw;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -34,15 +41,18 @@ public class GunnerControls {
 
     public AxisThresholdTrigger m_rightTrigger;
     public AxisThresholdTrigger m_leftTrigger;
-    public JoystickButton m_DpadUp;
+    public JoystickButton m_changePipelineButton;
     public JoystickButton m_yButton;
     public JoystickButton m_xButton;
     public JoystickButton m_bButton;
+    public JoystickButton m_aButton;
     public Trigger m_aButtonandDPadUp;
     public Trigger m_leftBumperandDPadUp;
     public Trigger m_rightBumperandDPadUp;
     public Trigger m_bumperAndDPadUpChord;
 
+    public POVButton m_leftDPad;
+    public POVButton m_rightDPad;
 
     /**
      * @param builder The GunnerControlsBuilder object
@@ -51,16 +61,19 @@ public class GunnerControls {
         m_controller = builder.m_controller;
         m_rightTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kRight, .1);
         m_leftTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kLeft, .1);
+        m_changePipelineButton = new JoystickButton(builder.m_controller, XboxRaw.Back.value);
         m_yButton = new JoystickButton(builder.m_controller, XboxRaw.Y.value);
         m_xButton = new JoystickButton(builder.m_controller, XboxRaw.X.value);
         m_bButton = new JoystickButton(builder.m_controller, XboxRaw.B.value);
+        m_aButton = new JoystickButton(builder.m_controller, XboxRaw.A.value);
+        m_rightDPad = new POVButton(builder.m_controller, 90);
+        m_leftDPad = new POVButton(builder.m_controller, 270);
         m_aButtonandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.A.value)
                 .and(new POVButton(builder.m_controller, 0));
         m_leftBumperandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value)
                 .and(new POVButton(builder.m_controller, 0));
         m_rightBumperandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value)
                 .and(new POVButton(builder.m_controller, 0));
-
         m_bumperAndDPadUpChord = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value)
                 .and(new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value))
                 .and(new POVButton(builder.m_controller, 0));
@@ -83,9 +96,12 @@ public class GunnerControls {
     public static class GunnerControlsBuilder {
         private XboxController m_controller = null;
         private ClimbSubsystem m_climbSub = null;
+        private FeederSubsystem m_feederSub = null;
         private IntakeSubsystem m_intakeSub = null;
         private ShooterSubsystem m_shooterSub = null;
         private StorageSubsystem m_storageSubsystem = null;
+        private TurretSubsystem m_turretSub = null;
+        private TogglableLimelightSubsystem m_visionSubsystem = null;
 
         /**
          * @param controller the controller of the gunner controls
@@ -96,6 +112,11 @@ public class GunnerControls {
 
         public GunnerControlsBuilder withClimbSubsystem(ClimbSubsystem climbSub) {
             this.m_climbSub = climbSub;
+            return this;
+        }
+
+        public GunnerControlsBuilder withFeederSubsystem(FeederSubsystem feederSub) {
+            this.m_feederSub = feederSub;
             return this;
         }
 
@@ -114,8 +135,27 @@ public class GunnerControls {
             return this;
         }
 
+        public GunnerControlsBuilder withTurretSub(TurretSubsystem turretSub) {
+            this.m_turretSub = turretSub;
+            return this;
+        }
+
+        public GunnerControlsBuilder withVisionSub(TogglableLimelightSubsystem visionSubsystem) {
+            this.m_visionSubsystem = visionSubsystem;
+            return this;
+        }
+
         public GunnerControls build() {
             GunnerControls m_gunnerControls = new GunnerControls(this);
+            if (m_climbSub != null) {
+                // m_gunnerControls.m_bumperAndDPadUpChord.whenActive(new ClimbCommandSequence(m_climbSub));
+                m_gunnerControls.m_leftBumperandDPadUp.whenActive(new ClimbLeftCommand(m_climbSub));
+                m_gunnerControls.m_rightBumperandDPadUp.whenActive(new ClimbRightCommand(m_climbSub));
+                m_gunnerControls.m_aButtonandDPadUp.whenActive(new ClimbRaiseScissorCommand(m_climbSub));
+            }
+            if (m_feederSub != null) {
+                m_gunnerControls.m_aButton.whenHeld(new FeedToShooterCommand(m_feederSub));
+            }
             if (m_intakeSub != null) {
                 m_gunnerControls.m_leftTrigger
                         .whileActiveContinuous(new IntakePickupCellCommand(m_intakeSub, m_gunnerControls));
@@ -123,18 +163,25 @@ public class GunnerControls {
                 m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             }
             if (m_shooterSub != null) {
-                m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootVariableCommand(m_shooterSub, m_gunnerControls));
-            }
-            if (m_climbSub != null) {
-                m_gunnerControls.m_bumperAndDPadUpChord.whenActive(new ClimbCommandSequence(m_climbSub));
-                m_gunnerControls.m_leftBumperandDPadUp.whenActive(new ClimbLeftCommand(m_climbSub));
-                m_gunnerControls.m_rightBumperandDPadUp.whenActive(new ClimbRightCommand(m_climbSub));
-                m_gunnerControls.m_aButtonandDPadUp.whenActive(new ClimbRaiseScissorCommand(m_climbSub));
+                // m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShootVariableCommand(m_shooterSub, m_gunnerControls));
             }
             if (m_storageSubsystem != null) {
-                // m_gunnerControls.m_bButton.whileHeld(new RotateStorageContinuous(m_storageSubsystem));
-                m_gunnerControls.m_bButton.whenPressed(new RotateStorageSingleCell(m_storageSubsystem));
+                m_gunnerControls.m_bButton.whileHeld(new RotateStorageContinuous(m_storageSubsystem));
+                // if (m_feederSub != null) {
+                //     m_gunnerControls.m_bButton.whenPressed(new RotateStorageSingleCell(m_storageSubsystem, m_feederSub));
+                // }
             }
+            if (m_turretSub != null) {
+                m_gunnerControls.m_leftDPad.whileHeld(new TurretRotateCommand(m_turretSub, true));
+                m_gunnerControls.m_rightDPad.whileHeld(new TurretRotateCommand(m_turretSub, false));
+                if (m_visionSubsystem != null) {
+                  m_gunnerControls.m_rightTrigger.whileActiveOnce(new TrackTargetCommand(m_turretSub, m_visionSubsystem));
+                }
+            }
+            if (m_visionSubsystem != null) {
+                m_gunnerControls.m_changePipelineButton.whileActiveOnce(new VisionChangePipelineCommand(m_visionSubsystem));
+            }
+
             return m_gunnerControls;
         }
     }

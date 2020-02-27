@@ -3,12 +3,14 @@ package com.systemmeltdown.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedTalonDriveSubsystem;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem.PipelineIndex;
 import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.Solenoid;
 
 import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
@@ -71,23 +73,16 @@ public class SubsystemFactory {
     }
 
     public ClimbSubsystem CreateClimbSubsystem() {
-        // Need device IDs
-        throw new UnsupportedOperationException();
+        Solenoid solenoid = new Solenoid(Constants.SCISSOR_SOLENOID_LEFT);
+        PigeonIMU gyro = new PigeonIMU(Constants.GYRO_ID);
+        CANSparkMax leftWinch = new CANSparkMax(Constants.WINCH_MOTOR_LEFT, MotorType.kBrushless);
+        CANSparkMax rightWinch = new CANSparkMax(Constants.WINCH_MOTOR_RIGHT, MotorType.kBrushless);
+        ClimbSubsystem subsystem = new ClimbSubsystem(solenoid, gyro, leftWinch, rightWinch);
 
-        /*
-         * SET CAN IDS BEFORE UNCOMMENTING Solenoid leftSolenoid = new
-         * Solenoid(Constants.SCISSOR_SOLENOID_LEFT); Solenoid rightSolenoid =
-         * newSolenoid(Constants.SCISSOR_SOLENOID_RIGHT); PigeonIMU gyro = new
-         * PigeonIMU(Constants.GYRO_ID); WPI_TalonSRX leftWinch = new
-         * WPI_TalonSRX(Constants.WINCH_MOTOR_LEFT); WPI_TalonSRX rightWinch = new
-         * WPI_TalonSRX(Constants.WINCH_MOTOR_RIGHT); ClimbSubsystem subsystem = new
-         * ClimbSubsystem(solenoid, gyro, leftWinch, rightWinch);
-         * 
-         * ClimbSubsystem.Configuration config = new ClimbSubsystem.Configuration();
-         * subsystem.setConfiguration(config);
-         * 
-         * return subsystem;
-         */
+        ClimbSubsystem.Configuration config = new ClimbSubsystem.Configuration();
+        subsystem.setConfiguration(config);
+
+        return subsystem;
     }
 
     public ControlPanelSubsystem CreateControlPanelSub() {
@@ -96,6 +91,11 @@ public class SubsystemFactory {
         /*
          * ControlPanelSub subsystem = new ControlPanelSub(-1, -1); return subsystem;
          */
+    }
+
+    public FeederSubsystem CreateFeederSubsystem() {
+        FeederSubsystem subsystem = new FeederSubsystem(Constants.FEEDER_MOTOR, Constants.FEED_SENSOR_CHANNEL);
+        return subsystem;
     }
 
     public IntakeSubsystem CreateIntakeSubsystem() {
@@ -123,13 +123,9 @@ public class SubsystemFactory {
     }
 
     public TurretSubsystem CreateTurretSubsystem() {
-        WPI_TalonSRX rotateMotor = new WPI_TalonSRX(Constants.TURRET_ROTATE_MOTOR);
-        Servo hoodMotor = new Servo(Constants.TURRET_HOOD_MOTOR);
-        TurretSubsystem subsystem = new TurretSubsystem(rotateMotor, hoodMotor);
+        PWM rotateServo = new PWM(Constants.TURRET_ROTATE_MOTOR);
+        TurretSubsystem subsystem = new TurretSubsystem(rotateServo);
         TurretSubsystem.Configuration config = new TurretSubsystem.Configuration();
-        config.m_turretAimP = Constants.TURRET_AIM_P;
-        config.m_turretAimI = Constants.TURRET_AIM_I;
-        config.m_turretAimD = Constants.TURRET_AIM_D;
         subsystem.setConfiguration(config);
         return subsystem;
     }

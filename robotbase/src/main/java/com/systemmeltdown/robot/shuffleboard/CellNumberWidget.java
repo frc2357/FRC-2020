@@ -11,9 +11,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
  * 
  * @category Shuffleboard
  */
-public class CellNumberWidget {
+public class CellNumberWidget extends ShuffleboardWidget {
     private final StorageSubsystem m_storageSub;
-    private static String m_tabTitle;
     private static NetworkTableEntry m_cellNumWidget;
 
     /**
@@ -23,6 +22,7 @@ public class CellNumberWidget {
      * @param storageSub The {@link StorageSubsystem}.
      */
     public CellNumberWidget(String tabTitle, StorageSubsystem storageSub) {
+        super(tabTitle);
         m_storageSub = storageSub;
         NetworkTableEntry cellNumWidget = Shuffleboard.getTab(tabTitle)
             .add("Num of Power Cells", 0)
@@ -30,7 +30,6 @@ public class CellNumberWidget {
             .getEntry();
 
         m_cellNumWidget = cellNumWidget;
-        m_tabTitle = tabTitle;
     }
 
     /**
@@ -51,9 +50,7 @@ public class CellNumberWidget {
         m_cellNumWidget.setNumber(numOfCells);
     }
 
-    public static void show() {
-        Shuffleboard.selectTab(m_tabTitle);
+    public void periodic() {
+        // TODO:
     }
-
-    public void periodic() {}
 }

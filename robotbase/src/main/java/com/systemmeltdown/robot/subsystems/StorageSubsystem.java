@@ -29,7 +29,7 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
         public double m_throughBoreEncoderResetHigh = 0.21;
 
         /** If the rotate motor current exceeds this threshold, reverse direction */
-        public double m_rotateMotorCurrentThreshold = 6;
+        public double m_rotateMotorCurrentThreshold = 5;
 
         /** Don't reverse direction again within this time period */
         public double m_flipDeadTimeMs = 500;
@@ -122,16 +122,16 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
         return m_rotateMotor.getStatorCurrent();
     }
 
-    public boolean isAlignedForShooting() {
-        final double encoderOffsetDegrees = m_throughBoreEncoder.get();
-        if (encoderOffsetDegrees > 0) {
-            return encoderOffsetDegrees < m_config.m_encoderAlignZoneDegrees;
-        } else if (encoderOffsetDegrees < 0) {
-            return encoderOffsetDegrees > -m_config.m_encoderAlignZoneDegrees;
-        } else {
-            return true;
-        }
-    }
+    // public boolean isAlignedForShooting() {
+    //     final double encoderOffsetDegrees = m_throughBoreEncoder.get();
+    //     if (encoderOffsetDegrees > 0) {
+    //         return encoderOffsetDegrees < m_config.m_encoderAlignZoneDegrees;
+    //     } else if (encoderOffsetDegrees < 0) {
+    //         return encoderOffsetDegrees > -m_config.m_encoderAlignZoneDegrees;
+    //     } else {
+    //         return true;
+    //     }
+    // }
 
     public double getEncoderValue() {
         return m_throughBoreEncoder.get();

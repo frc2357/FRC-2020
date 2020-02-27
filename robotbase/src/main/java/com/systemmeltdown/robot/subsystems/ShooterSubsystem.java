@@ -44,7 +44,7 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
     m_shooterMotor1.configFactoryDefault(Constants.TIMEOUT_MS);
     m_shooterMotor2.configFactoryDefault(Constants.TIMEOUT_MS);
 
-    m_shooterMotor2.setInverted(true);
+    m_shooterMotor1.setInverted(true);
     m_shooterMotor2.follow(m_shooterMotor1);
 
     m_shooterMotor1
