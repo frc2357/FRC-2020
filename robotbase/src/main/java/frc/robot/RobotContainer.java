@@ -23,7 +23,9 @@ import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
+import com.systemmeltdown.robot.shuffleboard.DriveTab;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
+import com.systemmeltdown.robot.shuffleboard.TargetingWidget;
 import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -38,6 +40,8 @@ import edu.wpi.first.wpilibj.XboxController;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  public static final String SHUFFLEBOARD_TAB_ROBOT = "Robot";
+
   // The robot's subsystems and commands are defined here...
   private FalconTrajectoryDriveSubsystem m_driveSub;
   private final ClimbSubsystem m_climbSub;
@@ -63,39 +67,54 @@ public class RobotContainer {
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = null;// subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    m_climbSub = null;// subsystemFactory.CreateClimbSubsystem();
+    m_climbSub = subsystemFactory.CreateClimbSubsystem();
     m_feederSub = subsystemFactory.CreateFeederSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
     m_shootSub = subsystemFactory.CreateShooterSubsystem();
     m_storageSub = subsystemFactory.CreateStorageSubsystem();
     m_turretSub = subsystemFactory.CreateTurretSubsystem();
-    m_visionSub = null;// subsystemFactory.CreateLimelightSubsystem();
+    m_visionSub = subsystemFactory.CreateLimelightSubsystem();
     m_compressor = new Compressor();
-    // m_compressor.setClosedLoopControl(false);
+    m_compressor.setClosedLoopControl(false);
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
-        .withDriveSub(m_driveSub).withVisionSub(m_visionSub).build();
+        .withDriveSub(m_driveSub)
+        .withVisionSub(m_visionSub)
+        .build();
 
-    m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1)).withIntakeSub(m_intakeSub)
-        .withFeederSubsystem(m_feederSub).withShooterSubsystem(m_shootSub).withClimbSubsystem(m_climbSub)
-        .withStorageSubsystem(m_storageSub).withTurretSub(m_turretSub).build();
+    m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1))
+        .withClimbSubsystem(m_climbSub)
+        .withIntakeSub(m_intakeSub)
+        .withFeederSubsystem(m_feederSub)
+        .withShooterSubsystem(m_shootSub)
+        .withClimbSubsystem(m_climbSub)
+        .withStorageSubsystem(m_storageSub)
+        .withTurretSub(m_turretSub)
+        .withVisionSub(m_visionSub)
+        .build();
 
     configureDriveSub();
     configureShuffleboard();
   }
 
   private void configureShuffleboard() {
-    CellNumberWidget cellNumberWidget = new CellNumberWidget("Robot", m_storageSub);
+    DriveTab driveTab = new DriveTab();
+
+    driveTab.addWidget(new FailsafeButtonWidget(SHUFFLEBOARD_TAB_ROBOT,
+        new ClosedLoopSubsystem[] { m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub }));
+
+    driveTab.addWidget(new CellNumberWidget(SHUFFLEBOARD_TAB_ROBOT, m_storageSub));
+
+    TargetingWidget targetingWidget = new TargetingWidget(SHUFFLEBOARD_TAB_ROBOT, m_turretSub);
+
+    LoggerTab loggerTab = new LoggerTab();
 
     // for(int i = 0; i < 4; i++) {
     // m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
     // }
 
-    LoggerTab loggerTab = new LoggerTab();
-
-    FailsafeButtonWidget failsafeButton = new FailsafeButtonWidget("Robot",
-        new ClosedLoopSubsystem[] { m_intakeSub, m_shootSub, m_climbSub, m_driveSub, m_visionSub });
+    driveTab.show();
   }
 
   private void configureDriveSub() {

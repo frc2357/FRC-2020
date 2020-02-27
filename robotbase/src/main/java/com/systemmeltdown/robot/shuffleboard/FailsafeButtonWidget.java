@@ -14,8 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
  * @category Failsafe
  * @category Shuffleboard
  */
-public class FailsafeButtonWidget {
-    private final String m_tabTitle;
+public class FailsafeButtonWidget extends ShuffleboardWidget {
     private final NetworkTableEntry m_failsafeButton;
     private ToggleTrigger failsafeTrigger;
 
@@ -27,6 +26,7 @@ public class FailsafeButtonWidget {
      *                   the {@link FailsafeCommand} on all of the subsystems.
      */
     public FailsafeButtonWidget(String tabTitle, ClosedLoopSubsystem[] subsystems) {
+        super(tabTitle);
         m_failsafeButton = Shuffleboard.getTab(tabTitle)
             .add("FAILSAFE", false)
             .withWidget(BuiltInWidgets.kToggleButton)
@@ -35,10 +35,5 @@ public class FailsafeButtonWidget {
         failsafeTrigger = new ToggleTrigger(m_failsafeButton);
         failsafeTrigger.whenActive(new FailsafeCommand(true, subsystems));
         failsafeTrigger.whenInactive(new FailsafeCommand(false, subsystems));
-        m_tabTitle = tabTitle;
-    }
-
-    public void show() {
-        Shuffleboard.selectTab(m_tabTitle);
     }
 }

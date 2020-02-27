@@ -3,6 +3,8 @@ package com.systemmeltdown.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMax;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robotlog.topics.BooleanTopic;
 import com.systemmeltdown.robotlog.topics.StringTopic;
@@ -47,8 +49,8 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
 
     private Solenoid m_scissorExtendSolenoid;
     private PigeonIMU m_gyro;
-    private WPI_TalonSRX m_leftWinchMotor;
-    private WPI_TalonSRX m_rightWinchMotor;
+    private CANSparkMax m_leftWinchMotor;
+    private CANSparkMax m_rightWinchMotor;
 
     private boolean m_keepLevel;
     private ClimbDirection m_climbDirection;
@@ -57,23 +59,26 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     private Configuration m_config;
 
     /* RobotLog Topics */
-    // private final StringTopic  m_climbSubErrorTopic       = new StringTopic ("Climb Sub Error");
+    // private final StringTopic m_climbSubErrorTopic = new StringTopic ("Climb Sub
+    // Error");
     // /\ Unused /\
-    private final StringTopic  m_climbSubClimbing         = new StringTopic ("Climb Sub Climbing/Direction");
+    private final StringTopic m_climbSubClimbing = new StringTopic("Climb Sub Climbing/Direction");
     private final BooleanTopic m_climbSubScissorExtending = new BooleanTopic("Climb Sub Scissor Extending");
 
     /**
-     * @param solenoidLeft The left scissor solenoid.
-     * @param solenoidRight The right scissor solenoid.
-     * @param gyro The gyro sensor.
-     * @param leftWinchMotor The left winch motor responsible for pulling the robot up.
-     * @param rightWinchMotor The right winch motor responsible for pulling the robot up.
+     * @param solenoidLeft    The left scissor solenoid.
+     * @param solenoidRight   The right scissor solenoid.
+     * @param gyro            The gyro sensor.
+     * @param leftWinchMotor  The left winch motor responsible for pulling the robot
+     *                        up.
+     * @param rightWinchMotor The right winch motor responsible for pulling the
+     *                        robot up.
      */
-    public ClimbSubsystem(Solenoid solenoid, PigeonIMU gyro, 
-            WPI_TalonSRX leftWinchMotor, WPI_TalonSRX rightWinchMotor) {
+    public ClimbSubsystem(Solenoid solenoid, PigeonIMU gyro, CANSparkMax leftWinchMotor, CANSparkMax rightWinchMotor) {
         m_scissorExtendSolenoid = solenoid;
         m_gyro = gyro;
         m_leftWinchMotor = leftWinchMotor;
+        m_leftWinchMotor.setInverted(true);
         m_rightWinchMotor = rightWinchMotor;
 
         m_keepLevel = false;
@@ -89,9 +94,9 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
 
-        builder.addDoubleProperty("leftWinchCurrent", this::getLeftWinchCurrent, null);
-        builder.addDoubleProperty("rightWinchCurrent", this::getRightWinchCurrent, null);
-    }  
+        // builder.addDoubleProperty("leftWinchCurrent", this::getLeftWinchCurrent, null);
+        // builder.addDoubleProperty("rightWinchCurrent", this::getRightWinchCurrent, null);
+    }
 
     @Override
     public void periodic() {
@@ -113,25 +118,25 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
             break;
         }
 
-        if (m_keepLevel && isClosedLoopEnabled()) {
-            double roll = getRoll();
-            double rollDelta = m_rollController.calculate(roll);
-            rollDelta += m_config.m_F;
-            // apply to motors evenly
-            rollDelta /= 2;
+        // if (m_keepLevel && isClosedLoopEnabled()) {
+        // double roll = getRoll();
+        // double rollDelta = m_rollController.calculate(roll);
+        // rollDelta += m_config.m_F;
+        // // apply to motors evenly
+        // rollDelta /= 2;
 
-            // TODO verify roll is positive towards the left side
-            leftOutput += rollDelta;
-            rightOutput -= rollDelta;
-        }
+        // // TODO verify roll is positive towards the left side
+        // leftOutput += rollDelta;
+        // rightOutput -= rollDelta;
+        // }
 
-        m_leftWinchMotor.set(ControlMode.PercentOutput, leftOutput);
-        m_rightWinchMotor.set(ControlMode.PercentOutput, rightOutput);
+        m_leftWinchMotor.set(leftOutput);
+        m_rightWinchMotor.set(rightOutput);
     }
 
-    //===================
-    //     SCISSOR
-    //===================
+    // ===================
+    // SCISSOR
+    // ===================
 
     /**
      * Extends the scissor lift.
@@ -156,9 +161,9 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
         return m_scissorExtendSolenoid.get();
     }
 
-    //===================
-    //  CLIMB[DIRECTION]
-    //===================
+    // ===================
+    // CLIMB[DIRECTION]
+    // ===================
 
     public void climbUp() {
         m_climbSubClimbing.log("Climbing Up");
@@ -180,13 +185,13 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
 
     public void stopClimb() {
         m_climbSubClimbing.log("Not Climbing");
-        
+
         m_climbDirection = ClimbDirection.Stop;
     }
 
-    //===================
-    //     GETTERS
-    //===================
+    // ===================
+    // GETTERS
+    // ===================
 
     /**
      * @return The roll value from the gyro.
@@ -204,23 +209,23 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
         return m_keepLevel;
     }
 
-    /**
-     * @return current draw of the left winch motor in amps
-     */
-    public double getLeftWinchCurrent() {
-        return m_leftWinchMotor.getStatorCurrent();
-    }
+    // /**
+    //  * @return current draw of the left winch motor in amps
+    //  */
+    // public double getLeftWinchCurrent() {
+    //     return m_leftWinchMotor.
+    // }
 
-    /**
-     * @return current draw of the right winch motor in amps
-     */
-    public double getRightWinchCurrent() {
-        return m_rightWinchMotor.getStatorCurrent();
-    }
+    // /**
+    //  * @return current draw of the right winch motor in amps
+    //  */
+    // public double getRightWinchCurrent() {
+    //     return m_rightWinchMotor.getStatorCurrent();
+    // }
 
-    //===================
-    //     SETTERS
-    //===================
+    // ===================
+    // SETTERS
+    // ===================
 
     public void setKeepLevel(boolean keepLevel) {
         m_keepLevel = keepLevel;
