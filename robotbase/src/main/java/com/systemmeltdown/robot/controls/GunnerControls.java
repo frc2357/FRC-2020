@@ -7,6 +7,7 @@ import com.systemmeltdown.robot.commands.ClimbRightCommand;
 import com.systemmeltdown.robot.commands.ClimbUpCommand;
 import com.systemmeltdown.robot.commands.FeedToShooterCommand;
 import com.systemmeltdown.robot.commands.IntakePickupCellCommand;
+import com.systemmeltdown.robot.commands.IntakePickupCellsParallelCommand;
 import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.PivotIntakeCommand;
 import com.systemmeltdown.robot.commands.RotateStorageContinuous;
@@ -164,8 +165,10 @@ public class GunnerControls {
                 m_gunnerControls.m_aButton.whenHeld(new FeedToShooterCommand(m_feederSub));
             }
             if (m_intakeSub != null) {
-                m_gunnerControls.m_leftTrigger
-                        .whileActiveContinuous(new IntakePickupCellCommand(m_intakeSub, m_gunnerControls));
+                if (m_storageSubsystem != null) {
+                    m_gunnerControls.m_leftTrigger
+                    .whileActiveContinuous(new IntakePickupCellsParallelCommand(m_intakeSub,m_storageSubsystem, m_gunnerControls, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED));
+                }
                 m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
                 m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
             }
@@ -173,7 +176,9 @@ public class GunnerControls {
                 m_gunnerControls.m_rightTrigger.whileActiveContinuous(new ShooterFullSystemCommand(m_storageSubsystem, m_feederSub, m_shooterSub, m_gunnerControls, Constants.STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED));
             }
             if (m_storageSubsystem != null) {
-                m_gunnerControls.m_bButton.whileHeld(new RotateStorageContinuous(m_storageSubsystem));
+
+                m_gunnerControls.m_bButton.whileHeld(new RotateStorageContinuous(m_storageSubsystem, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED));
+
                 // if (m_feederSub != null) {
                 //     m_gunnerControls.m_bButton.whenPressed(new RotateStorageSingleCell(m_storageSubsystem, m_feederSub));
                 // }

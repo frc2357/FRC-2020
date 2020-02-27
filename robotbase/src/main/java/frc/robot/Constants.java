@@ -101,7 +101,8 @@ public final class Constants {
     public static final int FEED_SENSOR_CHANNEL = 9;
 
     /** Aboslute encoder on storage system for carousel alignment */
-    public static final double STORAGE_CAROUSEL_ROTATION_SPEED = 0.3;
+    public static final double STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED = 0.3;
+    public static final double STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED = 0.3;
     public static final int STORAGE_CAROUSEL_SEGMENTS = 5;
     public static final int STORAGE_CAROUSEL_ENCODER_CHANNEL = 0;
     public static final double STORAGE_CAROUSEL_TOTAL_DEGREES = 360;
