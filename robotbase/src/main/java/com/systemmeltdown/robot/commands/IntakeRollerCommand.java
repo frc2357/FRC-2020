@@ -8,7 +8,7 @@ import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
  * 
  * @category Intake
  */
-public class IntakePickupCellCommand extends CommandLoggerBase {
+public class IntakeRollerCommand extends CommandLoggerBase {
     private IntakeSubsystem m_intakeSub;
     private double m_speed;
 
@@ -16,7 +16,7 @@ public class IntakePickupCellCommand extends CommandLoggerBase {
      * @param intakeSub      The {@link IntakeSubsystem}.
      * @param gunnerControls The {@link GunnerControls}.
      */
-    public IntakePickupCellCommand(IntakeSubsystem intakeSub, double speed) {
+    public IntakeRollerCommand(IntakeSubsystem intakeSub, double speed) {
         m_intakeSub = intakeSub;
         m_speed = speed;
         addRequirements(m_intakeSub);

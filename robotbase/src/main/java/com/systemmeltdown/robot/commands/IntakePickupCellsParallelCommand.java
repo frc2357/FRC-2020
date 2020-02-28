@@ -6,7 +6,6 @@ import frc.robot.Constants;
 import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
-
 public class IntakePickupCellsParallelCommand extends ParallelCommandGroup {
     public IntakePickupCellsParallelCommand(
         IntakeSubsystem intakeSub,
@@ -15,7 +14,7 @@ public class IntakePickupCellsParallelCommand extends ParallelCommandGroup {
     )
     {
         addCommands(
-            new IntakePickupCellCommand(intakeSub, Constants.INTAKE_ROTATION_SPEED),
+            new IntakeRollerCommand(intakeSub, Constants.INTAKE_ROTATION_SPEED),
             new RotateStorageContinuous(storageSub, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED)
         );
     }    

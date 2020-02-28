@@ -87,8 +87,7 @@ public final class Constants {
     public static final int INTAKE_MOTOR_ID = 25;
     public static final int SCISSOR_SOLENOID_LEFT = 6;
     public static final int SCISSOR_SOLENOID_RIGHT = 7;
-    public static final int WINCH_MOTOR_LEFT = 26;
-    public static final int WINCH_MOTOR_RIGHT = 27;
+    public static final int WINCH_MOTOR = 26;
     public static final int TURRET_ROTATE_MOTOR = 0;
     public static final int TURRET_HOOD_MOTOR_1 = 1;
     public static final int TURRET_HOOD_MOTOR_2 = 2;
@@ -101,6 +100,7 @@ public final class Constants {
     public static final int FEED_SENSOR_CHANNEL = 9;
 
     public static final double INTAKE_ROTATION_SPEED = 1.0;
+    public static final double INTAKE_REVERSE_SPEED = 1.0;
 
     /** Aboslute encoder on storage system for carousel alignment */
     public static final double STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED = 0.3;
@@ -229,7 +229,7 @@ public final class Constants {
     /** Maximum safe speed for the shooter wheels */
     public static final int SHOOTER_MAX_SPEED_RPM = 5000;
 
-    /** Speed for shooting in the low goal SET THIS */
+    /** Speed for shooting in the low goal TODO: Calibrate */
     public static final int SHOOTER_LOW_GOAL_SPEED_RPM = 1000;
 
     /** Amount of time to wait for shooter to spin up before running feeder */
@@ -246,17 +246,24 @@ public final class Constants {
             / SHOOTER_ENCODER_VELOCITY_AT_PEAK_OUTPUT;
 
     /**
-     * Current spike threshold for detecting that we have clamped the bar at the
-     * start of climb. A/s
-     * 
-     * TODO measure this during climb to come up with a reasonable value
+     * Motor speed for climb.
      */
-    public static final double WINCH_CURRENT_SPIKE_THRESHOLD = 5;
+    public static final double CLIMBER_CLIMB_SPEED = 0.1;
 
     /**
-     * This is a delay between when the scissor lift starts extending and when the
-     * winch starts pulling in the slack at the start of the climb. seconds
+     * Motor speed for release (for resetting climber).
      */
-    public static final double CLIMB_WAIT_FOR_WINCH = 0;
+    public static final double CLIMBER_RELEASE_SPEED = 0.1;
 
+    /**
+     * Climber Spark MAX Stall limit
+     * TODO: Adjust this higher as needed.
+     */
+    public static final int CLIMBER_STALL_LIMIT_AMPS = 15;
+
+    /**
+     * Climber Spark MAX Free-running limit
+     * TODO: Adjust this higher as needed.
+     */
+    public static final int CLIMBER_FREE_LIMIT_AMPS = 3;
 }

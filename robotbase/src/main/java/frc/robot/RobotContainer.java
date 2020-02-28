@@ -67,7 +67,7 @@ public class RobotContainer {
   public RobotContainer() {
     SubsystemFactory subsystemFactory = new SubsystemFactory();
     m_driveSub = subsystemFactory.CreateFalconTrajectoryDriveSubsystem();
-    m_climbSub = null; // subsystemFactory.CreateClimbSubsystem();
+    m_climbSub = subsystemFactory.CreateClimbSubsystem();
     m_feederSub = subsystemFactory.CreateFeederSubsystem();
     m_intakeSub = subsystemFactory.CreateIntakeSubsystem();
     m_shootSub = subsystemFactory.CreateShooterSubsystem();
@@ -84,7 +84,6 @@ public class RobotContainer {
         .build();
 
     m_gunnerControls = new GunnerControls.GunnerControlsBuilder(new XboxController(1))
-        .withClimbSubsystem(m_climbSub)
         .withIntakeSub(m_intakeSub)
         .withFeederSubsystem(m_feederSub)
         .withShooterSubsystem(m_shootSub)

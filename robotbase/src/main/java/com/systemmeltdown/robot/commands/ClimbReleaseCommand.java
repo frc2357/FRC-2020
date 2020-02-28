@@ -3,17 +3,17 @@ package com.systemmeltdown.robot.commands;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 
 /**
- * This command climbs toward the left side of the robot.
+ * This command relases the wound line in the winch
  * 
  * @category Climb
  */
-public class ClimbLeftCommand extends CommandLoggerBase {
+public class ClimbReleaseCommand extends CommandLoggerBase {
     private ClimbSubsystem m_climbSubsystem;
 
     /**
      * @param climbSubsystem The {@link ClimbSubsystem}.
      */
-    public ClimbLeftCommand(ClimbSubsystem climbSubsystem) {
+    public ClimbReleaseCommand(ClimbSubsystem climbSubsystem) {
         m_climbSubsystem = climbSubsystem;
         addRequirements(m_climbSubsystem);
     }
@@ -21,15 +21,13 @@ public class ClimbLeftCommand extends CommandLoggerBase {
     @Override
     public void initialize() {
         super.initialize();
-        m_climbSubsystem.setKeepLevel(true);
-        m_climbSubsystem.climbLeft();
+        m_climbSubsystem.release();
     }
 
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        m_climbSubsystem.stopClimb();
-        m_climbSubsystem.setKeepLevel(false);
+        m_climbSubsystem.stop();
     }
 
     @Override
