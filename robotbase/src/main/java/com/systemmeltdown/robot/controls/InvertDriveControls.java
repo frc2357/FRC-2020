@@ -9,6 +9,8 @@ import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsys
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import com.systemmeltdown.robotlib.util.Utility;
 import com.systemmeltdown.robotlib.util.XboxRaw;
 import com.systemmeltdown.robotlog.topics.BooleanTopic;
 import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
@@ -50,7 +52,9 @@ public class InvertDriveControls extends DriverControls {
 
     @Override
     public double getTurn() {
-        return -inputCurve(super.getTurn(), 3);
+        double turn = super.getTurn();
+        turn = -inputCurve(super.getTurn(), 4);
+        return Utility.clamp(turn, -.7, .7);
     }
 
     //I would put a javadoc here, but I really don't understand it. If you do, please delete this and put a javadoc here.
