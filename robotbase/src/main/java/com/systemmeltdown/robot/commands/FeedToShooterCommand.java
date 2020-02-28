@@ -19,12 +19,14 @@ public class FeedToShooterCommand extends CommandLoggerBase {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
+        super.initialize();
         m_feederSubsystem.runFeederMotor(1.0);
     }
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         m_feederSubsystem.runFeederMotor(0.0);
     }
 

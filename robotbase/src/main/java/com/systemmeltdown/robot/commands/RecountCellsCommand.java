@@ -45,7 +45,7 @@ public class RecountCellsCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_storageSubsystem.setRotationSpeed(Constants.STORAGE_CAROUSEL_ROTATION_SPEED);
+        m_storageSubsystem.setRotationSpeed(Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED);
         if (m_feederSub.isFeedSensorBlocked()) {
             if (m_storageState == StorageState.betweenCells) {
                 m_storageState = StorageState.onCell;
