@@ -1,8 +1,12 @@
 package com.systemmeltdown.robot.shuffleboard;
 
+import com.systemmeltdown.robot.commands.AutoDriveProportionalCommand;
 import com.systemmeltdown.robot.commands.AutonomousMoveOffLineCommand;
 import com.systemmeltdown.robot.commands.AutonomousShootCommand;
+import com.systemmeltdown.robot.commands.IntakePivotCommandGroup;
+import com.systemmeltdown.robot.commands.TurretRotateCommand;
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
+import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
@@ -10,11 +14,14 @@ import com.systemmeltdown.robot.subsystems.TurretSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.SkidSteerDriveSubsystem;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -86,6 +93,7 @@ public class AutoModeCommandGenerator {
 
     private static String m_tabTitle;
     private AutoActionChooser[] choosers;
+    private IntakeSubsystem m_intakeSubsystem;
     private SkidSteerDriveSubsystem m_driveSubsystem;
     private StorageSubsystem m_storageSubsystem;
     private TurretSubsystem m_turretSubsystem;
@@ -97,8 +105,25 @@ public class AutoModeCommandGenerator {
      * @param tabTitle The title of the tab the widget should be added to.
      * @param index The index of the Wait Time widget, since there are more than one being created.
      */
-    public AutoModeCommandGenerator(String tabTitle) {
+    public AutoModeCommandGenerator(
+        String tabTitle,
+        IntakeSubsystem intakeSubsystem,
+        SkidSteerDriveSubsystem driveSubsystem,
+        StorageSubsystem storageSubsystem,
+        TurretSubsystem turretSubsystem,
+        FeederSubsystem feederSubsystem,
+        ShooterSubsystem shooterSubsystem,
+        TogglableLimelightSubsystem limelightSubsystem
+    ) {
         m_tabTitle = tabTitle;
+        m_intakeSubsystem = intakeSubsystem;
+        m_driveSubsystem = driveSubsystem;
+        m_storageSubsystem = storageSubsystem;
+        m_turretSubsystem = turretSubsystem;
+        m_feederSubsystem = feederSubsystem;
+        m_shooterSubsystem = shooterSubsystem;
+        m_limelightSubsystem = limelightSubsystem;
+
         choosers = new AutoActionChooser[3];
         choosers[0] = new AutoActionChooser(0);
         choosers[1] = new AutoActionChooser(1);
@@ -111,12 +136,23 @@ public class AutoModeCommandGenerator {
 
     public Command generateCommand() {
         return new SequentialCommandGroup(
+            new IntakePivotCommandGroup(m_intakeSubsystem, Value.kReverse),
             choosers[0].getWaitCommand(),
             choosers[0].getActionCommand(),
             choosers[1].getWaitCommand(),
             choosers[1].getActionCommand(),
             choosers[2].getWaitCommand(),
-            choosers[2].getActionCommand()
+            choosers[2].getActionCommand(),
+            new ParallelCommandGroup(
+                new ParallelRaceGroup(
+                    new TurretRotateCommand(m_turretSubsystem, false),
+                    new WaitCommand(Constants.TURRET_ROTATE_180_SECONDS)
+                ),
+                new ParallelRaceGroup(
+                    new AutoDriveProportionalCommand(m_driveSubsystem, 0, Constants.AUTO_TURN_SPEED),
+                    new WaitCommand(Constants.AUTO_TURN_SECONDS)
+                )
+            )
         );
     }
 }

@@ -99,6 +99,7 @@ public final class Constants {
     /** IR sensor before feed wheel */
     public static final int FEED_SENSOR_CHANNEL = 9;
 
+    public static final double INTAKE_PIVOT_ACTUATE_SECONDS = 3.0;
     public static final double INTAKE_ROTATION_SPEED = 1.0;
     public static final double INTAKE_REVERSE_SPEED = 1.0;
 
@@ -199,6 +200,8 @@ public final class Constants {
     public static final double TURRET_SEEK_SPEED = 0.2;
     public static final double TURRET_AIM_TOLERANCE = 0.5;
 
+    public static final double TURRET_ROTATE_180_SECONDS = 4.78;
+
     /**
      * Sensor Contants
      */
@@ -267,9 +270,12 @@ public final class Constants {
      */
     public static final int CLIMBER_FREE_LIMIT_AMPS = 3;
 
-    public static final double AUTO_SHOOT_SECONDS_3_CELLS = 2.0 + FEEDER_SHOOT_DELAY;
+    public static final double AUTO_SHOOT_SECONDS_3_CELLS = 4.0 + FEEDER_SHOOT_DELAY;
 
-    public static final double AUTO_MOVE_OFF_LINE_SPEED = -0.2;
+    public static final double AUTO_MOVE_OFF_LINE_SPEED = 0.25;
     public static final double AUTO_MOVE_OFF_LINE_TURN = 0.0;
-    public static final double AUTO_MOVE_OFF_SECONDS = 0.5;
+    public static final double AUTO_MOVE_OFF_SECONDS = 1.0;
+
+    public static final double AUTO_TURN_SPEED = 0.5;
+    public static final double AUTO_TURN_SECONDS = 0.5;
 }

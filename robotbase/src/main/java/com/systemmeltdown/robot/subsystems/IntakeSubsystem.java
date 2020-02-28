@@ -5,14 +5,12 @@ import java.util.Map;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.systemmeltdown.robotlib.arduino.ArduinoUSBController;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
 import com.systemmeltdown.robotlog.topics.BooleanTopic;
 import com.systemmeltdown.robotlog.topics.DoubleTopic;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import frc.robot.Constants;
 
 /**
  * The subsystem for the intake.
@@ -39,7 +37,7 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
      */
     public IntakeSubsystem(int intakeTalonID, int forwardChannel, int reverseChannel) {
         m_intakeSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
-        m_intakeSolenoid.set(Value.kReverse);
+        m_intakeSolenoid.set(Value.kOff);
         m_intakeTalon = new WPI_TalonSRX(intakeTalonID);
 
         // m_arduinoUSB = new ArduinoUSBController(Constants.ARDUINO_DEVICE_NAME);
@@ -74,23 +72,12 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
         m_rollIntoBotTopic.log(m_rollIntoBot);
     }
 
-    /**
-     * Changes the arm position.
-     */
-    public void changeArmPosition() {
-        switch (m_intakeSolenoid.get()) {
-            case kForward: {
-                m_intakeSolenoid.set(Value.kReverse);
-                break;
-            } 
-            case kReverse: {
-                m_intakeSolenoid.set(Value.kForward);
-                break;
-            }
-            default: {
-                m_intakeSolenoid.set(Value.kForward);
-            }
-        }
+    public DoubleSolenoid.Value getPivot() {
+        return m_intakeSolenoid.get();
+    }
+
+    public void setPivot(DoubleSolenoid.Value value) {
+        m_intakeSolenoid.set(value);
     }
 
     /**
