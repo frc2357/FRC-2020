@@ -266,4 +266,10 @@ public final class Constants {
      * TODO: Adjust this higher as needed.
      */
     public static final int CLIMBER_FREE_LIMIT_AMPS = 3;
+
+    public static final double AUTO_SHOOT_SECONDS_3_CELLS = 2.0 + FEEDER_SHOOT_DELAY;
+
+    public static final double AUTO_MOVE_OFF_LINE_SPEED = -0.2;
+    public static final double AUTO_MOVE_OFF_LINE_TURN = 0.0;
+    public static final double AUTO_MOVE_OFF_SECONDS = 0.5;
 }

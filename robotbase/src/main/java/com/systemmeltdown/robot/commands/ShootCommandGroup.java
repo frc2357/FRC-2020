@@ -4,17 +4,27 @@ import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 
-public class AutoShootCommand extends ParallelCommandGroup {
-    public AutoShootCommand(
+public class ShootCommandGroup extends ParallelRaceGroup {
+    public ShootCommandGroup(
         final StorageSubsystem storageSub,
         final FeederSubsystem feederSub,
         final ShooterSubsystem shooterSub,
-        final double shooterSpeed
+        final int shooterSpeed
+    ) {
+        this(storageSub, feederSub, shooterSub, shooterSpeed, -1);
+    }
+
+    public ShootCommandGroup(
+        final StorageSubsystem storageSub,
+        final FeederSubsystem feederSub,
+        final ShooterSubsystem shooterSub,
+        final int shooterSpeed,
+        final double shootSeconds
     ) {
         addCommands(
             new ShooterSpeedCommand(shooterSub, shooterSpeed),
@@ -27,5 +37,9 @@ public class AutoShootCommand extends ParallelCommandGroup {
                 new FeedToShooterCommand(feederSub)
             )
         );
+
+        if (shootSeconds > 0) {
+            addCommands(new WaitCommand(shootSeconds));
+        }
     }
 }

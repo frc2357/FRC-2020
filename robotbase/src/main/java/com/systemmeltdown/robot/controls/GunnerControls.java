@@ -1,6 +1,6 @@
 package com.systemmeltdown.robot.controls;
 
-import com.systemmeltdown.robot.commands.AutoShootCommand;
+import com.systemmeltdown.robot.commands.ShootCommandGroup;
 import com.systemmeltdown.robot.commands.ClimbRaiseScissorCommand;
 import com.systemmeltdown.robot.commands.ClimbReleaseCommand;
 import com.systemmeltdown.robot.commands.ClimbUpCommand;
@@ -195,10 +195,10 @@ public class GunnerControls {
             // Right Trigger: Shooter combined sequence
             if (m_storageSub != null && m_feederSub != null && m_shooterSub != null) {
                 m_gunnerControls.m_shootLowTrigger.whileActiveOnce(
-                    new AutoShootCommand(m_storageSub, m_feederSub, m_shooterSub, Constants.SHOOTER_LOW_GOAL_SPEED_RPM)
+                    new ShootCommandGroup(m_storageSub, m_feederSub, m_shooterSub, Constants.SHOOTER_LOW_GOAL_SPEED_RPM)
                 );
                 m_gunnerControls.m_shootHighTrigger.whileActiveOnce(
-                    new AutoShootCommand(m_storageSub, m_feederSub, m_shooterSub, Constants.SHOOTER_MAX_SPEED_RPM)
+                    new ShootCommandGroup(m_storageSub, m_feederSub, m_shooterSub, Constants.SHOOTER_MAX_SPEED_RPM)
                 );
             }
 
