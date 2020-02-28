@@ -28,12 +28,9 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
         public double m_throughBoreEncoderResetLow = 0.19;
         public double m_throughBoreEncoderResetHigh = 0.21;
 
-        /** If the rotate motor current exceeds this threshold, reverse direction */
-        public double m_rotateMotorCurrentThreshold = 5;
-
         /** Don't reverse direction again within this time period */
         public double m_flipDeadTimeMs = 500;
-        
+
         /** Zone in which the system is aligned for shooting */
         public double m_encoderAlignZoneDegrees = 0.02;
     }
@@ -48,18 +45,19 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
 
     private Configuration m_config = new Configuration();
 
-    private long m_lastFlipTime = System.currentTimeMillis();
-
     /* RobotLog Topics */
-    //private final StringTopic errorTopic = new StringTopic("Storage Sub Error");
-    
+    // private final StringTopic errorTopic = new StringTopic("Storage Sub Error");
+
     private final BooleanTopic m_isJammedTopic = new BooleanTopic("Is Jammed");
-    private final DoubleTopic  m_motorCurrentTopic = new DoubleTopic("Motor Current", 0.25);
+    private final DoubleTopic m_motorCurrentTopic = new DoubleTopic("Motor Current", 0.25);
+
+    private double m_rotateProportion;
 
     /**
-     * @param feedSensor The sensor mounted in the storage. This sensor is used to
-     *                   count the number of power cells in the robot and should be
-     *                   the type of {@link DigitalInput}.
+     * @param feedSensor         The sensor mounted in the storage. This sensor is
+     *                           used to count the number of power cells in the
+     *                           robot and should be the type of
+     *                           {@link DigitalInput}.
      * 
      * @param throughBoreEncoder The encoder that go spin
      */
@@ -96,16 +94,19 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
     @Override
     public void periodic() {
         double encoderValue = Math.abs(m_throughBoreEncoder.get());
-        if (encoderValue >= m_config.m_throughBoreEncoderResetLow &&
-            encoderValue <= m_config.m_throughBoreEncoderResetHigh) {
+        if (encoderValue >= m_config.m_throughBoreEncoderResetLow
+                && encoderValue <= m_config.m_throughBoreEncoderResetHigh) {
             m_throughBoreEncoder.reset();
         }
 
-        if (Math.abs(m_rotateMotor.getStatorCurrent()) > m_config.m_rotateMotorCurrentThreshold) {
-            if (m_lastFlipTime < System.currentTimeMillis() - m_config.m_flipDeadTimeMs) {
-                m_lastFlipTime = System.currentTimeMillis();
-                m_rotatePositive = !m_rotatePositive;
-            } 
+        if (m_rotateMotor.getSupplyCurrent() >= 1) {
+            m_rotatePositive = !m_rotatePositive;
+            if (m_rotatePositive) {
+                m_rotateMotor.set(m_rotateProportion);
+            } else {
+                m_rotateMotor.set(-m_rotateProportion);
+
+            }
         } else {
             m_isJammedTopic.log(false);
         }
@@ -123,14 +124,14 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
     }
 
     // public boolean isAlignedForShooting() {
-    //     final double encoderOffsetDegrees = m_throughBoreEncoder.get();
-    //     if (encoderOffsetDegrees > 0) {
-    //         return encoderOffsetDegrees < m_config.m_encoderAlignZoneDegrees;
-    //     } else if (encoderOffsetDegrees < 0) {
-    //         return encoderOffsetDegrees > -m_config.m_encoderAlignZoneDegrees;
-    //     } else {
-    //         return true;
-    //     }
+    // final double encoderOffsetDegrees = m_throughBoreEncoder.get();
+    // if (encoderOffsetDegrees > 0) {
+    // return encoderOffsetDegrees < m_config.m_encoderAlignZoneDegrees;
+    // } else if (encoderOffsetDegrees < 0) {
+    // return encoderOffsetDegrees > -m_config.m_encoderAlignZoneDegrees;
+    // } else {
+    // return true;
+    // }
     // }
 
     public double getEncoderValue() {
@@ -139,9 +140,7 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
 
     /** Set the rotation motor percent output */
     public void setRotationSpeed(double speed) {
-        if (!m_rotatePositive) {
-            speed *= -1;
-        }
+        m_rotateProportion = speed;
         m_rotateMotor.set(ControlMode.PercentOutput, speed);
     }
 
