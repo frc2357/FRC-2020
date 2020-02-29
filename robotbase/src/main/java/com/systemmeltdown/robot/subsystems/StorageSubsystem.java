@@ -43,6 +43,8 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
 
     private boolean m_rotatePositive = true;
 
+    private boolean m_settleMode = true;
+
     private Configuration m_config = new Configuration();
 
     /* RobotLog Topics */
@@ -91,8 +93,22 @@ public class StorageSubsystem extends ClosedLoopSubsystem {
         m_throughBoreEncoder.reset();
     }
 
+    public boolean isSettleMode() {
+        return m_settleMode;
+    }
+
+    public void setSettleMode(boolean settleMode) {
+        m_settleMode = settleMode;
+    }
+
     @Override
     public void periodic() {
+        if (m_settleMode) {
+            settlePeriodic();
+        }
+    }
+
+    public void settlePeriodic() {
         double encoderValue = Math.abs(m_throughBoreEncoder.get());
         if (encoderValue >= m_config.m_throughBoreEncoderResetLow
                 && encoderValue <= m_config.m_throughBoreEncoderResetHigh) {

@@ -25,7 +25,7 @@ public class ShooterSpeedCommand extends CommandLoggerBase {
     @Override
     public void initialize() {
         super.initialize();
-        m_shootSub.setMotorSpeed(m_speed);
+        m_shootSub.setClosedLoopRPMs(m_speed);
     }
 
     @Override

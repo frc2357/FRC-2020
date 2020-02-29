@@ -29,7 +29,7 @@ public class ShootVariableCommand extends CommandLoggerBase {
 
     @Override
     public void execute() {
-        m_shootSub.setMotorSpeed(Constants.SHOOTER_MAX_SPEED_RPM);
+        m_shootSub.setClosedLoopRPMs(Constants.SHOOTER_MAX_SPEED_RPM);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.systemmeltdown.robot.shuffleboard;
 import com.systemmeltdown.robot.commands.AutoDriveProportionalCommand;
 import com.systemmeltdown.robot.commands.AutonomousMoveOffLineCommand;
 import com.systemmeltdown.robot.commands.AutonomousShootCommand;
-import com.systemmeltdown.robot.commands.IntakePivotCommandGroup;
+import com.systemmeltdown.robot.commands.IntakeSetPivotCommand;
 import com.systemmeltdown.robot.commands.TurretRotateCommand;
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
@@ -136,13 +136,25 @@ public class AutoModeCommandGenerator {
 
     public Command generateCommand() {
         return new SequentialCommandGroup(
-            new IntakePivotCommandGroup(m_intakeSubsystem, Value.kReverse),
+            // Before choosers
+            new ParallelRaceGroup(
+                new IntakeSetPivotCommand(m_intakeSubsystem, Value.kReverse),
+                new WaitCommand(Constants.AUTO_INTAKE_PIVOT_WAIT_SECONDS)
+            ),
+
+            // First chooser
             choosers[0].getWaitCommand(),
             choosers[0].getActionCommand(),
+
+            /// Second chooser
             choosers[1].getWaitCommand(),
             choosers[1].getActionCommand(),
+
+            // Third chooser
             choosers[2].getWaitCommand(),
             choosers[2].getActionCommand(),
+
+            // After choosers
             new ParallelCommandGroup(
                 new ParallelRaceGroup(
                     new TurretRotateCommand(m_turretSubsystem, false),
