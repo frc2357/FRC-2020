@@ -2,7 +2,6 @@ package com.systemmeltdown.robot.commands;
 
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 

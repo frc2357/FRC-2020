@@ -9,19 +9,22 @@ import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 public class RotateStorageContinuous extends CommandLoggerBase {
     private StorageSubsystem m_storageSubsystem;
     private double m_rotationSpeed;
+    private boolean m_settleMode;
 
     /**
      * @param storageSubsystem The {@link StorageSubsystem}.
      */
-    public RotateStorageContinuous(StorageSubsystem storageSubsystem, double rotationSpeed) {
+    public RotateStorageContinuous(StorageSubsystem storageSubsystem, double rotationSpeed, boolean settleMode) {
         m_storageSubsystem = storageSubsystem;
         m_rotationSpeed = rotationSpeed;
+        m_settleMode = settleMode;
         addRequirements(m_storageSubsystem);
     }
 
     @Override
     public void initialize() {
         super.initialize();
+        m_storageSubsystem.setSettleMode(m_settleMode);
         m_storageSubsystem.setRotationSpeed(m_rotationSpeed);
     }
 
