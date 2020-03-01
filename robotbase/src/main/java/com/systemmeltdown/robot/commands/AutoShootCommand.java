@@ -13,10 +13,11 @@ public class AutoShootCommand extends ParallelCommandGroup {
     public AutoShootCommand(
         final StorageSubsystem storageSub,
         final FeederSubsystem feederSub,
-        final ShooterSubsystem shooterSub
+        final ShooterSubsystem shooterSub,
+        final double shooterSpeed
     ) {
         addCommands(
-            new ShootCommand(shooterSub),
+            new ShooterSpeedCommand(shooterSub, shooterSpeed),
             new SequentialCommandGroup(
                 new WaitCommand(Constants.CAROUSEL_SHOOT_DELAY),
                 new RotateStorageContinuous(storageSub, Constants.STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED)

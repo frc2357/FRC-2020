@@ -1,9 +1,6 @@
 package com.systemmeltdown.robot.commands;
 
-import com.systemmeltdown.robot.controls.GunnerControls;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
-
-import frc.robot.Constants;
 
 /**
  * Tells the turret to shoot by calling runMotor() on the {@link ShooterSubsystem}.
@@ -12,21 +9,23 @@ import frc.robot.Constants;
  * paired with an aiming hood.
  * @category Turret
  */
-public class ShootCommand extends CommandLoggerBase {
+public class ShooterSpeedCommand extends CommandLoggerBase {
     private final ShooterSubsystem m_shootSub;
+    private final double m_speed;
 
     /**
      * @param shootSub       The {@link ShooterSubsystem}.
      */
-    public ShootCommand(final ShooterSubsystem shootSub) {
+    public ShooterSpeedCommand(final ShooterSubsystem shootSub, final double speed) {
         m_shootSub = shootSub;
+        m_speed = speed;
         addRequirements(shootSub);
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        m_shootSub.setMotorSpeed(Constants.SHOOTER_MAX_SPEED_RPM);
+        m_shootSub.setMotorSpeed(m_speed);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.systemmeltdown.robot.commands;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 
 /**
- * This command climbs toward the right side of the robot.
+ * This command climbs upward with the winch.
  * 
  * @category Climb
  */
@@ -21,17 +21,13 @@ public class ClimbUpCommand extends CommandLoggerBase {
     @Override
     public void initialize() {
         super.initialize();
-        
-        m_climbSubsystem.setKeepLevel(false);
-        m_climbSubsystem.climbUp();
+        m_climbSubsystem.climb();
     }
 
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-
-        m_climbSubsystem.stopClimb();
-        m_climbSubsystem.setKeepLevel(false);
+        m_climbSubsystem.stop();
     }
 
     @Override

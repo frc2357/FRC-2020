@@ -1,12 +1,14 @@
 package com.systemmeltdown.robot.controls;
 
 import com.systemmeltdown.robot.commands.AutoShootCommand;
+import com.systemmeltdown.robot.commands.ClimbRaiseScissorCommand;
+import com.systemmeltdown.robot.commands.ClimbReleaseCommand;
+import com.systemmeltdown.robot.commands.ClimbUpCommand;
 import com.systemmeltdown.robot.commands.FeedToShooterCommand;
+import com.systemmeltdown.robot.commands.IntakeRollerCommand;
 import com.systemmeltdown.robot.commands.IntakePickupCellsParallelCommand;
-import com.systemmeltdown.robot.commands.IntakeToggleDirectionCommand;
 import com.systemmeltdown.robot.commands.PivotIntakeCommand;
 import com.systemmeltdown.robot.commands.RotateStorageContinuous;
-import com.systemmeltdown.robot.commands.ShootCommand;
 import com.systemmeltdown.robot.commands.TurretRotateCommand;
 import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
 import com.systemmeltdown.robot.commands.TrackTargetCommand;
@@ -23,8 +25,6 @@ import com.systemmeltdown.robotlib.util.XboxRaw;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -36,49 +36,80 @@ import frc.robot.Constants;
  * @category Drive
  */
 public class GunnerControls {
+    private class ShootHighTrigger extends Trigger {
+        @Override
+        public boolean get() {
+            return m_rightTrigger.get() && !m_downDPad.get();
+        }
+    }
+
+    private class ShootLowTrigger extends Trigger {
+        @Override
+        public boolean get() {
+            return m_rightTrigger.get() && m_downDPad.get();
+        }
+    }
+
     XboxController m_controller;
 
     public AxisThresholdTrigger m_rightTrigger;
     public AxisThresholdTrigger m_leftTrigger;
     public JoystickButton m_backButton;
-    public JoystickButton m_yButton;
-    public JoystickButton m_xButton;
-    public JoystickButton m_bButton;
-    public JoystickButton m_aButton;
-    public Trigger m_aButtonandDPadUp;
-    public Trigger m_leftBumperandDPadUp;
-    public Trigger m_rightBumperandDPadUp;
-    public Trigger m_startAndDPadUp;
-    public Trigger m_bumperAndDPadUpChord;
+    public JoystickButton m_startButton;
+    public JoystickButton m_leftBumper;
+    public JoystickButton m_rightBumper;
+    public Trigger m_aButton;
+    public Trigger m_bButton;
+    public Trigger m_xButton;
+    public Trigger m_yButton;
+    public Trigger m_yButtonAndLeftDPad;
+    public Trigger m_xButtonAndLeftDPad;
+    public Trigger m_bButtonAndLeftDPad;
+    public Trigger m_bButtonAndRightDPad;
+    public Trigger m_aButtonAndDPadRight;
+    public Trigger m_aButtonAndDPadUp;
+    public Trigger m_bButtonAndDPadUp;
+    public Trigger m_startButtonAndDPadUp;
 
-    public POVButton m_leftDPad;
+    public POVButton m_upDPad;
     public POVButton m_rightDPad;
+    public POVButton m_downDPad;
+    public POVButton m_leftDPad;
+
+    public ShootLowTrigger m_shootLowTrigger;
+    public ShootHighTrigger m_shootHighTrigger;
 
     /**
      * @param builder The GunnerControlsBuilder object
      */
     public GunnerControls(GunnerControlsBuilder builder) {
         m_controller = builder.m_controller;
+        m_upDPad = new POVButton(builder.m_controller, 0);
+        m_rightDPad = new POVButton(builder.m_controller, 90);
+        m_downDPad = new POVButton(builder.m_controller, 180);
+        m_leftDPad = new POVButton(builder.m_controller, 270);
+
         m_rightTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kRight, .1);
         m_leftTrigger = new AxisThresholdTrigger(builder.m_controller, Hand.kLeft, .1);
         m_backButton = new JoystickButton(builder.m_controller, XboxRaw.Back.value);
-        m_yButton = new JoystickButton(builder.m_controller, XboxRaw.Y.value);
-        m_xButton = new JoystickButton(builder.m_controller, XboxRaw.X.value);
-        m_bButton = new JoystickButton(builder.m_controller, XboxRaw.B.value);
+        m_startButton = new JoystickButton(builder.m_controller, XboxRaw.Start.value);
+        m_leftBumper = new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value);
+        m_rightBumper = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value);
         m_aButton = new JoystickButton(builder.m_controller, XboxRaw.A.value);
-        m_rightDPad = new POVButton(builder.m_controller, 90);
-        m_leftDPad = new POVButton(builder.m_controller, 270);
-        m_aButtonandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.A.value)
-                .and(new POVButton(builder.m_controller, 0));
-        m_leftBumperandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value)
-                .and(new POVButton(builder.m_controller, 0));
-        m_startAndDPadUp = new JoystickButton(builder.m_controller, XboxRaw.Start.value)
-                .and(new POVButton(builder.m_controller, 0));
-        m_rightBumperandDPadUp = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value)
-                .and(new POVButton(builder.m_controller, 0));
-        m_bumperAndDPadUpChord = new JoystickButton(builder.m_controller, XboxRaw.BumperRight.value)
-                .and(new JoystickButton(builder.m_controller, XboxRaw.BumperLeft.value))
-                .and(new POVButton(builder.m_controller, 0));
+        m_bButton = new JoystickButton(builder.m_controller, XboxRaw.B.value);
+        m_xButton = new JoystickButton(builder.m_controller, XboxRaw.X.value);
+        m_yButton = new JoystickButton(builder.m_controller, XboxRaw.Y.value);
+        m_yButtonAndLeftDPad = m_yButton.and(m_leftDPad);
+        m_xButtonAndLeftDPad = m_xButton.and(m_leftDPad);
+        m_bButtonAndLeftDPad = m_bButton.and(m_leftDPad);
+        m_bButtonAndRightDPad = m_aButton.and(m_rightDPad);
+        m_aButtonAndDPadRight = m_aButton.and(m_rightDPad);
+        m_aButtonAndDPadUp = m_aButton.and(m_upDPad);
+        m_bButtonAndDPadUp = m_bButton.and(m_upDPad);
+        m_startButtonAndDPadUp = m_startButton.and(m_upDPad);
+
+        m_shootLowTrigger = new ShootLowTrigger();
+        m_shootHighTrigger = new ShootHighTrigger();
     }
 
     /**
@@ -150,12 +181,7 @@ public class GunnerControls {
         public GunnerControls build() {
             GunnerControls m_gunnerControls = new GunnerControls(this);
 
-            // Feeder manual movement
-            if (m_feederSub != null) {
-                m_gunnerControls.m_aButton.whileActiveOnce(new FeedToShooterCommand(m_feederSub));
-            }
-
-            // Intake combined sequence
+            // Left Trigger: Intake combined sequence
             if (m_intakeSub != null && m_storageSub != null) {
                 m_gunnerControls.m_leftTrigger.whileActiveOnce(
                     new IntakePickupCellsParallelCommand(
@@ -166,28 +192,20 @@ public class GunnerControls {
                 );
             }
 
-            // Intake manual movement
-            if (m_intakeSub != null) {
-                m_gunnerControls.m_yButton.whenPressed(new IntakeToggleDirectionCommand(m_intakeSub));
-                m_gunnerControls.m_xButton.whenPressed(new PivotIntakeCommand(m_intakeSub));
-            }
-
-            // Shooter combined sequence
+            // Right Trigger: Shooter combined sequence
             if (m_storageSub != null && m_feederSub != null && m_shooterSub != null) {
-                m_gunnerControls.m_rightTrigger.whileActiveOnce(new AutoShootCommand(m_storageSub, m_feederSub, m_shooterSub));
-            }
-
-            // Manual Carousel movement
-            if (m_storageSub != null) {
-                m_gunnerControls.m_bButton.whileActiveOnce(
-                    new RotateStorageContinuous(m_storageSub, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED)
+                m_gunnerControls.m_shootLowTrigger.whileActiveOnce(
+                    new AutoShootCommand(m_storageSub, m_feederSub, m_shooterSub, Constants.SHOOTER_LOW_GOAL_SPEED_RPM)
+                );
+                m_gunnerControls.m_shootHighTrigger.whileActiveOnce(
+                    new AutoShootCommand(m_storageSub, m_feederSub, m_shooterSub, Constants.SHOOTER_MAX_SPEED_RPM)
                 );
             }
 
             // Manual turret movement
             if (m_turretSub != null) {
-                m_gunnerControls.m_leftDPad.whileActiveOnce(new TurretRotateCommand(m_turretSub, true));
-                m_gunnerControls.m_rightDPad.whileActiveOnce(new TurretRotateCommand(m_turretSub, false));
+                m_gunnerControls.m_leftBumper.whileActiveOnce(new TurretRotateCommand(m_turretSub, true));
+                m_gunnerControls.m_rightBumper.whileActiveOnce(new TurretRotateCommand(m_turretSub, false));
             }
 
             // Auto turret tracking
@@ -198,6 +216,36 @@ public class GunnerControls {
                         new TrackTargetCommand(m_turretSub, m_visionSubsystem)
                     )
                 );
+            }
+
+            // Intake Mode Bindings
+            if (m_intakeSub != null) {
+                m_gunnerControls.m_yButtonAndLeftDPad.whileActiveOnce(
+                    new IntakeRollerCommand(m_intakeSub, Constants.INTAKE_REVERSE_SPEED)
+                );
+                m_gunnerControls.m_xButtonAndLeftDPad.whileActiveOnce(new PivotIntakeCommand(m_intakeSub));
+            }
+            if (m_storageSub != null) {
+                m_gunnerControls.m_bButtonAndLeftDPad.whileActiveOnce(
+                    new RotateStorageContinuous(m_storageSub, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED)
+                );
+            }
+
+            // Shooter Mode Bindings
+            if (m_feederSub != null) {
+                m_gunnerControls.m_aButtonAndDPadRight.whileActiveOnce(new FeedToShooterCommand(m_feederSub));
+            }
+            if (m_storageSub != null) {
+                m_gunnerControls.m_bButtonAndRightDPad.whileActiveOnce(
+                    new RotateStorageContinuous(m_storageSub, Constants.STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED)
+                );
+            }
+
+            // Climber Mode Bindings
+            if (m_climbSub != null) {
+                m_gunnerControls.m_aButtonAndDPadUp.whileActiveOnce(new ClimbRaiseScissorCommand(m_climbSub));
+                m_gunnerControls.m_bButtonAndDPadUp.whileActiveOnce(new ClimbUpCommand(m_climbSub));
+                m_gunnerControls.m_startButtonAndDPadUp.whileActiveOnce(new ClimbReleaseCommand(m_climbSub));
             }
 
             return m_gunnerControls;

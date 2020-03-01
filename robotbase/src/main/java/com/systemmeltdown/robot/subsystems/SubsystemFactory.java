@@ -76,10 +76,8 @@ public class SubsystemFactory {
 
     public ClimbSubsystem CreateClimbSubsystem() {
         Solenoid solenoid = new Solenoid(Constants.SCISSOR_SOLENOID_LEFT);
-        PigeonIMU gyro = new PigeonIMU(Constants.GYRO_ID);
-        CANSparkMax leftWinch = new CANSparkMax(Constants.WINCH_MOTOR_LEFT, MotorType.kBrushless);
-        CANSparkMax rightWinch = new CANSparkMax(Constants.WINCH_MOTOR_RIGHT, MotorType.kBrushless);
-        ClimbSubsystem subsystem = new ClimbSubsystem(solenoid, gyro, leftWinch, rightWinch);
+        CANSparkMax winchMotor = new CANSparkMax(Constants.WINCH_MOTOR, MotorType.kBrushless);
+        ClimbSubsystem subsystem = new ClimbSubsystem(solenoid, winchMotor);
 
         ClimbSubsystem.Configuration config = new ClimbSubsystem.Configuration();
         subsystem.setConfiguration(config);
