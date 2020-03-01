@@ -10,9 +10,7 @@ package frc.robot;
 import com.systemmeltdown.robot.subsystems.IntakeSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
-import com.systemmeltdown.robotlib.subsystems.drive.FalconTrajectoryDriveSubsystem;
 import com.systemmeltdown.robotlib.subsystems.drive.SingleSpeedFalconDriveSubsystem;
-import com.systemmeltdown.robot.commands.AutoTemporaryCommand;
 import com.systemmeltdown.robot.subsystems.ClimbSubsystem;
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 import com.systemmeltdown.robot.controls.GunnerControls;
@@ -22,7 +20,7 @@ import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
 import com.systemmeltdown.robot.subsystems.TurretSubsystem;
 import com.systemmeltdown.robotlib.commands.DriveProportionalCommand;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
-import com.systemmeltdown.robot.shuffleboard.AutoWaitTimeAndChooser;
+import com.systemmeltdown.robot.shuffleboard.AutoModeCommandGenerator;
 import com.systemmeltdown.robot.shuffleboard.CellNumberWidget;
 import com.systemmeltdown.robot.shuffleboard.DriveTab;
 import com.systemmeltdown.robot.shuffleboard.FailsafeButtonWidget;
@@ -32,6 +30,7 @@ import com.systemmeltdown.robot.shuffleboard.LoggerTab;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.XboxController;
 // import edu.wpi.first.wpilibj.SerialPort.Port; <- Used for VL53LOX Sensor Output
+import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -59,7 +58,7 @@ public class RobotContainer {
   // public final VL53LOXSensorOutput m_sensor = new
   // VL53LOXSensorOutput(Constants.BAUD_RATE, Port.kUSB);
 
-  private final AutoWaitTimeAndChooser[] m_waitTimeAndChooser = new AutoWaitTimeAndChooser[3];
+  private final AutoModeCommandGenerator m_autoModeCommandGenerator;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -75,7 +74,7 @@ public class RobotContainer {
     m_turretSub = subsystemFactory.CreateTurretSubsystem();
     m_visionSub = subsystemFactory.CreateLimelightSubsystem();
     m_compressor = new Compressor();
-    // m_compressor.setClosedLoopControl(false);
+    m_compressor.setClosedLoopControl(true);
 
     // Configure the button bindings
     m_driverControls = new InvertDriveControls.InvertDriveControlsBuilder(new XboxController(0), .1)
@@ -95,6 +94,8 @@ public class RobotContainer {
 
     configureDriveSub();
     configureShuffleboard();
+
+    m_autoModeCommandGenerator = new AutoModeCommandGenerator("AUTO");
   }
 
   private void configureShuffleboard() {
@@ -109,10 +110,6 @@ public class RobotContainer {
 
     LoggerTab loggerTab = new LoggerTab();
 
-    for(int i = 0; i < 3; i++) {
-      m_waitTimeAndChooser[i] = new AutoWaitTimeAndChooser("AUTO", i);
-    }
-
     // driveTab.show();
   }
 
@@ -125,7 +122,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
-  // return new AutoTemporaryCommand(m_driveSub).getRamsete();
-  // }
+  public Command getAutonomousCommand() {
+   return m_autoModeCommandGenerator.generateCommand();
+  }
 }
