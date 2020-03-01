@@ -104,7 +104,7 @@ public final class Constants {
     public static final double INTAKE_REVERSE_SPEED = -1.0;
 
     /** Aboslute encoder on storage system for carousel alignment */
-    public static final double STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED = 0.5;
+    public static final double STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED = 0.3;
     public static final double STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED = 0.3;
     public static final int STORAGE_CAROUSEL_SEGMENTS = 5;
     public static final int STORAGE_CAROUSEL_ENCODER_CHANNEL = 0;
@@ -232,17 +232,17 @@ public final class Constants {
     public static final double SHOOTER_GEARING_RATIO = 1.375;
 
     /** Maximum safe speed for the shooter wheels */
-    public static final int SHOOTER_MAX_SPEED_RPM = 5000;
+    public static final int SHOOTER_MAX_SPEED_RPM = 4900;
 
 
     /** Speed for shooting in the low goal */
     public static final int SHOOTER_LOW_GOAL_SPEED_RPM = 1000;
 
     /** Amount of time to wait for shooter to spin up before running feeder */
-    public static final double FEEDER_SHOOT_DELAY = 0.75;
+    public static final double FEEDER_SHOOT_DELAY = 0.5;
 
     /** Amount of time to wait for shooter to spin up before running carousel */
-    public static final double CAROUSEL_SHOOT_DELAY = 0.75;
+    public static final double CAROUSEL_SHOOT_DELAY = 0.25;
 
     /** Shooter PIDF values */
     public static final double SHOOTER_P = 0.09;
@@ -283,5 +283,5 @@ public final class Constants {
     public static final double AUTO_TURN_SPEED = 0.5;
     public static final double AUTO_TURN_SECONDS = 0.5;
 
-    public static final int AUTO_SHOOTER_SPEED_RPM = 4000;
+    public static final int AUTO_SHOOTER_SPEED_RPM = 4600;
 }

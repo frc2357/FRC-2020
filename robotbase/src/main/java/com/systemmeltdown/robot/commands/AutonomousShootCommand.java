@@ -19,7 +19,13 @@ public class AutonomousShootCommand extends SequentialCommandGroup {
   ) {
     addCommands(
       new TrackTargetCommand(turretSubsystem, limelightSubsystem, true),
-      new ShootCommandGroup(storageSubsystem, feederSubsystem, shooterSubsystem, shooterSpeed, shootSeconds)
+      new ShootCommandGroup(
+        storageSubsystem,
+        feederSubsystem,
+        shooterSubsystem,
+        limelightSubsystem,
+        shooterSpeed,
+        shootSeconds)
     );
   }
 }

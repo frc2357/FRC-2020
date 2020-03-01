@@ -4,33 +4,36 @@ import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 import com.systemmeltdown.robot.subsystems.ShooterSubsystem;
 import com.systemmeltdown.robot.subsystems.StorageSubsystem;
 import com.systemmeltdown.robot.subsystems.TogglableLimelightSubsystem;
+import com.systemmeltdown.robot.subsystems.TurretSubsystem;
 
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 
-public class ShootCommandGroup extends ParallelRaceGroup {
-    public ShootCommandGroup(
+public class ShooterVisionCommandGroup extends ParallelRaceGroup {
+    public ShooterVisionCommandGroup(
+        final TurretSubsystem turretSub,
         final StorageSubsystem storageSub,
         final FeederSubsystem feederSub,
         final ShooterSubsystem shooterSub,
-        final TogglableLimelightSubsystem visionSub,
-        final int shooterSpeed
+        final TogglableLimelightSubsystem visionSub
     ) {
-        this(storageSub, feederSub, shooterSub, visionSub, shooterSpeed, -1);
+        this(turretSub, storageSub, feederSub, shooterSub, visionSub, -1);
     }
 
-    public ShootCommandGroup(
+    public ShooterVisionCommandGroup(
+        final TurretSubsystem turretSub,
         final StorageSubsystem storageSub,
         final FeederSubsystem feederSub,
         final ShooterSubsystem shooterSub,
         final TogglableLimelightSubsystem visionSub,
-        final int shooterSpeed,
         final double shootSeconds
     ) {
         addCommands(
-            new ShooterSpeedCommand(shooterSub, shooterSpeed),
+            new TrackTargetCommand(turretSub, visionSub),
+            new VisionChangePipelineCommand(visionSub),
+            new ShooterVisionCommand(shooterSub, visionSub),
             new SequentialCommandGroup(
                 new WaitCommand(Constants.FEEDER_SHOOT_DELAY),
                 new WaitForFeederToClearCommand(feederSub),

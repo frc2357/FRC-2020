@@ -1,9 +1,11 @@
 package com.systemmeltdown.robot.controls;
 
 import com.systemmeltdown.robot.commands.ShootCommandGroup;
+import com.systemmeltdown.robot.commands.ShooterVisionCommandGroup;
 import com.systemmeltdown.robot.commands.ClimbRaiseScissorCommand;
 import com.systemmeltdown.robot.commands.ClimbReleaseCommand;
 import com.systemmeltdown.robot.commands.ClimbUpCommand;
+import com.systemmeltdown.robot.commands.FeedToCarouselCommand;
 import com.systemmeltdown.robot.commands.FeedToShooterCommand;
 import com.systemmeltdown.robot.commands.IntakeRollerCommand;
 import com.systemmeltdown.robot.commands.IntakeTogglePivotCommand;
@@ -39,14 +41,68 @@ public class GunnerControls {
     private class ShootHighTrigger extends Trigger {
         @Override
         public boolean get() {
-            return m_rightTrigger.get() && !m_downDPad.get();
+            return
+                m_rightTrigger.get() &&
+                !m_downDPad.get() &&
+                !m_leftDPad.get() &&
+                !m_rightDPad.get();
         }
     }
 
     private class ShootLowTrigger extends Trigger {
         @Override
         public boolean get() {
-            return m_rightTrigger.get() && m_downDPad.get();
+            return
+                m_rightTrigger.get() &&
+                m_downDPad.get() &&
+                !m_leftDPad.get() &&
+                !m_rightDPad.get();
+        }
+    }
+
+    private class ShootInitiationLineTrigger extends Trigger {
+        @Override
+        public boolean get() {
+            return
+                m_rightTrigger.get() &&
+                !m_downDPad.get() &&
+                m_leftDPad.get() &&
+                !m_rightDPad.get();
+        }
+    }
+
+    private class ShootVisionTrigger extends Trigger {
+        @Override
+        public boolean get() {
+            return
+                m_rightTrigger.get() &&
+                !m_downDPad.get() &&
+                !m_leftDPad.get() &&
+                m_rightDPad.get();
+        }
+    }
+
+    private class FeederUpTrigger extends Trigger {
+        @Override
+        public boolean get() {
+            return
+                m_aButton.get()
+                && m_rightDPad.get()
+                && !m_leftDPad.get()
+                && !m_upDPad.get()
+                && !m_downDPad.get();
+        }
+    }
+
+    private class FeederDownTrigger extends Trigger {
+        @Override
+        public boolean get() {
+            return
+                m_aButton.get()
+                && !m_rightDPad.get()
+                && m_leftDPad.get()
+                && !m_upDPad.get()
+                && !m_downDPad.get();
         }
     }
 
@@ -78,6 +134,10 @@ public class GunnerControls {
 
     public ShootLowTrigger m_shootLowTrigger;
     public ShootHighTrigger m_shootHighTrigger;
+    public ShootInitiationLineTrigger m_shootInitiationLineTrigger;
+    public ShootVisionTrigger m_shootVisionTrigger;
+    public FeederUpTrigger m_feederUpTrigger;
+    public FeederDownTrigger m_feederDownTrigger;
 
     /**
      * @param builder The GunnerControlsBuilder object
@@ -110,6 +170,10 @@ public class GunnerControls {
 
         m_shootLowTrigger = new ShootLowTrigger();
         m_shootHighTrigger = new ShootHighTrigger();
+        m_shootInitiationLineTrigger = new ShootInitiationLineTrigger();
+        m_shootVisionTrigger = new ShootVisionTrigger();
+        m_feederUpTrigger = new FeederUpTrigger();
+        m_feederDownTrigger = new FeederDownTrigger();
     }
 
     /**
@@ -195,10 +259,39 @@ public class GunnerControls {
             // Right Trigger: Shooter combined sequence
             if (m_storageSub != null && m_feederSub != null && m_shooterSub != null) {
                 m_gunnerControls.m_shootLowTrigger.whileActiveOnce(
-                    new ShootCommandGroup(m_storageSub, m_feederSub, m_shooterSub, Constants.SHOOTER_LOW_GOAL_SPEED_RPM)
+                    new ShootCommandGroup(
+                        m_storageSub,
+                        m_feederSub,
+                        m_shooterSub,
+                        m_visionSubsystem,
+                        Constants.SHOOTER_LOW_GOAL_SPEED_RPM
+                    )
                 );
                 m_gunnerControls.m_shootHighTrigger.whileActiveOnce(
-                    new ShootCommandGroup(m_storageSub, m_feederSub, m_shooterSub, Constants.SHOOTER_MAX_SPEED_RPM)
+                    new ShootCommandGroup(
+                        m_storageSub,
+                        m_feederSub,
+                        m_shooterSub,
+                        m_visionSubsystem,
+                        Constants.SHOOTER_MAX_SPEED_RPM
+                    )
+                );
+                m_gunnerControls.m_shootInitiationLineTrigger.whileActiveOnce(
+                    new ShootCommandGroup(
+                        m_storageSub,
+                        m_feederSub,
+                        m_shooterSub,
+                        m_visionSubsystem,
+                        Constants.AUTO_SHOOTER_SPEED_RPM
+                    )
+                );
+                m_gunnerControls.m_shootVisionTrigger.whileActiveOnce(
+                    new ShooterVisionCommandGroup(
+                        m_storageSub,
+                        m_feederSub,
+                        m_shooterSub,
+                        m_visionSubsystem
+                    )
                 );
             }
 
@@ -233,7 +326,8 @@ public class GunnerControls {
 
             // Shooter Mode Bindings
             if (m_feederSub != null) {
-                m_gunnerControls.m_aButtonAndDPadRight.whileActiveOnce(new FeedToShooterCommand(m_feederSub));
+                m_gunnerControls.m_feederUpTrigger.whileActiveOnce(new FeedToShooterCommand(m_feederSub));
+                m_gunnerControls.m_feederDownTrigger.whileActiveOnce(new FeedToCarouselCommand(m_feederSub));
             }
             if (m_storageSub != null) {
                 m_gunnerControls.m_bButtonAndRightDPad.whileActiveOnce(

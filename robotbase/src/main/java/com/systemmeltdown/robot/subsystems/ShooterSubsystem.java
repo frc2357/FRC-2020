@@ -3,7 +3,10 @@ package com.systemmeltdown.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.systemmeltdown.robot.util.VisionTargetSupplier;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
+import com.systemmeltdown.robotlib.subsystems.LimelightSubsystem.VisionTarget;
+import com.systemmeltdown.robotlib.util.Utility;
 import com.systemmeltdown.robotlog.topics.DoubleTopic;
 import com.systemmeltdown.robotlog.topics.IntegerTopic;
 
@@ -17,8 +20,53 @@ import frc.robot.Constants;
  * @category Subsystems
  */
 public class ShooterSubsystem extends ClosedLoopSubsystem {
+  private static final double speedRPMsMin = 4600;
+  private static final double speedRPMsMax = 6000;
+
+  private static final double yDegreesMin = -24.0;
+  private static final double yDegreesMax = 24.0;
+
+  private static final double[][] degreesToRPMsCurve = {
+    {24.0,  4200}, // 1 foot past initiation line
+    {18.0,  4600}, // initiation line
+    {5.2,   4900}, // end of trench
+    {2.15,  5500}, // just past control panel
+    {-14.0, 6000}, // Behind control panel
+  };
+
+  public double calculateRPMs(double yAngleDegrees) {
+    int curveSegmentIndex = getCurveSegmentIndex(yAngleDegrees);
+    double[] pointA = degreesToRPMsCurve[curveSegmentIndex];
+    double[] pointB = degreesToRPMsCurve[curveSegmentIndex + 1];
+
+    double highAngle = pointA[0];
+    double lowAngle = pointB[0];
+    double highRPMs = pointB[1];
+    double lowRPMs = pointB[1];
+
+    double factor = (yAngleDegrees - lowAngle) / (highAngle - lowAngle);
+    double rpms = ((highRPMs - lowRPMs) * factor) + lowRPMs;
+
+    return rpms;
+  }
+
+  public int getCurveSegmentIndex(double yAngleDegrees) {
+    int segmentIndex = -1;
+    for (int i = 0; i < degreesToRPMsCurve.length - 1; i++) {
+      if (degreesToRPMsCurve[i][0] > yAngleDegrees &&
+          degreesToRPMsCurve[i + 1][0] < yAngleDegrees) {
+        segmentIndex = i;
+        break;
+      }
+    }
+    return segmentIndex;
+  }
+
   private WPI_TalonFX m_shooterMotor1;
   private WPI_TalonFX m_shooterMotor2;
+
+  private VisionTargetSupplier m_targetSupplier;
+  private VisionTarget m_currentTarget;
 
   /* RobotLog Topics */
   private final DoubleTopic m_motor1CurrentTopic = new DoubleTopic("Shooter Motor 1 Current", 0.25);
@@ -36,6 +84,8 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
   public ShooterSubsystem(int shooterMotorID1, int shooterMotorID2) {
     m_shooterMotor1 = new WPI_TalonFX(shooterMotorID1);
     m_shooterMotor2 = new WPI_TalonFX(shooterMotorID2);
+    m_targetSupplier = null;
+    m_currentTarget = null;
 
     addChild("motor1", m_shooterMotor1);
     addChild("motor2", m_shooterMotor2);
@@ -75,8 +125,17 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
     //builder.addDoubleProperty("motorSpeed", this::getMotorSpeed, this::setMotorSpeed);
   }
 
+  public boolean hasTarget() {
+      return m_currentTarget != null;
+  }
+
   @Override
   public void periodic() {
+    if (m_targetSupplier != null) {
+      visionTargetPeriodic();
+    }
+    System.out.println("rpm: " + getShooterRPMs());
+
     m_motor1CurrentTopic.log(m_shooterMotor1.getStatorCurrent());
     m_motor2CurrentTopic.log(m_shooterMotor2.getStatorCurrent());
     m_averageMotorCurrentTopic
@@ -86,13 +145,27 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
     m_averageRpmTopic.log((int) ((getMotorSpeed(m_shooterMotor1) + getMotorSpeed(m_shooterMotor2)) / 2));
   }
 
+  private void visionTargetPeriodic() {
+    m_currentTarget = m_targetSupplier.getAsVisionTarget();
+
+    if (m_currentTarget != null) {
+      System.out.println("target Y: " + m_currentTarget.getY());
+      setClosedLoopRPMs(calculateRPMs(m_currentTarget.getY()));
+    }
+  }
+
   /**
    * Set the motor to a percent output. This bypasses closed-loop control.
    * 
    * @param output
    */
   public void runMotorOpenLoop(double output) {
+    m_currentTarget = null;
     m_shooterMotor1.set(ControlMode.PercentOutput, output);
+  }
+
+  public void setVisionTarget(VisionTargetSupplier targetSupplier) {
+    m_targetSupplier = targetSupplier;
   }
 
   /**
