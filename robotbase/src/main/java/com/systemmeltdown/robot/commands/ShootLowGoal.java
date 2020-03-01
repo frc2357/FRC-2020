@@ -30,7 +30,7 @@ public class ShootLowGoal extends CommandLoggerBase {
         //Add the code to move the hood to the low goal shooting position.
         //There is no reflective tape on the low goal for the camera to see so we will need
         //to set the hood.
-        m_shooterSubsystem.setMotorSpeed(Constants.SHOOTER_LOW_GOAL_SPEED_RPM);
+        m_shooterSubsystem.setClosedLoopRPMs(Constants.SHOOTER_LOW_GOAL_SPEED_RPM);
     }
 
     @Override

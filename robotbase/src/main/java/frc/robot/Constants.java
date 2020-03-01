@@ -101,10 +101,10 @@ public final class Constants {
 
     public static final double INTAKE_PIVOT_ACTUATE_SECONDS = 3.0;
     public static final double INTAKE_ROTATION_SPEED = 1.0;
-    public static final double INTAKE_REVERSE_SPEED = 1.0;
+    public static final double INTAKE_REVERSE_SPEED = -1.0;
 
     /** Aboslute encoder on storage system for carousel alignment */
-    public static final double STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED = 0.3;
+    public static final double STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED = 0.5;
     public static final double STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED = 0.3;
     public static final int STORAGE_CAROUSEL_SEGMENTS = 5;
     public static final int STORAGE_CAROUSEL_ENCODER_CHANNEL = 0;
@@ -221,7 +221,7 @@ public final class Constants {
      * Current limit for shooter motor. Set this to limit the wheels to a safe speed
      * (<= 4kRPM)
      */
-    public static final double SHOOTER_MOTOR_PEAK_OUTPUT = 0.6;
+    public static final double SHOOTER_MOTOR_PEAK_OUTPUT = 1.0;
 
     /**
      * Run the motor at peak output and measure the encoder velocity in ticks per
@@ -229,24 +229,26 @@ public final class Constants {
      */
     public static final int SHOOTER_ENCODER_VELOCITY_AT_PEAK_OUTPUT = 1;
 
+    public static final double SHOOTER_GEARING_RATIO = 1.375;
+
     /** Maximum safe speed for the shooter wheels */
     public static final int SHOOTER_MAX_SPEED_RPM = 5000;
 
-    /** Speed for shooting in the low goal TODO: Calibrate */
+
+    /** Speed for shooting in the low goal */
     public static final int SHOOTER_LOW_GOAL_SPEED_RPM = 1000;
 
     /** Amount of time to wait for shooter to spin up before running feeder */
-    public static final double FEEDER_SHOOT_DELAY = 0.5;
+    public static final double FEEDER_SHOOT_DELAY = 0.75;
 
     /** Amount of time to wait for shooter to spin up before running carousel */
-    public static final double CAROUSEL_SHOOT_DELAY = 0.5;
+    public static final double CAROUSEL_SHOOT_DELAY = 0.75;
 
     /** Shooter PIDF values */
-    public static final double SHOOTER_P = 0;
+    public static final double SHOOTER_P = 0.09;
     public static final double SHOOTER_I = 0;
     public static final double SHOOTER_D = 0;
-    public static final double SHOOTER_F = SHOOTER_MOTOR_PEAK_OUTPUT * TALON_PID_FULL
-            / SHOOTER_ENCODER_VELOCITY_AT_PEAK_OUTPUT;
+    public static final double SHOOTER_F = 0.01;
 
     /**
      * Motor speed for climb.
@@ -270,6 +272,8 @@ public final class Constants {
      */
     public static final int CLIMBER_FREE_LIMIT_AMPS = 3;
 
+    public static final double AUTO_INTAKE_PIVOT_WAIT_SECONDS = 1.5;
+
     public static final double AUTO_SHOOT_SECONDS_3_CELLS = 4.0 + FEEDER_SHOOT_DELAY;
 
     public static final double AUTO_MOVE_OFF_LINE_SPEED = 0.25;
@@ -278,4 +282,6 @@ public final class Constants {
 
     public static final double AUTO_TURN_SPEED = 0.5;
     public static final double AUTO_TURN_SECONDS = 0.5;
+
+    public static final int AUTO_SHOOTER_SPEED_RPM = 4000;
 }

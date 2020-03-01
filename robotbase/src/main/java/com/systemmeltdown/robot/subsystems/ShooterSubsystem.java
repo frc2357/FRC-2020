@@ -47,6 +47,8 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
     m_shooterMotor1.setInverted(true);
     m_shooterMotor2.follow(m_shooterMotor1);
 
+    m_shooterMotor1.configClosedloopRamp(1.0);
+
     m_shooterMotor1
      .configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, Constants.TIMEOUT_MS);
 
@@ -70,7 +72,7 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
     super.initSendable(builder);
 
     // this might be included in the motor child control
-    builder.addDoubleProperty("motorSpeed", this::getMotorSpeed, this::setMotorSpeed);
+    //builder.addDoubleProperty("motorSpeed", this::getMotorSpeed, this::setMotorSpeed);
   }
 
   @Override
@@ -98,7 +100,7 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
    * 
    * @param rpm rotations per minute
    */
-  public void setMotorSpeed(double rpm) {
+  public void setClosedLoopRPMs(double rpm) {
     double nativeSpeed = rpm * Constants.FALCON_ENCODER_CPR / Constants.MINUTES_TO_100_MS;
     m_shooterMotor1.set(ControlMode.Velocity, nativeSpeed);
   }
@@ -107,14 +109,15 @@ public class ShooterSubsystem extends ClosedLoopSubsystem {
    * @return current motor velocity in rpm
    */
   public double getMotorSpeed(WPI_TalonFX motor) {
-    return motor.getSelectedSensorPosition() * Constants.MINUTES_TO_100_MS / Constants.FALCON_ENCODER_CPR;
+    return motor.getSelectedSensorVelocity() * Constants.MINUTES_TO_100_MS / Constants.FALCON_ENCODER_CPR;
   }
 
-  /**
-   * @return current motor velocity in rpm
-   */
   public double getMotorSpeed() {
     return m_shooterMotor1
-            .getSelectedSensorPosition() * Constants.MINUTES_TO_100_MS / Constants.FALCON_ENCODER_CPR;
+            .getSelectedSensorVelocity() * Constants.MINUTES_TO_100_MS / Constants.FALCON_ENCODER_CPR;
+  }
+
+  public double getShooterRPMs() {
+    return getMotorSpeed() * Constants.SHOOTER_GEARING_RATIO;
   }
 }

@@ -102,7 +102,7 @@ public class GunnerControls {
         m_yButtonAndLeftDPad = m_yButton.and(m_leftDPad);
         m_xButtonAndLeftDPad = m_xButton.and(m_leftDPad);
         m_bButtonAndLeftDPad = m_bButton.and(m_leftDPad);
-        m_bButtonAndRightDPad = m_aButton.and(m_rightDPad);
+        m_bButtonAndRightDPad = m_bButton.and(m_rightDPad);
         m_aButtonAndDPadRight = m_aButton.and(m_rightDPad);
         m_aButtonAndDPadUp = m_aButton.and(m_upDPad);
         m_bButtonAndDPadUp = m_bButton.and(m_upDPad);
@@ -227,7 +227,7 @@ public class GunnerControls {
             }
             if (m_storageSub != null) {
                 m_gunnerControls.m_bButtonAndLeftDPad.whileActiveOnce(
-                    new RotateStorageContinuous(m_storageSub, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED)
+                    new RotateStorageContinuous(m_storageSub, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED, true)
                 );
             }
 
@@ -237,7 +237,7 @@ public class GunnerControls {
             }
             if (m_storageSub != null) {
                 m_gunnerControls.m_bButtonAndRightDPad.whileActiveOnce(
-                    new RotateStorageContinuous(m_storageSub, Constants.STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED)
+                    new RotateStorageContinuous(m_storageSub, Constants.STORAGE_CAROUSEL_SHOOTER_ROTATION_SPEED, false)
                 );
             }
 
