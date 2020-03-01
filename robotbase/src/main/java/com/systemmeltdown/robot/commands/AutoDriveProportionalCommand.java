@@ -10,6 +10,8 @@ public class AutoDriveProportionalCommand extends CommandBase {
 
   public AutoDriveProportionalCommand(SkidSteerDriveSubsystem driveSub, double speed, double turn) {
     m_driveSub = driveSub;
+    m_speed = speed;
+    m_turn = turn;
     addRequirements(driveSub);
   }
 

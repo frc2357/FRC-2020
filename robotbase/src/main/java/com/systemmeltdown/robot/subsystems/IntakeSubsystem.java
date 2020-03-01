@@ -5,9 +5,7 @@ import java.util.Map;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.systemmeltdown.robotlib.arduino.ArduinoUSBController;
 import com.systemmeltdown.robotlib.subsystems.ClosedLoopSubsystem;
-import com.systemmeltdown.robotlog.topics.BooleanTopic;
 import com.systemmeltdown.robotlog.topics.DoubleTopic;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -23,14 +21,11 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends ClosedLoopSubsystem {
     public DoubleSolenoid m_intakeSolenoid;
     private WPI_TalonSRX m_intakeTalon;
+    private long m_solenoidOffTime;
     // private ArduinoUSBController m_arduinoUSB;
-    private boolean m_rollIntoBot = true;
 
     /* RobotLog Topics */
-    //private final StringTopic m_intakeSubErrorTopic = new StringTopic("Intake Sub Error");
-    // /\ Unused /\
     private final DoubleTopic motorCurrentTopic = new DoubleTopic("Intake Motor Current", 0.25);
-    private final BooleanTopic m_rollIntoBotTopic = new BooleanTopic("Rolling into Bot");
 
     /**
      * @param intakeTalonID The ID for the Talon on the intake.
@@ -39,58 +34,41 @@ public class IntakeSubsystem extends ClosedLoopSubsystem {
      */
     public IntakeSubsystem(int intakeTalonID, int forwardChannel, int reverseChannel) {
         m_intakeSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
-        m_intakeSolenoid.set(Value.kReverse);
+        m_intakeSolenoid.set(Value.kOff);
         m_intakeTalon = new WPI_TalonSRX(intakeTalonID);
+        m_solenoidOffTime = -1;
 
         // m_arduinoUSB = new ArduinoUSBController(Constants.ARDUINO_DEVICE_NAME);
 
         // m_arduinoUSB.start();
 
         resetArduino();
-
-        m_rollIntoBotTopic.log(m_rollIntoBot);
     }
 
     @Override
     public void periodic() {
         motorCurrentTopic.log(m_intakeTalon.getStatorCurrent());
+
+        if (m_solenoidOffTime > 0 && System.currentTimeMillis() > m_solenoidOffTime) {
+            m_solenoidOffTime = -1;
+            setPivot(Value.kOff);
+        }
     }
 
     /**
      * @param percentPowerOutput -1 = reverse | 0 = stop | 1 = foward
      */
     public void triggerIntakeRoller(double percentPowerOutput) {
-        if (!m_rollIntoBot) {
-            percentPowerOutput = -percentPowerOutput;
-        }
         m_intakeTalon.set(ControlMode.PercentOutput, percentPowerOutput);
     }
 
-    /**
-     * Sets the roll direction to false if true, and vice versa.
-     */
-    public void toggleRollDirection() {
-        m_rollIntoBot = !m_rollIntoBot;
-        m_rollIntoBotTopic.log(m_rollIntoBot);
+    public DoubleSolenoid.Value getPivot() {
+        return m_intakeSolenoid.get();
     }
 
-    /**
-     * Changes the arm position.
-     */
-    public void changeArmPosition() {
-        switch (m_intakeSolenoid.get()) {
-            case kForward: {
-                m_intakeSolenoid.set(Value.kReverse);
-                break;
-            } 
-            case kReverse: {
-                m_intakeSolenoid.set(Value.kForward);
-                break;
-            }
-            default: {
-                m_intakeSolenoid.set(Value.kForward);
-            }
-        }
+    public void setPivot(DoubleSolenoid.Value value) {
+        m_intakeSolenoid.set(value);
+        m_solenoidOffTime = System.currentTimeMillis() + (int)(Constants.INTAKE_PIVOT_ACTUATE_SECONDS * 1000.0);
     }
 
     /**

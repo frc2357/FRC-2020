@@ -6,8 +6,8 @@ import com.systemmeltdown.robot.commands.ClimbReleaseCommand;
 import com.systemmeltdown.robot.commands.ClimbUpCommand;
 import com.systemmeltdown.robot.commands.FeedToShooterCommand;
 import com.systemmeltdown.robot.commands.IntakeRollerCommand;
+import com.systemmeltdown.robot.commands.IntakeTogglePivotCommand;
 import com.systemmeltdown.robot.commands.IntakePickupCellsParallelCommand;
-import com.systemmeltdown.robot.commands.PivotIntakeCommand;
 import com.systemmeltdown.robot.commands.RotateStorageContinuous;
 import com.systemmeltdown.robot.commands.TurretRotateCommand;
 import com.systemmeltdown.robot.commands.VisionChangePipelineCommand;
@@ -223,7 +223,7 @@ public class GunnerControls {
                 m_gunnerControls.m_yButtonAndLeftDPad.whileActiveOnce(
                     new IntakeRollerCommand(m_intakeSub, Constants.INTAKE_REVERSE_SPEED)
                 );
-                m_gunnerControls.m_xButtonAndLeftDPad.whileActiveOnce(new PivotIntakeCommand(m_intakeSub));
+                m_gunnerControls.m_xButtonAndLeftDPad.whileActiveOnce(new IntakeTogglePivotCommand(m_intakeSub));
             }
             if (m_storageSub != null) {
                 m_gunnerControls.m_bButtonAndLeftDPad.whileActiveOnce(

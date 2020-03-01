@@ -76,7 +76,8 @@ public class SubsystemFactory {
 
     public ClimbSubsystem CreateClimbSubsystem() {
         Solenoid solenoid = new Solenoid(Constants.SCISSOR_SOLENOID_LEFT);
-        CANSparkMax winchMotor = new CANSparkMax(Constants.WINCH_MOTOR, MotorType.kBrushless);
+        //CANSparkMax winchMotor = new CANSparkMax(Constants.WINCH_MOTOR, MotorType.kBrushless);
+        CANSparkMax winchMotor = null;
         ClimbSubsystem subsystem = new ClimbSubsystem(solenoid, winchMotor);
 
         ClimbSubsystem.Configuration config = new ClimbSubsystem.Configuration();

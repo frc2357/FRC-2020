@@ -15,7 +15,7 @@ public class IntakePickupCellsParallelCommand extends ParallelCommandGroup {
     {
         addCommands(
             new IntakeRollerCommand(intakeSub, Constants.INTAKE_ROTATION_SPEED),
-            new RotateStorageContinuous(storageSub, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED)
+            new RotateStorageContinuous(storageSub, Constants.STORAGE_CAROUSEL_INTAKE_ROTATION_SPEED, true)
         );
     }    
 }

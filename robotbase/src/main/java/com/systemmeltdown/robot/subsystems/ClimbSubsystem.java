@@ -51,9 +51,11 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
     public void setConfiguration(Configuration configuration) {
         m_config = configuration;
 
+        /*
         m_winchMotor.setInverted(true);
         m_winchMotor.setIdleMode(configuration.m_winchIdleMode);
         m_winchMotor.setSmartCurrentLimit(configuration.m_winchStallCurrentLimit, configuration.m_winchFreeCurrentLimit);
+        */
     }
 
     // ===================
@@ -120,6 +122,6 @@ public class ClimbSubsystem extends ClosedLoopSubsystem {
         m_climbSubInfo.log("Stopped Climbing");
         m_climbDirection = ClimbDirection.Stop;
         System.out.println("STOP CLIMB");
-        m_winchMotor.set(0);
+        //m_winchMotor.set(0);
     }
 }

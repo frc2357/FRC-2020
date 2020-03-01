@@ -95,7 +95,16 @@ public class RobotContainer {
     configureDriveSub();
     configureShuffleboard();
 
-    m_autoModeCommandGenerator = new AutoModeCommandGenerator("AUTO");
+    m_autoModeCommandGenerator = new AutoModeCommandGenerator(
+      "AUTO",
+      m_intakeSub,
+      m_driveSub,
+      m_storageSub,
+      m_turretSub,
+      m_feederSub,
+      m_shootSub,
+      m_visionSub
+    );
   }
 
   private void configureShuffleboard() {
@@ -123,6 +132,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-   return m_autoModeCommandGenerator.generateCommand();
+    return m_autoModeCommandGenerator.generateCommand();
   }
 }
