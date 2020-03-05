@@ -45,7 +45,7 @@ public class GunnerControls {
                 m_rightTrigger.get() &&
                 !m_downDPad.get() &&
                 !m_leftDPad.get() &&
-                !m_rightDPad.get();
+                m_rightDPad.get();
         }
     }
 
@@ -78,7 +78,7 @@ public class GunnerControls {
                 m_rightTrigger.get() &&
                 !m_downDPad.get() &&
                 !m_leftDPad.get() &&
-                m_rightDPad.get();
+                !m_rightDPad.get();
         }
     }
 
@@ -287,6 +287,7 @@ public class GunnerControls {
                 );
                 m_gunnerControls.m_shootVisionTrigger.whileActiveOnce(
                     new ShooterVisionCommandGroup(
+                        m_turretSub,
                         m_storageSub,
                         m_feederSub,
                         m_shooterSub,

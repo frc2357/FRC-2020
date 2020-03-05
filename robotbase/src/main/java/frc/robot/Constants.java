@@ -231,15 +231,15 @@ public final class Constants {
 
     public static final double SHOOTER_GEARING_RATIO = 1.375;
 
-    /** Maximum safe speed for the shooter wheels */
-    public static final int SHOOTER_MAX_SPEED_RPM = 4900;
+    public static final int SHOOTER_END_OF_TRENCH_RPM = 5500;
+    public static final int SHOOTER_INITIATION_LINE_RPM = 5500;
 
 
     /** Speed for shooting in the low goal */
     public static final int SHOOTER_LOW_GOAL_SPEED_RPM = 1000;
 
     /** Amount of time to wait for shooter to spin up before running feeder */
-    public static final double FEEDER_SHOOT_DELAY = 0.5;
+    public static final double FEEDER_SHOOT_DELAY = 1.0;
 
     /** Amount of time to wait for shooter to spin up before running carousel */
     public static final double CAROUSEL_SHOOT_DELAY = 0.25;
@@ -276,7 +276,7 @@ public final class Constants {
 
     public static final double AUTO_SHOOT_SECONDS_3_CELLS = 4.0 + FEEDER_SHOOT_DELAY;
 
-    public static final double AUTO_MOVE_OFF_LINE_SPEED = 0.25;
+    public static final double AUTO_MOVE_OFF_LINE_SPEED = -0.25;
     public static final double AUTO_MOVE_OFF_LINE_TURN = 0.0;
     public static final double AUTO_MOVE_OFF_SECONDS = 1.0;
 
