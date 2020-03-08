@@ -2,6 +2,8 @@ package com.systemmeltdown.robot.commands;
 
 import com.systemmeltdown.robot.subsystems.FeederSubsystem;
 
+import frc.robot.Constants;
+
 /**
  * This command runs the motor that feeds the power cell from the carousel to the shooter.
  * 
@@ -21,7 +23,7 @@ public class FeedToCarouselCommand extends CommandLoggerBase {
     @Override
     public void initialize() {
         super.initialize();
-        m_feederSubsystem.runFeederMotor(-0.50);
+        m_feederSubsystem.runFeederMotor(Constants.FEEDER_MOTOR_BACKWARD_SPEED);
     }
 
     @Override
