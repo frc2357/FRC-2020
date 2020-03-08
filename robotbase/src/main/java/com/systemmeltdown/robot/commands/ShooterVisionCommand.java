@@ -34,7 +34,6 @@ public class ShooterVisionCommand extends CommandLoggerBase {
     @Override
     public void initialize() {
         super.initialize();
-        System.out.println("vision command init");
         m_shootSub.setVisionTarget(this::getTarget);
     }
 
