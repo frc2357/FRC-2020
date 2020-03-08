@@ -273,7 +273,7 @@ public class GunnerControls {
                         m_feederSub,
                         m_shooterSub,
                         m_visionSubsystem,
-                        Constants.SHOOTER_MAX_SPEED_RPM
+                        Constants.SHOOTER_END_OF_TRENCH_RPM
                     )
                 );
                 m_gunnerControls.m_shootInitiationLineTrigger.whileActiveOnce(
