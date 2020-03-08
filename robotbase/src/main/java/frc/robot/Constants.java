@@ -99,6 +99,9 @@ public final class Constants {
     /** IR sensor before feed wheel */
     public static final int FEED_SENSOR_CHANNEL = 9;
 
+    public static final double FEEDER_MOTOR_FORWARD_SPEED = 1.0;
+    public static final double FEEDER_MOTOR_BACKWARD_SPEED = -.50;
+
     public static final double INTAKE_PIVOT_ACTUATE_SECONDS = 3.0;
     public static final double INTAKE_ROTATION_SPEED = 1.0;
     public static final double INTAKE_REVERSE_SPEED = -1.0;

@@ -54,6 +54,6 @@ public class FeederSubsystem extends ClosedLoopSubsystem {
     }
 
     public boolean isFeedSensorBlocked() {
-        return m_feedSensor.get();
+        return !m_feedSensor.get();
     }
 }

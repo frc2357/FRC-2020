@@ -9,13 +9,13 @@ import frc.robot.Constants;
  * 
  * @category Intake
  */
-public class FeedToShooterCommand extends CommandLoggerBase {
+public class FeedToCarouselCommand extends CommandLoggerBase {
     private FeederSubsystem m_feederSubsystem;
 
     /**
      * @param feederSubsystem The {@link FeederSubsystem}.
      */
-    public FeedToShooterCommand(FeederSubsystem feederSubsystem) {
+    public FeedToCarouselCommand(FeederSubsystem feederSubsystem) {
         m_feederSubsystem = feederSubsystem;
         addRequirements(m_feederSubsystem);
     }
@@ -23,7 +23,7 @@ public class FeedToShooterCommand extends CommandLoggerBase {
     @Override
     public void initialize() {
         super.initialize();
-        m_feederSubsystem.runFeederMotor(Constants.FEEDER_MOTOR_FORWARD_SPEED);
+        m_feederSubsystem.runFeederMotor(Constants.FEEDER_MOTOR_BACKWARD_SPEED);
     }
 
     @Override
