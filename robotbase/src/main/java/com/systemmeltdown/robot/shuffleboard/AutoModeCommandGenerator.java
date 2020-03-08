@@ -73,7 +73,7 @@ public class AutoModeCommandGenerator {
                     return new AutonomousMoveOffLineCommand(m_driveSubsystem);
                 case SHOOT:
                     System.out.println("ACTION: SHOOT");
-                    int shooterSpeed = Constants.SHOOTER_MAX_SPEED_RPM;
+                    int shooterSpeed = Constants.AUTO_SHOOTER_SPEED_RPM;
                     double shootSeconds = Constants.AUTO_SHOOT_SECONDS_3_CELLS;
                     return new AutonomousShootCommand(
                         m_storageSubsystem,
@@ -152,9 +152,10 @@ public class AutoModeCommandGenerator {
 
             // Third chooser
             choosers[2].getWaitCommand(),
-            choosers[2].getActionCommand(),
+            choosers[2].getActionCommand()
 
             // After choosers
+            /*
             new ParallelCommandGroup(
                 new ParallelRaceGroup(
                     new TurretRotateCommand(m_turretSubsystem, false),
@@ -165,6 +166,7 @@ public class AutoModeCommandGenerator {
                     new WaitCommand(Constants.AUTO_TURN_SECONDS)
                 )
             )
+            */
         );
     }
 }
